@@ -8,4 +8,4 @@ Die Binaries von Gradle musst du dann einfach entzippen und zu den umgebungsvari
 
 Um dann das Programm zu starten einfach ``gradle :Sandbox:run`` in dem haupt ordner ausführen und es sollte starten
 
-Wer sowas wie intelj, vs code mit den java extensions oder eclipse benutzt oder ne Andere java IDE sollte das ganze eigentlich auch von selbst machen
+Wer sowas wie intelj, vs code mit den java extensions oder eclipse benutzt oder ne Andere java IDE bei dem sollte das Ganze eigentlich auch von selbst gehen 
