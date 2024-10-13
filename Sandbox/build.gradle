@@ -9,3 +9,8 @@ repositories {
 dependencies {
     implementation project(":Core")
 }
+
+application {
+    mainClass = 'com.Sandbox.main'
+}
+
