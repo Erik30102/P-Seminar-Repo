@@ -11,6 +11,6 @@ dependencies {
 }
 
 application {
-    mainClass = 'com.Sandbox.main'
+    mainClass = 'com.Sandbox.SandboxApplication'
 }
 
