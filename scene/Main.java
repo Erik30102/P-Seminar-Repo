@@ -100,7 +100,7 @@ class Scene {
 }
 
 // Main Class
-public class scene {
+public class Main {
     public static void main(String[] args) {
         Scene scene = new Scene();
 
