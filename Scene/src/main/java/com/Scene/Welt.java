@@ -99,8 +99,8 @@ class Scene {
     }
 }
 
-// Main Class
-public class Main {
+// Main
+public class Welt {
     public static void main(String[] args) {
         Scene scene = new Scene();
 
@@ -114,13 +114,10 @@ public class Main {
         scene.addEntity(entity1);
         scene.addEntity(entity2);
 
-        // Ausgabe aller Entitäten und deren Komponenten
         scene.listEntities();
 
-        // Ausgabe der Komponenten einer spezifischen Entität
         scene.listComponentsOfEntity(1);
 
-        // Ausgabe aller PositionComponents
         scene.listComponentsByType(PositionComponent.class);
     }
 }
