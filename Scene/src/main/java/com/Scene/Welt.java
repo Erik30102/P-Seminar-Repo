@@ -3,6 +3,14 @@ package com.Scene;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// ----------------------------------------------------------
+// Schreib das ding in das core project rein und mach für alle 
+// klassen/interfaces ne eigenes file weil sonst kann mans ned 
+// importieren in Sandbox und man braucht auch kein neues project
+// für alle features
+// ----------------------------------------------------------
+
 interface Component {
     // Marker Interface für Komponenten
 }

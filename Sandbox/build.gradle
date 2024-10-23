@@ -2,6 +2,8 @@ plugins {
     id 'application'
 }
 
+project.ext.mainClass = "com.Sandbox.SandboxApplication"
+
 repositories {
     mavenCentral()
 }
@@ -10,7 +12,29 @@ dependencies {
     implementation project(":Core")
 }
 
-application {
-    mainClass = 'com.Sandbox.SandboxApplication'
+// wird nicht funktioniren weil die dependencies nicht included sind
+jar {
+    manifest {
+        attributes(
+            'Main-Class': "$mainClass"
+        )
+    }
 }
 
+tasks.register('fullBuild', Jar) {
+    archiveClassifier = 'fullbuild'
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    manifest {
+        attributes(
+            'Main-Class': "$mainClass"
+        )
+    }
+}
