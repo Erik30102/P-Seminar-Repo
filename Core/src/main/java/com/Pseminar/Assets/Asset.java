@@ -32,4 +32,18 @@ public abstract class Asset {
         }
     }
 
+    public static AssetType GetAssetTypeFromFilePath(String filePath) {
+        String extension = filePath.substring(filePath.lastIndexOf(".")+1);
+        
+        switch (extension) {
+            case "png":
+            case "jpg":
+            case "bmp":
+                return AssetType.TEXTURE2D;
+        
+            default:
+                return null;
+        }
+    }
+
 }

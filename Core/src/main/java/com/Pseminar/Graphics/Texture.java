@@ -2,7 +2,14 @@ package com.Pseminar.Graphics;
 
 import com.Pseminar.Assets.Asset;
 
-public class Texture2D extends Asset {
+public class Texture extends Asset {
+
+    // Nicht finaler code aber kein bock an der OPengllib weiter zu machen deswegene erstmal so 
+    private byte[] data;
+
+    public Texture(byte[] data) {
+
+    }
 
     @Override
     public AssetType GetAssetType() {

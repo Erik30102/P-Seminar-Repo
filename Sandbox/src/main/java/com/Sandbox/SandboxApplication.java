@@ -1,11 +1,10 @@
 package com.Sandbox;
 
 import com.Pseminar.Application;
-import com.Pseminar.Logger;
+import com.Pseminar.Assets.ProjectInfo;
+import com.Pseminar.Assets.Editor.EditorAssetManager;
 
 public class SandboxApplication extends Application {
-
-    private int TestNumber = 0;
 
     public static void main(String[] args) {
         new SandboxApplication().Run();
@@ -13,21 +12,18 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnStart() {
-        Logger.error("test error");
-        Logger.info("test info");
-        Logger.warm("test warning");
+        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/ExampleProject");
+
+        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).ImportAsset("/images.png");
     }
 
     @Override
     public void OnUpdate() {
-        TestNumber++;
-        if(TestNumber >= 2000) {
-            this.running = false;
-        }
+        running = false;
     }
 
     @Override
     public void OnDispose() {
-        System.out.println("Wow es hat bis: " + this.TestNumber + " hochgezählt");
+        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).SerializeAssetMap();
     }
 }

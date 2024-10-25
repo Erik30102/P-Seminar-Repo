@@ -2,7 +2,7 @@ package com.Pseminar.Assets.Editor;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Random;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,10 +10,13 @@ import java.nio.file.Path;
 import com.Pseminar.Logger;
 import com.Pseminar.Assets.Asset;
 import com.Pseminar.Assets.AssetManager;
+import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
+import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+// TODO: alles basirend auf ProjectPath machen
 public class EditorAssetManager implements AssetManager {
 
     private transient Map<Integer, Asset> loadedAssets = new HashMap<>();
@@ -21,13 +24,12 @@ public class EditorAssetManager implements AssetManager {
     
     private Map<Integer, IntermidiateAssetData> assetMap = new HashMap<>();
 
-
     public EditorAssetManager() {
         this.SetupAssetImporters();
     }
 
     private void SetupAssetImporters() {
-
+        AssetImporters.put(AssetType.TEXTURE2D, new EditorTexture2dImporter());
     }
 
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {
@@ -38,34 +40,53 @@ public class EditorAssetManager implements AssetManager {
         }
 
         Asset loadedAsset = AssetImporters.get(assetMetaData.GetAssetType()).LoadAsset(assetMetaData);
-        if(loadedAsset != null){ 
+        if(loadedAsset == null){ 
             Logger.error("Can not load Asset at location: " + assetMetaData.GetPath());
         }
 
-        return null;
+        return loadedAsset;
     }  
 
+    public Asset ImportAsset(String path) {
+        AssetType type = Asset.GetAssetTypeFromFilePath(ProjectInfo.GetProjectInfo().GetProjectPath() + path);
+        
+        int assetId = new Random().nextInt(Integer.MAX_VALUE);
+        while (this.assetMap.keySet().contains(assetId)) {
+            assetId = new Random().nextInt(Integer.MAX_VALUE);
+        }
+
+        IntermidiateAssetData assetMetaData = new IntermidiateAssetData(ProjectInfo.GetProjectInfo().GetProjectPath() + path, type);
+        Asset asset = LoadAsset(assetMetaData);
+        if(asset != null) {
+            asset.SetId(assetId);
+            loadedAssets.put(assetId, asset);
+            assetMap.put(assetId, assetMetaData);
+        }
+
+        return asset;
+    }
+
     @SuppressWarnings("unchecked")
-    public void LoadAssetMap(String path) {
+    public void LoadAssetMap() {
         try {
-            String jsonAssetMap = Files.readString(Path.of(path));
+            String jsonAssetMap = Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + "/AssetMap.amap"));
             Gson gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
 
             // Glaub des geht garned aber muss ich noch ausprobieren
             this.assetMap = gson.fromJson(jsonAssetMap, HashMap.class);
         } catch (IOException e) {
-            Logger.error("Could not find Asset Map at location: " + path);
+            Logger.error("Could not find Asset Map at location: " + ProjectInfo.GetProjectInfo().GetProjectPath() + "/AssetMap.amap");
             e.printStackTrace();
         }
     } 
 
-    public void SerializeAssetMap(String path) {
+    public void SerializeAssetMap() {
         Gson gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
 
         String AssetMapJson = gson.toJson(this.assetMap);
 
         try {
-            Files.writeString(Path.of(path), AssetMapJson);
+            Files.writeString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + "/AssetMap.amap"), AssetMapJson);
         } catch (IOException e) {
             Logger.error("Failed To Serialize Asset map");
             e.printStackTrace();
