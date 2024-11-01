@@ -8,7 +8,7 @@ public class Texture extends Asset {
     private byte[] data;
 
     public Texture(byte[] data) {
-
+        this.data = data;
     }
 
     @Override
@@ -19,5 +19,14 @@ public class Texture extends Asset {
     @Override
     public void OnDispose() {
         // TODO: implment when OpenglLib is added
+    }
+
+    public byte[] GetData() {
+        return this.data;
+    }
+
+    @Override
+    public String toString() {
+        return new String(GetData());
     }
 }

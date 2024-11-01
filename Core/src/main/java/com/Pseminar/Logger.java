@@ -24,6 +24,6 @@ public class Logger {
     }
 
     private static String formatText(String message, String Color)  {
-        return Color + "[ " +  (new SimpleDateFormat("HH:mm:ss").format(new Date())) + "] " + message + ANSI_WHITE;
+        return Color + "[ " +  (new SimpleDateFormat("HH:mm:ss").format(new Date())) + " ] " + message + ANSI_WHITE;
     }
 }

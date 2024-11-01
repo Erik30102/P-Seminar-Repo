@@ -14,11 +14,13 @@ public class SandboxApplication extends Application {
     public void OnStart() {
         new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/ExampleProject");
 
-        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).ImportAsset("/images.png");
+        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();        
     }
 
     @Override
     public void OnUpdate() {
+        System.out.println(ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484).toString());
+
         running = false;
     }
 

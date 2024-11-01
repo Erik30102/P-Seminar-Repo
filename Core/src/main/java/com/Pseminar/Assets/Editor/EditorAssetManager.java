@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -15,6 +16,11 @@ import com.Pseminar.Assets.Asset.AssetType;
 import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 // TODO: alles basirend auf ProjectPath machen
 public class EditorAssetManager implements AssetManager {
@@ -48,14 +54,14 @@ public class EditorAssetManager implements AssetManager {
     }  
 
     public Asset ImportAsset(String path) {
-        AssetType type = Asset.GetAssetTypeFromFilePath(ProjectInfo.GetProjectInfo().GetProjectPath() + path);
+        AssetType type = Asset.GetAssetTypeFromFilePath(path);
         
         int assetId = new Random().nextInt(Integer.MAX_VALUE);
         while (this.assetMap.keySet().contains(assetId)) {
             assetId = new Random().nextInt(Integer.MAX_VALUE);
         }
 
-        IntermidiateAssetData assetMetaData = new IntermidiateAssetData(ProjectInfo.GetProjectInfo().GetProjectPath() + path, type);
+        IntermidiateAssetData assetMetaData = new IntermidiateAssetData(path, type);
         Asset asset = LoadAsset(assetMetaData);
         if(asset != null) {
             asset.SetId(assetId);
@@ -70,10 +76,10 @@ public class EditorAssetManager implements AssetManager {
     public void LoadAssetMap() {
         try {
             String jsonAssetMap = Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + "/AssetMap.amap"));
-            Gson gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
+            Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(this.assetMap.getClass(), new AssetBankSerializer()).create();
 
             // Glaub des geht garned aber muss ich noch ausprobieren
-            this.assetMap = gson.fromJson(jsonAssetMap, HashMap.class);
+            this.assetMap = gson.fromJson(jsonAssetMap, this.assetMap.getClass());
         } catch (IOException e) {
             Logger.error("Could not find Asset Map at location: " + ProjectInfo.GetProjectInfo().GetProjectPath() + "/AssetMap.amap");
             e.printStackTrace();
@@ -117,4 +123,25 @@ public class EditorAssetManager implements AssetManager {
         this.loadedAssets.remove(id);
     }
     
+}
+
+class AssetBankSerializer implements JsonDeserializer<Map<Integer, IntermidiateAssetData>> {
+
+	@Override
+	public Map<Integer, IntermidiateAssetData> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+			throws JsonParseException {
+		Map<Integer, IntermidiateAssetData> map = new HashMap<>();
+
+		json.getAsJsonObject().entrySet().forEach(d -> {
+			int assetId = Integer.parseInt(d.getKey());
+			JsonObject assetData = d.getValue().getAsJsonObject();
+
+			IntermidiateAssetData assetMetaData = context.deserialize(assetData, IntermidiateAssetData.class);
+
+			map.put(assetId, assetMetaData);
+		});
+
+		return map;
+	}
+
 }
