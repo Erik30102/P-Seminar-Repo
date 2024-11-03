@@ -12,14 +12,14 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnStart() {
-        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/ExampleProject");
+        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
 
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();        
     }
 
     @Override
     public void OnUpdate() {
-        System.out.println(ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484).toString());
+        System.out.println("Path of das scheiß image ist: " + ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484).toString());
 
         running = false;
     }

@@ -4,6 +4,8 @@ plugins {
 
 project.ext.mainClass = "com.Sandbox.SandboxApplication"
 
+mainClassName = "$mainClass"
+
 repositories {
     mavenCentral()
 }
