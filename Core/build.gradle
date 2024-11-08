@@ -1,5 +1,15 @@
 // import org.gradle.internal.os.OperatingSystem
 
+plugins {
+    id 'java'
+    id 'application'
+}
+
+tasks.register("wrapper", Wrapper) {
+    gradleVersion = "8.10.2"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
 project.ext.lwjglVersion = "3.3.4"
 project.ext.lwjglNatives = "natives-windows"
 project.ext.gsonVersion = "2.11.0"
