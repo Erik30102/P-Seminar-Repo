@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Map;
-
+/**
+* Die Klasse AssetPack spiegelt ein Paket von Assets wieder,
+* welche zur Laufzeit verwendet werden können.
+* es werden Informationen von Assets und einer Startszene gespeichert.
+*/
 public class AssetPack implements Serializable {
     private Map<Integer, AssetInfo> assetInfoMap;
     private int startScene;
