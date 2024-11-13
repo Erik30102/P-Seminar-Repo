@@ -3,6 +3,10 @@ package com.Pseminar.Graphics;
 import com.Pseminar.Assets.Asset;
 
 public class Texture extends Asset {
+    /**
+     * DIe Klasse Texture ist ein Asset, was man in einem Grafik-Rendering-Prozess verwendet (also z.B.Texturen werden in Sichtbare Bilder umgewandelt) 
+     * enthält die Logik für den Umgang mit Texturdaten
+    */
 
     // Nicht finaler code aber kein bock an der OPengllib weiter zu machen deswegene erstmal so 
     private byte[] data;
