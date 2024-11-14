@@ -2,7 +2,11 @@ package com.Pseminar.ECS;
 
 import java.util.List;
 import java.util.ArrayList;
-
+/**
+*Klasse Entity ist Container für verschiedene Components
+*welche ihr eigenschaften und Verhaltensweisen verleihen
+*(z.B.kann ein Component ein PositionsComponent sein, was die Position definiert)
+*/
 public class Entity {
     private int id;
     private List<Component> components;
