@@ -40,11 +40,6 @@ public class Window {
             throw new RuntimeException("Konnte GLFW window nicht erstellen");
         }
 
-        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-				glfwSetWindowShouldClose(window, true);
-		});
-
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         try ( MemoryStack stack = stackPush() ) {
@@ -72,6 +67,21 @@ public class Window {
 
         GL.createCapabilities();
         setup2DProjection(width, height);
+
+        glfwSetWindowFocusCallback(windowHandle, (window, focused) -> {
+            System.out.println("Window Focus: " + focused);
+        });
+
+        GLFW.glfwSetKeyCallback(windowHandle, new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                System.out.println(key + " - " + action);
+                if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_PRESS) {
+                    System.out.println("Escape key pressed. Exiting...");
+                    GLFW.glfwSetWindowShouldClose(window, true);
+                }
+            }
+        });
     }
 
     public boolean shouldClose() {

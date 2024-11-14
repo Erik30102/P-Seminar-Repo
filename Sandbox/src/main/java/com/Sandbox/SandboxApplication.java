@@ -23,28 +23,28 @@ public class SandboxApplication extends Application {
 
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
         
-        window = new Window(800, 600, "Window", true);
+        window = new Window(800, 600, "Window", false);
         window.init();
         InputHandler.init(window.getHandle());
     }
 
     @Override
-    public void OnUpdate() {        
-        
+    public void OnUpdate() {     
+
         if(window.shouldClose()){
             running = false;
+            GLFW.glfwDestroyWindow(window.getHandle());
+            GLFW.glfwTerminate();
         }
         //System.out.println("Path of das scheiß image ist: " + ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484).toString());
 
         
 		//GL11.glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
-        //HIER RENDER STUFF
+        //RENDER STUFF
 
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
-		GLFW.glfwPollEvents();
-
+        GLFW.glfwPollEvents();
         window.swapBuffers();
         
 
