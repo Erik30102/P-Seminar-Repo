@@ -31,85 +31,59 @@ public class Window {
             throw new IllegalStateException("GLFW konnte nicht initialisiert werden");
         }
 
-        glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        GLFW.glfwDefaultWindowHints();
+        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
 
-        windowHandle = glfwCreateWindow(width, height, title, NULL, NULL);
-        if (NULL == windowHandle) {
+        windowHandle = glfwCreateWindow(width, height, title, 0, 0);
+        if (windowHandle == 0) {
             throw new RuntimeException("Konnte GLFW window nicht erstellen");
         }
 
-        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        GLFWVidMode vidMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
 
-        try ( MemoryStack stack = stackPush() ) {
+        /*
+        try (MemoryStack stack = stackPush() ) {
 			IntBuffer pWidth = stack.mallocInt(1); // int*
 			IntBuffer pHeight = stack.mallocInt(1); // int*
 
-			glfwGetWindowSize(windowHandle, pWidth, pHeight);
+			GLFW.glfwGetWindowSize(windowHandle, pWidth, pHeight);
 
             if (vidMode != null) {
-                glfwSetWindowPos(
+                GLFW.glfwSetWindowPos(
                     windowHandle,
                     (vidMode.width() - width) / 2,
                     (vidMode.height() - height) / 2
                 );
             }
-		}
+		}*/
 
-        glfwMakeContextCurrent(windowHandle);
+        GLFW.glfwMakeContextCurrent(windowHandle);
 
         if (vsync) {
-            glfwSwapInterval(1);
+            GLFW.glfwSwapInterval(1);
         }
 
-        glfwShowWindow(windowHandle);
+        GLFW.glfwShowWindow(windowHandle);
 
         GL.createCapabilities();
-        setup2DProjection(width, height);
-
-        glfwSetWindowFocusCallback(windowHandle, (window, focused) -> {
-            System.out.println("Window Focus: " + focused);
-        });
-
-        GLFW.glfwSetKeyCallback(windowHandle, new GLFWKeyCallback() {
-            @Override
-            public void invoke(long window, int key, int scancode, int action, int mods) {
-                System.out.println(key + " - " + action);
-                if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_PRESS) {
-                    System.out.println("Escape key pressed. Exiting...");
-                    GLFW.glfwSetWindowShouldClose(window, true);
-                }
-            }
-        });
     }
 
     public boolean shouldClose() {
-        return glfwWindowShouldClose(windowHandle);
+        return GLFW.glfwWindowShouldClose(windowHandle);
     }
 
-    public void update() {}
-
-    public void swapBuffers() {
-        glfwSwapBuffers(windowHandle);
+    public void update() {
+        GLFW.glfwPollEvents();
+        GLFW.glfwSwapBuffers(windowHandle);
     }
 
     public void cleanup() {
-        glfwDestroyWindow(windowHandle);
-        glfwTerminate();
+        GLFW.glfwDestroyWindow(windowHandle);
+        GLFW.glfwTerminate();
     }
 
     public long getHandle() {
         return windowHandle;
-    }
-
-    private void setup2DProjection(int windowWidth, int windowHeight) {
-        // Set up an orthographic projection matrix for 2D rendering
-        GL11.glMatrixMode(GL11.GL_PROJECTION); // Switch to projection matrix mode
-        GL11.glLoadIdentity();                 // Reset the projection matrix
-        GL11.glOrtho(0, windowWidth, windowHeight, 0, -1, 1);
-        // Sets the 2D projection with (0, 0) as the top-left corner and (windowWidth, windowHeight) as the bottom-right
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);  // Switch back to model view matrix mode
-        GL11.glLoadIdentity();                 // Reset the model view matrix
     }
 }
