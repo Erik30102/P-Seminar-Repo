@@ -29,7 +29,10 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnUpdate() {     
-        
+        if (Input.IsKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+            running = false;
+        }
+
         GL46.glClear(GL46.GL_COLOR_BUFFER_BIT);
 		
         GL46.glClearColor(1.0f, 0.0f, 0.0f, 0.0f);

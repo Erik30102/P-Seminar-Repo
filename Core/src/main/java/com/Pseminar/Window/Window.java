@@ -2,13 +2,8 @@ package com.Pseminar.Window;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
-import java.nio.*;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
     private long windowHandle;
@@ -16,11 +11,15 @@ public class Window {
     private String title;
     private boolean vsync;
 
+    private static Window INSTANCE;
+
     public Window(int width, int height, String title, boolean vsync) {
         this.width = width;
         this.height = height;
         this.title = title;
         this.vsync = vsync;
+
+        INSTANCE = this;
     }
 
     public void init() {
@@ -85,5 +84,9 @@ public class Window {
 
     public long getHandle() {
         return windowHandle;
+    }
+
+    public static Window GetWindow() {
+        return INSTANCE;
     }
 }
