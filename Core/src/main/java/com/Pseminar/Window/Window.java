@@ -44,9 +44,7 @@ public class Window {
 
         GLFW.glfwMakeContextCurrent(windowHandle);
 
-        if (vsync) {
-            GLFW.glfwSwapInterval(1);
-        }
+        GLFW.glfwSwapInterval(vsync ? 1 : 0);
 
         GLFW.glfwShowWindow(windowHandle);
 
@@ -58,6 +56,9 @@ public class Window {
     }
 
     public void update() {
+        if(Input.IsKeyPressed(GLFW.GLFW_KEY_ESCAPE)){
+            glfwSetWindowShouldClose(windowHandle, true);
+        }
         GLFW.glfwPollEvents();
         GLFW.glfwSwapBuffers(windowHandle);
     }
