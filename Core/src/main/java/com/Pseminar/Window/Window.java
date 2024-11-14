@@ -2,8 +2,11 @@ package com.Pseminar.Window;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.glfw.GLFW.*;
+
+import java.nio.IntBuffer;
 
 public class Window {
     private long windowHandle;
@@ -40,22 +43,6 @@ public class Window {
         }
 
         GLFWVidMode vidMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
-
-        /*
-        try (MemoryStack stack = stackPush() ) {
-			IntBuffer pWidth = stack.mallocInt(1); // int*
-			IntBuffer pHeight = stack.mallocInt(1); // int*
-
-			GLFW.glfwGetWindowSize(windowHandle, pWidth, pHeight);
-
-            if (vidMode != null) {
-                GLFW.glfwSetWindowPos(
-                    windowHandle,
-                    (vidMode.width() - width) / 2,
-                    (vidMode.height() - height) / 2
-                );
-            }
-		}*/
 
         GLFW.glfwMakeContextCurrent(windowHandle);
 

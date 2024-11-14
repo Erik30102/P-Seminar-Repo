@@ -28,7 +28,7 @@ public class SandboxApplication extends Application {
     }
 
     @Override
-    public void OnUpdate() {     
+    public void OnUpdate() {
         if (Input.IsKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
             running = false;
         }
