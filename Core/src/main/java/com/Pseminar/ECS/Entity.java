@@ -11,13 +11,16 @@ public class Entity {
     private int id;
     private List<Component> components;
 
-    private Scene scene;
-
+    private Scene scene;//Szene zu der die Entity gehört
+/**
+*Konstruktor erstellt eine neue Entity mit einer ID
+*leere Liste der Components wird initialisiert
+*/
     public Entity(int id) {
         this.id = id;
         this.components = new ArrayList<>();
     }
-
+//legt fest zu welcher Szene die Entity angehört
     public final void SetScene(Scene scene){
         this.scene = scene;
     }
