@@ -7,6 +7,7 @@ import java.util.ArrayList;
 *welche ihr eigenschaften und Verhaltensweisen verleihen
 *(z.B.kann ein Component ein PositionsComponent sein, was die Position definiert)
 */
+@SuppressWarnings("unused")
 public class Entity {
     private int id;
     private List<Component> components;

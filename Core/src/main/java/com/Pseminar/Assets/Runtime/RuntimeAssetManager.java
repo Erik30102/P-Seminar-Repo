@@ -7,7 +7,8 @@ import com.Pseminar.Assets.Asset;
 import com.Pseminar.Assets.AssetManager;
 
 // Null bock des mit streams zu machen wird irgendwann anders gemacht
-// Wenn sich wer 
+// Wenn sich wer
+@SuppressWarnings("unused")
 public class RuntimeAssetManager implements AssetManager {
 
     private Map<Integer, Asset> loadedAssets = new HashMap<>();
