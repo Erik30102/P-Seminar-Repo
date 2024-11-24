@@ -1,4 +1,4 @@
-package com.Pseminar.Graphics.Shaders;
+package com.Pseminar.renderer;
 
 import org.lwjgl.opengl.GL46;
 import java.io.BufferedReader;
