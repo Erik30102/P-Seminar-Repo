@@ -33,11 +33,13 @@ public class SandboxApplication extends Application {
         window.init();
 
         vao = new VertexArray();
+        // jeder vertex hat 4 values die ersten 2 sind hier die position und die anderen 2 die textur coordinaten die hier aber in dem shader nur die farbe ausmachen
         VertexBuffer vbo = new VertexBuffer(new float[] { 
                 0.5f, 0.5f, 1, 1,      /* V1 */ 
                 0.5f, -0.5f, 1, 0,     /* V2 */ 
                -0.5f, -0.5f, 0, 0,     /* V3 */ 
                -0.5f, 0.5f, 0, 1       /* V4 */});
+        // Gibt die reinfolge von den vertecies an weil es immer dreiecke ergeben müssen
         IndexBuffer ibo = new IndexBuffer(new int[] {0, 1, 3, 1, 3, 2});
 
         vbo.SetLayout(new BufferLayout(new BufferElement[] {
