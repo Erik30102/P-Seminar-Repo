@@ -50,14 +50,8 @@ public class SandboxApplication extends Application {
             running = false;
         }
 
-<<<<<<< HEAD
         RenderApi.clear();
         RenderApi.setClearColor(1, 0, 0);
-=======
-        GL46.glClear(GL46.GL_COLOR_BUFFER_BIT);
-		
-        GL46.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
->>>>>>> 08ccefc13f4fcaba19254739bdc44bdd02efd003
 
         vao.bind();
         RenderApi.DrawIndexed(vao);

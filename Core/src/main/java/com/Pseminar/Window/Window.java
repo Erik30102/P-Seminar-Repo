@@ -5,10 +5,6 @@ import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 08ccefc13f4fcaba19254739bdc44bdd02efd003
 public class Window {
     private long windowHandle;
     private int width, height;
