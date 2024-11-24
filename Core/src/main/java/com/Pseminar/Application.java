@@ -15,18 +15,26 @@ public abstract class Application {
 
     protected boolean running = true;
 
-    public void Run() {
+	private double lastFrametime = 1;
+
+    private final void InitializeOpengl() {
         window = new Window(800, 600, "Window", true);
         window.init();
-
+    
         GLFW.glfwSetWindowSizeCallback(window.getHandle(), (_, width, height) -> {
             this.OnResize(width, height);
         });
+    }
 
+    public void Run() {
+        this.InitializeOpengl();
         OnStart();
 
         while (running) {
-            OnUpdate();
+			double dt = GLFW.glfwGetTime() - lastFrametime;
+			lastFrametime = GLFW.glfwGetTime();
+
+            this.OnUpdate((float)dt);
 
             window.update();
         }
@@ -37,7 +45,7 @@ public abstract class Application {
 
     public abstract void OnStart();
 
-    public abstract void OnUpdate();
+    public abstract void OnUpdate(float dt);
 
     public abstract void OnDispose();
 

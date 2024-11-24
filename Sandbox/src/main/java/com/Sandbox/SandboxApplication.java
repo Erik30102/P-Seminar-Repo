@@ -1,7 +1,5 @@
 package com.Sandbox;
 
-import java.util.concurrent.TransferQueue;
-
 import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Application;
@@ -16,7 +14,6 @@ import com.Pseminar.Graphics.Buffers.VertexArray;
 import com.Pseminar.Graphics.Buffers.VertexBuffer;
 import com.Pseminar.Graphics.Buffers.BufferElement.DataType;
 import com.Pseminar.Window.Input;
-import com.Pseminar.Window.Window;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
 
@@ -74,7 +71,7 @@ public class SandboxApplication extends Application {
     }
 
     @Override
-    public void OnUpdate() {
+    public void OnUpdate(float dt) {
         if (window.shouldClose()) {
             running = false;
         }
@@ -82,16 +79,16 @@ public class SandboxApplication extends Application {
         // Start of Input Logic
 
         if(Input.IsKeyPressed(GLFW.GLFW_KEY_D)) {
-            this.PlayerTransform.move(0.1f, 0);
+            this.PlayerTransform.move(10f * dt, 0);
         }
         if(Input.IsKeyPressed(GLFW.GLFW_KEY_W)) {
-            this.PlayerTransform.move(0.0f, 0.1f);
+            this.PlayerTransform.move(0.0f , 10f * dt);
         }
         if(Input.IsKeyPressed(GLFW.GLFW_KEY_S)) {
-            this.PlayerTransform.move(0.0f, -0.1f);
+            this.PlayerTransform.move(0.0f, -10f * dt);
         }
         if(Input.IsKeyPressed(GLFW.GLFW_KEY_A)) {
-            this.PlayerTransform.move(-0.1f, 0);
+            this.PlayerTransform.move(-10f * dt, 0);
         }
 
         // Start of rendering
