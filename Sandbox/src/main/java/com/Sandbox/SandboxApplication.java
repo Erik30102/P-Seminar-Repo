@@ -22,7 +22,6 @@ import com.Pseminar.renderer.Shader;
 
 public class SandboxApplication extends Application {
 
-    private Window window;
     private Shader shader;
     private VertexArray vao;
 
@@ -39,9 +38,6 @@ public class SandboxApplication extends Application {
         new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/ExampleProject");
 
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
-        
-        window = new Window(800, 600, "Window", true);
-        window.init();
 
         vao = new VertexArray();
         // jeder vertex hat 4 values die ersten 2 sind hier die position und die anderen 2 die textur coordinaten die hier aber in dem shader nur die farbe ausmachen
@@ -111,15 +107,16 @@ public class SandboxApplication extends Application {
         RenderApi.DrawIndexed(vao);
         
         shader.unbind();
-
-
-        window.update();
     }
 
     @Override
     public void OnDispose() {
-        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).SerializeAssetMap();
-       
-        window.cleanup();
+        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).SerializeAssetMap();  
+    }
+
+    @Override
+    public void OnResize(float width, float height) {
+        RenderApi.SetViewPort(width,height);
+        this.camera.Resize(width, height);
     }
 }

@@ -20,4 +20,8 @@ public class RenderApi {
 	public static void DrawIndexed(int count) {
 		GL46.glDrawElements(GL46.GL_TRIANGLES, count, GL46.GL_UNSIGNED_INT, 0);
 	}
+
+    public static void SetViewPort(float width, float height) {
+		GL46.glViewport(0, 0, (int)width, (int)height);
+	}
 }
