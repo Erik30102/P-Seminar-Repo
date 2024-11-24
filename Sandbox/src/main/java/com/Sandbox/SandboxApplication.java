@@ -11,11 +11,13 @@ import com.Pseminar.Graphics.Buffers.VertexArray;
 import com.Pseminar.Graphics.Buffers.VertexBuffer;
 import com.Pseminar.Graphics.Buffers.BufferElement.DataType;
 import com.Pseminar.Window.Window;
+import com.Pseminar.renderer.Shader;
 
 public class SandboxApplication extends Application {
 
-    Window window;
-    VertexArray vao;
+    private Window window;
+    private Shader shader;
+    private VertexArray vao;
 
     public static void main(String[] args) {
         new SandboxApplication().Run();
@@ -31,15 +33,30 @@ public class SandboxApplication extends Application {
         window.init();
 
         vao = new VertexArray();
-        VertexBuffer vbo = new VertexBuffer(new float[] { 0.5f, 0.5f, 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f});
+        VertexBuffer vbo = new VertexBuffer(new float[] { 
+                0.5f, 0.5f, 1, 1,      /* V1 */ 
+                0.5f, -0.5f, 1, 0,     /* V2 */ 
+               -0.5f, -0.5f, 0, 0,     /* V3 */ 
+               -0.5f, 0.5f, 0, 1       /* V4 */});
         IndexBuffer ibo = new IndexBuffer(new int[] {0, 1, 3, 1, 3, 2});
 
         vbo.SetLayout(new BufferLayout(new BufferElement[] {
-            new BufferElement(DataType.VEC2)
+            new BufferElement(DataType.VEC2), // Position
+            new BufferElement(DataType.VEC2) // Tex coords
         }));
 
         vao.AddIndexBuffer(ibo);
         vao.AddVertexBuffer(vbo);
+
+        // TODO: remove exceptions
+        try {
+            shader = new Shader();
+            shader.createVertexShader(Shader.loadResource("vertex_shader.glsl"));
+            shader.createFragmentShader(Shader.loadResource("fragment_shader.glsl"));
+            shader.link();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -51,11 +68,16 @@ public class SandboxApplication extends Application {
         RenderApi.clear();
         RenderApi.setClearColor(0.1f, 0.1f, 0.1f);
 
+
+        shader.bind();
+
         vao.bind();
         RenderApi.DrawIndexed(vao);
         
-        window.update();
+        shader.unbind();
 
+
+        window.update();
     }
 
     @Override

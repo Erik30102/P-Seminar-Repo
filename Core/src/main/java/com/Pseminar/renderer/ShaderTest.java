@@ -11,6 +11,10 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * Hab des mit den anderen sachen verbunden und in die Sandbox class reingeschoben
+ */
+@Deprecated
 public class ShaderTest {
 
     private long window;
