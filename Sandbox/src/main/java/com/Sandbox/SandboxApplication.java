@@ -10,9 +10,7 @@ import com.Pseminar.Graphics.Buffers.IndexBuffer;
 import com.Pseminar.Graphics.Buffers.VertexArray;
 import com.Pseminar.Graphics.Buffers.VertexBuffer;
 import com.Pseminar.Graphics.Buffers.BufferElement.DataType;
-import com.Pseminar.Window.Input;
 import com.Pseminar.Window.Window;
-import org.lwjgl.glfw.GLFW;
 
 public class SandboxApplication extends Application {
 
@@ -51,7 +49,7 @@ public class SandboxApplication extends Application {
         }
 
         RenderApi.clear();
-        RenderApi.setClearColor(1, 0, 0);
+        RenderApi.setClearColor(0.1f, 0.1f, 0.1f);
 
         vao.bind();
         RenderApi.DrawIndexed(vao);
