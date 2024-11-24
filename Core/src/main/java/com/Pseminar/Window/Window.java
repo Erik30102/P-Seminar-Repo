@@ -5,6 +5,10 @@ import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08ccefc13f4fcaba19254739bdc44bdd02efd003
 public class Window {
     private long windowHandle;
     private int width, height;
@@ -39,13 +43,11 @@ public class Window {
             throw new RuntimeException("Konnte GLFW window nicht erstellen");
         }
 
-        GLFWVidMode vidMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+        //GLFWVidMode vidMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
 
         GLFW.glfwMakeContextCurrent(windowHandle);
 
-        if (vsync) {
-            GLFW.glfwSwapInterval(1);
-        }
+        GLFW.glfwSwapInterval(vsync ? 1 : 0);
 
         GLFW.glfwShowWindow(windowHandle);
 
@@ -57,6 +59,9 @@ public class Window {
     }
 
     public void update() {
+        if(Input.IsKeyPressed(GLFW.GLFW_KEY_ESCAPE)){
+            glfwSetWindowShouldClose(windowHandle, true);
+        }
         GLFW.glfwPollEvents();
         GLFW.glfwSwapBuffers(windowHandle);
     }

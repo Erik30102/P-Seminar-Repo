@@ -25,11 +25,11 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnStart() {
-        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
+        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/ExampleProject");
 
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
         
-        window = new Window(800, 600, "Window", false);
+        window = new Window(800, 600, "Window", true);
         window.init();
 
         vao = new VertexArray();
@@ -46,12 +46,18 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnUpdate() {
-        if (Input.IsKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+        if (window.shouldClose()) {
             running = false;
         }
 
+<<<<<<< HEAD
         RenderApi.clear();
         RenderApi.setClearColor(1, 0, 0);
+=======
+        GL46.glClear(GL46.GL_COLOR_BUFFER_BIT);
+		
+        GL46.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+>>>>>>> 08ccefc13f4fcaba19254739bdc44bdd02efd003
 
         vao.bind();
         RenderApi.DrawIndexed(vao);
