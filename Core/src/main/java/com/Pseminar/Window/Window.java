@@ -2,11 +2,8 @@ package com.Pseminar.Window;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.glfw.GLFW.*;
-
-import java.nio.IntBuffer;
 
 public class Window {
     private long windowHandle;
