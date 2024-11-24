@@ -11,7 +11,7 @@ public class TextureLoader {
     private int imageWidth;
     private int imageHeight;
 
-    // Method to load an image and convert it to a ByteBuffer
+    // load image and convert to ByteBuffer
     public ByteBuffer loadTexture(String path) {
         try {
             BufferedImage image = ImageIO.read(new File(path));
@@ -23,7 +23,7 @@ public class TextureLoader {
 
             ByteBuffer buffer = ByteBuffer.allocateDirect(imageWidth * imageHeight * 4);
 
-            // Loop through each pixel and add it to the buffer
+            // Loop each pixel and add to the buffer
             for (int y = 0; y < imageHeight; y++) {
                 for (int x = 0; x < imageWidth; x++) {
                     int pixel = pixels[y * imageWidth + x];
@@ -50,18 +50,15 @@ public class TextureLoader {
             return -1;
         }
 
-        // Use the actual image width and height from the loaded image
         int width = imageWidth;
         int height = imageHeight;
 
         int textureID = GL11.glGenTextures();
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 
-        // Load the texture data into OpenGL
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0,
                           GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
-        // Set texture parameters
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
