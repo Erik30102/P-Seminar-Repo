@@ -1,10 +1,15 @@
 package com.Sandbox;
 
-import org.lwjgl.opengl.GL46;
-
 import com.Pseminar.Application;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
+import com.Pseminar.Graphics.RenderApi;
+import com.Pseminar.Graphics.Buffers.BufferElement;
+import com.Pseminar.Graphics.Buffers.BufferLayout;
+import com.Pseminar.Graphics.Buffers.IndexBuffer;
+import com.Pseminar.Graphics.Buffers.VertexArray;
+import com.Pseminar.Graphics.Buffers.VertexBuffer;
+import com.Pseminar.Graphics.Buffers.BufferElement.DataType;
 import com.Pseminar.Window.Input;
 import com.Pseminar.Window.Window;
 import org.lwjgl.glfw.GLFW;
@@ -12,6 +17,7 @@ import org.lwjgl.glfw.GLFW;
 public class SandboxApplication extends Application {
 
     Window window;
+    VertexArray vao;
 
     public static void main(String[] args) {
         new SandboxApplication().Run();
@@ -25,6 +31,17 @@ public class SandboxApplication extends Application {
         
         window = new Window(800, 600, "Window", true);
         window.init();
+
+        vao = new VertexArray();
+        VertexBuffer vbo = new VertexBuffer(new float[] { 0.5f, 0.5f, 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f});
+        IndexBuffer ibo = new IndexBuffer(new int[] {0, 1, 3, 1, 3, 2});
+
+        vbo.SetLayout(new BufferLayout(new BufferElement[] {
+            new BufferElement(DataType.VEC2)
+        }));
+
+        vao.AddIndexBuffer(ibo);
+        vao.AddVertexBuffer(vbo);
     }
 
     @Override
@@ -33,10 +50,12 @@ public class SandboxApplication extends Application {
             running = false;
         }
 
-        GL46.glClear(GL46.GL_COLOR_BUFFER_BIT);
-		
-        GL46.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        RenderApi.clear();
+        RenderApi.setClearColor(1, 0, 0);
 
+        vao.bind();
+        RenderApi.DrawIndexed(vao);
+        
         window.update();
 
     }
