@@ -97,8 +97,10 @@ public class Shader {
     }
 
     public static String loadResource(String fileName) throws Exception {
+        String basePath = "C:\\Users\\user\\.vscode\\P-Seminar-Repo\\Core\\src\\main\\java\\com\\Pseminar\\Graphics\\shaders\\";
+        String fullPath = basePath + fileName;
         String result;
-        try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(fullPath))) {
             String line;
             StringBuilder sb = new StringBuilder();
             while((line = in.readLine()) != null) {
@@ -106,7 +108,7 @@ public class Shader {
             }
             result = sb.toString();
         } catch (IOException e) {
-            throw new Exception("Error loading shader file: " + fileName);
+            throw new Exception("Error loading shader file: " + fullPath);
         }
         return result;
     }
