@@ -3,10 +3,12 @@ package com.Sandbox;
 import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Application;
+import com.Pseminar.Logger;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
 import com.Pseminar.ECS.Transform;
 import com.Pseminar.Graphics.RenderApi;
+import com.Pseminar.Graphics.Texture;
 import com.Pseminar.Graphics.Buffers.BufferElement;
 import com.Pseminar.Graphics.Buffers.BufferLayout;
 import com.Pseminar.Graphics.Buffers.IndexBuffer;
@@ -26,6 +28,8 @@ public class SandboxApplication extends Application {
 
     private Transform PlayerTransform;
 
+    private Texture testTexture;
+
     public static void main(String[] args) {
         new SandboxApplication().Run();
     }
@@ -39,10 +43,10 @@ public class SandboxApplication extends Application {
         vao = new VertexArray();
         // jeder vertex hat 4 values die ersten 2 sind hier die position und die anderen 2 die textur coordinaten die hier aber in dem shader nur die farbe ausmachen
         VertexBuffer vbo = new VertexBuffer(new float[] { 
-                0.5f, 0.5f, 1, 1,      /* V1 */ 
-                0.5f, -0.5f, 1, 0,     /* V2 */ 
-               -0.5f, -0.5f, 0, 0,     /* V3 */ 
-               -0.5f, 0.5f, 0, 1       /* V4 */});
+                0.5f, 0.5f, 0, 0,      /* V1 */ 
+                0.5f, -0.5f, 0, 1,     /* V2 */ 
+               -0.5f, -0.5f, 1, 1,     /* V3 */ 
+               -0.5f, 0.5f, 1, 0       /* V4 */});
         // Gibt die reinfolge von den vertecies an weil es immer dreiecke ergeben müssen
         IndexBuffer ibo = new IndexBuffer(new int[] {0, 1, 3, 1, 3, 2});
 
@@ -68,6 +72,11 @@ public class SandboxApplication extends Application {
         camera.Resize(800, 600);
 
         PlayerTransform = new Transform();
+
+        testTexture = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484);
+        if(testTexture == null) {
+            Logger.error("Texture with id: "+ this.testTexture + " Failed to load");
+        }
     }
 
     @Override
@@ -97,6 +106,8 @@ public class SandboxApplication extends Application {
         RenderApi.setClearColor(0.1f, 0.1f, 0.1f);
 
         shader.bind();
+        testTexture.Bind(0);
+        shader.setUniform("testTexture", 0);
         shader.setUniform("projectionMatrix", this.camera.GetProjectionMatrix());
         shader.setUniform("transformMatrix", this.PlayerTransform.GenerateTransformMatrix());
 

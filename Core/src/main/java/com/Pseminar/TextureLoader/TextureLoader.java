@@ -8,11 +8,11 @@ import org.lwjgl.opengl.GL11;
 
 public class TextureLoader {
 
-    private int imageWidth;
-    private int imageHeight;
+    private static int imageWidth;
+    private static int imageHeight;
 
     // load image and convert to ByteBuffer
-    public ByteBuffer loadTexture(String path) {
+    public static ByteBuffer loadTexture(String path) {
         try {
             BufferedImage image = ImageIO.read(new File(path));
             imageWidth = image.getWidth();
@@ -42,7 +42,7 @@ public class TextureLoader {
     }
 
     // Method to create an OpenGL texture from the ByteBuffer
-    public int createTexture(String path) {
+    public static int createTexture(String path) {
         ByteBuffer buffer = loadTexture(path);
         
         if (buffer == null) {
@@ -61,8 +61,8 @@ public class TextureLoader {
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 
         System.out.println("Texture loaded successfully with ID: " + textureID);
         return textureID;

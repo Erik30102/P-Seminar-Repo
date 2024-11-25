@@ -10,7 +10,7 @@ public class EditorTexture2dImporter implements IEditorAssetImporter {
 
     @Override
     public Asset LoadAsset(IntermidiateAssetData assetMetaData) {
-       Texture texture = new Texture((ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath()).getBytes());
+       Texture texture = new Texture(ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath());
 
        return texture;
     } 

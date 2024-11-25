@@ -3,6 +3,8 @@
 in vec2 uv; // Input color from vertex shader
 out vec4 finalColor; // Final output color
 
+uniform sampler2D testTexture;
+
 void main() {
-    finalColor = vec4(uv.x, uv.y, 0.0, 1.0); // Set the output color to be fully opaque
+    finalColor = texture(testTexture, uv); // Set the output color to be fully opaque
 }

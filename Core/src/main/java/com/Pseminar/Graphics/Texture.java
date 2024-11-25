@@ -1,6 +1,9 @@
 package com.Pseminar.Graphics;
 
+import org.lwjgl.opengl.GL46;
+
 import com.Pseminar.Assets.Asset;
+import com.Pseminar.TextureLoader.TextureLoader;
 
 public class Texture extends Asset {
     /**
@@ -9,10 +12,10 @@ public class Texture extends Asset {
     */
 
     // Nicht finaler code aber kein bock an der OPengllib weiter zu machen deswegene erstmal so 
-    private byte[] data;
+    private int TextureId;
 
-    public Texture(byte[] data) {
-        this.data = data;
+    public Texture(String path) {
+        this.TextureId = TextureLoader.createTexture(path);
     }
 
     @Override
@@ -22,15 +25,20 @@ public class Texture extends Asset {
 
     @Override
     public void OnDispose() {
-        // TODO: implment when OpenglLib is added
+        GL46.glDeleteTextures(this.TextureId);
     }
 
-    public byte[] GetData() {
-        return this.data;
+    public void Bind(int index) {
+        GL46.glActiveTexture(GL46.GL_TEXTURE0 + index);
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, this.TextureId);
+    }
+
+    public void Unbind() {
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, 0);
     }
 
     @Override
     public String toString() {
-        return new String(GetData());
+        return new String("Texture with id: " + this.TextureId);
     }
 }
