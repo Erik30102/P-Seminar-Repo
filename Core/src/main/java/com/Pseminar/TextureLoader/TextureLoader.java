@@ -21,7 +21,7 @@ public class TextureLoader {
             int[] pixels = new int[imageWidth * imageHeight];
             image.getRGB(0, 0, imageWidth, imageHeight, pixels, 0, imageWidth);
 
-            ByteBuffer buffer = ByteBuffer.allocateDirect(imageWidth * imageHeight * 4);
+            ByteBuffer buffer = ByteBuffer.allocateDirect(imageWidth * imageHeight * 4);  
 
             // Loop each pixel and add to the buffer
             for (int y = 0; y < imageHeight; y++) {

@@ -39,8 +39,6 @@ public class Window {
             throw new RuntimeException("Konnte GLFW window nicht erstellen");
         }
 
-        //GLFWVidMode vidMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
-
         GLFW.glfwMakeContextCurrent(windowHandle);
 
         GLFW.glfwSwapInterval(vsync ? 1 : 0);

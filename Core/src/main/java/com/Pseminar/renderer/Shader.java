@@ -92,6 +92,10 @@ public class Shader {
         GL46.glUniform1i(GL46.glGetUniformLocation(programId, uniformName), value);
     }
 
+    public void setUniform(String uniformName, int[] value) {
+        GL46.glUniform1iv(GL46.glGetUniformLocation(programId, uniformName), value);
+    }
+
     public void setUniform(String uniformName, float value) {
         GL46.glUniform1f(GL46.glGetUniformLocation(programId, uniformName), value);
     }

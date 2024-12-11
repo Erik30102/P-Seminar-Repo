@@ -10,5 +10,5 @@ uniform mat4 transformMatrix;
 
 void main() {
     uv = i_uv;                 // Pass the texcoords to the fragment shader
-    gl_Position = projectionMatrix * transformMatrix * vec4(position.x, position.y, -10.0, 1.0); // Set the position of the vertex
+    gl_Position = projectionMatrix * vec4(position.x, position.y, -10.0, 1.0); // Set the position of the vertex
 }
