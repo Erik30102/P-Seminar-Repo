@@ -11,7 +11,6 @@ import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Graphics.Sprite;
 import com.Pseminar.Graphics.Texture;
-import com.Pseminar.Graphics.Buffers.VertexArray;
 import com.Pseminar.Window.Input;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
@@ -33,7 +32,7 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnStart() {
-        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/ExampleProject");
+        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
 
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
 

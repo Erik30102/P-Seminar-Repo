@@ -101,7 +101,7 @@ public class Shader {
     }
 
     public static String loadResource(String fileName) throws Exception {
-        String basePath = System.getProperty("user.dir") + "\\Core\\src\\main\\java\\com\\Pseminar\\Graphics\\shaders\\";
+        String basePath = System.getProperty("user.dir") + "\\..\\Core\\src\\main\\java\\com\\Pseminar\\Graphics\\shaders\\";
         String fullPath = basePath + fileName;
         String result;
         try (BufferedReader in = new BufferedReader(new FileReader(fullPath))) {
