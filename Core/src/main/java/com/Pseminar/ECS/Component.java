@@ -1,5 +1,20 @@
 package com.Pseminar.ECS;
 
-public interface Component {
+public abstract class Component {
+    public enum ComponentType {
+        SpriteComponent, 
+        BaseComponent
+    }
 
+    private Entity entity;
+
+    public final void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
+    public Entity GetEntity() {
+        return entity;
+    }
+
+    public abstract ComponentType GetComponentType();
 } 

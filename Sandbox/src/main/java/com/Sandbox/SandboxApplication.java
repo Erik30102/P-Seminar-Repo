@@ -1,30 +1,30 @@
 package com.Sandbox;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.Pseminar.Application;
 import com.Pseminar.Logger;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
+import com.Pseminar.ECS.Component;
+import com.Pseminar.ECS.Entity;
+import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
+import com.Pseminar.ECS.BuiltIn.BaseComponent;
+import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.ECS.Component.ComponentType;
 import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Graphics.Sprite;
 import com.Pseminar.Graphics.Texture;
-import com.Pseminar.Window.Input;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
 
 public class SandboxApplication extends Application {
 
     private Shader shader;
-
     private OrthographicCamera camera;
-    private Transform PlayerTransform;
-    private Texture testTexture;
-    private Sprite sprite;
-
     private RenderBatch spriteBatch;
+
+    private Scene scene;
 
     public static void main(String[] args) {
         new SandboxApplication().Run();
@@ -51,19 +51,22 @@ public class SandboxApplication extends Application {
         camera = new OrthographicCamera();
         camera.Resize(800, 600);
 
-        PlayerTransform = new Transform();
-
-        testTexture = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484);
+        Texture testTexture = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484);
         if(testTexture == null) {
-            Logger.error("Texture with id: "+ this.testTexture + " Failed to load");
+            Logger.error("Texture with id: "+ testTexture + " Failed to load");
         }
 
-        sprite = new Sprite(testTexture, new float[] {
+        Sprite sprite = new Sprite(testTexture, new float[] {
             0,1,
             1,0,
             0,0,
             1,1,
         });
+
+        scene = new Scene();
+        Entity exampleEntity = scene.CreateEntity();
+        exampleEntity.AddComponent(new SpriteComponent(sprite));
+        exampleEntity.AddComponent(new TestComponent());
     }
 
     @Override
@@ -72,19 +75,9 @@ public class SandboxApplication extends Application {
             running = false;
         }
 
-        // Start of Input Logic
-
-        if(Input.IsKeyPressed(GLFW.GLFW_KEY_D)) {
-            this.PlayerTransform.move(10f * dt, 0);
-        }
-        if(Input.IsKeyPressed(GLFW.GLFW_KEY_W)) {
-            this.PlayerTransform.move(0.0f , 10f * dt);
-        }
-        if(Input.IsKeyPressed(GLFW.GLFW_KEY_S)) {
-            this.PlayerTransform.move(0.0f, -10f * dt);
-        }
-        if(Input.IsKeyPressed(GLFW.GLFW_KEY_A)) {
-            this.PlayerTransform.move(-10f * dt, 0);
+        for(Component component : this.scene.GetComponentsByType(ComponentType.BaseComponent)) {
+            BaseComponent spriteComponent = (BaseComponent) component;
+            spriteComponent.OnUpdate(dt);
         }
 
         // Start of rendering
@@ -94,7 +87,12 @@ public class SandboxApplication extends Application {
 
         spriteBatch.Begin();
 
-        spriteBatch.AddSprite(sprite, PlayerTransform);
+        for(Component component : this.scene.GetComponentsByType(ComponentType.SpriteComponent)) {
+            SpriteComponent spriteComponent = (SpriteComponent) component;
+            Transform transform = spriteComponent.GetEntity().transform;
+
+            spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+        }
 
         spriteBatch.ReloadData();
         spriteBatch.render(camera);
