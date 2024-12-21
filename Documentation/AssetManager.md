@@ -1,0 +1,1 @@
+# Der Asset Manager

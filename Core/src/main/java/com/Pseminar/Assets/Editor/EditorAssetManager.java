@@ -25,15 +25,20 @@ import com.google.gson.JsonParseException;
 // TODO: alles basirend auf ProjectPath machen
 public class EditorAssetManager implements AssetManager {
 
+    // bereits geladene Assets
     private transient Map<Integer, Asset> loadedAssets = new HashMap<>();
     private transient Map<AssetType,IEditorAssetImporter> AssetImporters = new HashMap<>(); 
     
+    // Ne Map wo drinsteht wie man Asset X importiert
     private Map<Integer, IntermidiateAssetData> assetMap = new HashMap<>();
 
     public EditorAssetManager() {
         this.SetupAssetImporters();
     }
 
+    /**
+     * In Die Methode schreibt mann alle neune importer rein damit die auch als Asset Importer registriert sind
+     */
     private void SetupAssetImporters() {
         AssetImporters.put(AssetType.TEXTURE2D, new EditorTexture2dImporter());
     }
@@ -53,6 +58,12 @@ public class EditorAssetManager implements AssetManager {
         return loadedAsset;
     }  
 
+    /**
+     * Importiert ein neues asset basirend auf dem type des files(extension) wenn es dafür ein AssetImporter gibt
+     * 
+     * @param path Die Path zu dem File
+     * @return Null oder das asset falls es importiert werden konnte
+     */
     public Asset ImportAsset(String path) {
         AssetType type = Asset.GetAssetTypeFromFilePath(path);
         
@@ -73,6 +84,9 @@ public class EditorAssetManager implements AssetManager {
     }
 
     @SuppressWarnings("unchecked")
+    /**
+     * lädt die asset map worin die metadata für alle bereits geladenen assets drinstehen
+     */
     public void LoadAssetMap() {
         try {
             String jsonAssetMap = Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + "/AssetMap.amap"));
@@ -86,6 +100,9 @@ public class EditorAssetManager implements AssetManager {
         }
     } 
 
+    /**
+     * speichter wieder die asset map damit neu importierte assets auch importiert bleiben
+     */
     public void SerializeAssetMap() {
         Gson gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
 
@@ -125,6 +142,9 @@ public class EditorAssetManager implements AssetManager {
     
 }
 
+/**
+ * private klasse damit man die asset bank wieder deserializen kann weil gson keinen richtigen map support hat
+ */
 class AssetBankSerializer implements JsonDeserializer<Map<Integer, IntermidiateAssetData>> {
 
 	@Override

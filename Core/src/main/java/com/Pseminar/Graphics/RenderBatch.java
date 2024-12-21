@@ -135,6 +135,11 @@ public class RenderBatch {
         this.vbo.unbind();
     }
 
+    public void UpdateAndRender(OrthographicCamera camera) {
+        this.ReloadData();
+        this.render(camera);
+    }
+
     public void render(OrthographicCamera camera) {
         shader.bind();
         shader.setUniform("viewMatrix", camera.GetTransformMatrix());

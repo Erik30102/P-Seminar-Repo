@@ -3,6 +3,7 @@ package com.Sandbox;
 import com.Pseminar.Application;
 import com.Pseminar.Logger;
 import com.Pseminar.Assets.ProjectInfo;
+import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
@@ -20,9 +21,10 @@ import com.Pseminar.renderer.Shader;
 
 public class SandboxApplication extends Application {
 
-    private Shader shader;
     private OrthographicCamera camera;
     private RenderBatch spriteBatch;
+
+    private ScriptingEngine scriptingEngine;
 
     private Scene scene;
 
@@ -38,17 +40,17 @@ public class SandboxApplication extends Application {
 
         // TODO: remove exceptions
         try {
-            shader = new Shader();
+            Shader shader = new Shader();
             shader.createVertexShader(Shader.loadResource("basic.vert"));
             shader.createFragmentShader(Shader.loadResource("basic.frag"));
             shader.link();
+
+            this.spriteBatch = new RenderBatch(5000, shader);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        spriteBatch = new RenderBatch(5000, shader);
-
-        camera = new OrthographicCamera();
+        this.camera = new OrthographicCamera();
         camera.Resize(800, 600);
 
         Texture testTexture = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484);
@@ -63,10 +65,12 @@ public class SandboxApplication extends Application {
             1,1,
         });
 
-        scene = new Scene();
+        this.scriptingEngine = new ScriptingEngine("E:\\projects\\P-Seminar-Repo\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
+
+        this.scene = new Scene();
         Entity exampleEntity = scene.CreateEntity();
         exampleEntity.AddComponent(new SpriteComponent(sprite));
-        exampleEntity.AddComponent(new TestComponent());
+        exampleEntity.AddComponent(this.scriptingEngine.GetNewComponent("com.ScriptingTest.TestComponent"));
     }
 
     @Override
@@ -75,9 +79,11 @@ public class SandboxApplication extends Application {
             running = false;
         }
 
-        for(Component component : this.scene.GetComponentsByType(ComponentType.BaseComponent)) {
-            BaseComponent spriteComponent = (BaseComponent) component;
-            spriteComponent.OnUpdate(dt);
+        if(this.scene.GetComponentsByType(ComponentType.BaseComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.BaseComponent)) {
+                BaseComponent spriteComponent = (BaseComponent) component;
+                spriteComponent.OnUpdate(dt);
+            }
         }
 
         // Start of rendering
@@ -87,15 +93,16 @@ public class SandboxApplication extends Application {
 
         spriteBatch.Begin();
 
-        for(Component component : this.scene.GetComponentsByType(ComponentType.SpriteComponent)) {
-            SpriteComponent spriteComponent = (SpriteComponent) component;
-            Transform transform = spriteComponent.GetEntity().transform;
+        if(this.scene.GetComponentsByType(ComponentType.SpriteComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.SpriteComponent)) {
+                SpriteComponent spriteComponent = (SpriteComponent) component;
+                Transform transform = spriteComponent.GetEntity().transform;
 
-            spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+                spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+            }
         }
-
-        spriteBatch.ReloadData();
-        spriteBatch.render(camera);
+        
+        spriteBatch.UpdateAndRender(camera);
     }
 
     @Override

@@ -8,6 +8,11 @@ public abstract class Asset {
         TEXTURE2D,
     }
 
+    /**
+     * wird vom asset manager ausfeführt um dem asset die richtige id zuzuweisen
+     * 
+     * @param id
+     */
     public final void SetId(int id) {
         this.id = id;
     }
@@ -19,10 +24,16 @@ public abstract class Asset {
     public abstract AssetType GetAssetType();
     public abstract void OnDispose();
 
+    /**
+     * wenn ein asset benötigt wird diese methopde ausfürhen sonst kann es einfach entladen werden
+     */
     public void Handle() {
         numberOfHandlers++;
     }
 
+    /**
+     * wenn ein component ein asset nicht mehr braucht die methode ausführen damit es wieder entladen wird
+     */
     public void RemoveHandle() {
         numberOfHandlers--;
 
@@ -32,6 +43,12 @@ public abstract class Asset {
         }
     }
 
+    /**
+     * gibt den asset type basirend auf dem file path an also wenn die extension .png ist wirds ne texture sein
+     * 
+     * @param filePath der path zu dem file
+     * @return der asset type
+     */
     public static AssetType GetAssetTypeFromFilePath(String filePath) {
         String extension = filePath.substring(filePath.lastIndexOf(".")+1);
         

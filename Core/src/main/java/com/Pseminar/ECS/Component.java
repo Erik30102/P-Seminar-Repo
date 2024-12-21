@@ -3,7 +3,8 @@ package com.Pseminar.ECS;
 public abstract class Component {
     public enum ComponentType {
         SpriteComponent, 
-        BaseComponent
+        BaseComponent,
+        CameraComponent
     }
 
     private Entity entity;

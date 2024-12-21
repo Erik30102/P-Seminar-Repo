@@ -2,13 +2,18 @@ package com.Pseminar.Assets;
 
 public interface AssetManager {
     /**
-     * Gets Asset and loads it if not already loaded
+     * Returned das asset und läds wenns nicht schon importiert ist
      * 
-     * @param <T> this does no typechecking if it cannot cast it will crash
-     * @param id
+     * @param <T> 
+     * @param id die id des assets
      * @return
      */
     public <T extends Asset> T GetAsset(int id);
 
+    /**
+     * dispoese asset wenns nichtmehr benötigt wird wird eigentlich automatisch gemacht durchs ref counting system in den assets
+     * 
+     * @param id
+     */
     public void DisposeAsset(int id);
 }
