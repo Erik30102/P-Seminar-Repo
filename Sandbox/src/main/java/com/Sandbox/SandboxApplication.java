@@ -65,7 +65,7 @@ public class SandboxApplication extends Application {
             1,1,
         });
 
-        this.scriptingEngine = new ScriptingEngine("E:\\projects\\P-Seminar-Repo\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
+        this.scriptingEngine = new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
 
         this.scene = new Scene();
         Entity exampleEntity = scene.CreateEntity();
