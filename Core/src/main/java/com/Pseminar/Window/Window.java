@@ -3,6 +3,9 @@ package com.Pseminar.Window;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
+import com.Pseminar.Window.Events.WindowEvents.WindowCloseEvent;
+import com.Pseminar.Window.Events.WindowEvents.WindowResizeEvent;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Window {
@@ -43,9 +46,23 @@ public class Window {
 
         GLFW.glfwSwapInterval(vsync ? 1 : 0);
 
+        registerCallbacks(windowHandle);
+
         GLFW.glfwShowWindow(windowHandle);
 
         GL.createCapabilities();
+    }
+
+    public void registerCallbacks(long windowHandle){
+        glfwSetFramebufferSizeCallback(windowHandle, (win, width, height) -> {
+            WindowResizeEvent event = new WindowResizeEvent(width, height);
+            System.out.println(event);
+        });
+
+        glfwSetWindowCloseCallback(windowHandle, win -> {
+            WindowCloseEvent event = new WindowCloseEvent();
+            System.out.println(event);
+        });
     }
 
     public boolean shouldClose() {

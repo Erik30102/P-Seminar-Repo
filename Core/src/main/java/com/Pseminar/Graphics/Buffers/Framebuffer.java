@@ -1,3 +1,5 @@
+package com.Pseminar.Graphics.Buffers;
+
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 
