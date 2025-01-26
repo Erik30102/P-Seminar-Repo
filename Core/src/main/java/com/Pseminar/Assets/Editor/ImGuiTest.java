@@ -10,6 +10,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
 public class ImGuiTest extends Application {
 
     private final ImString textBuffer = new ImString(1024); // Text buffer with capacity for multiline text
@@ -37,6 +44,12 @@ public class ImGuiTest extends Application {
         if (ImGui.button("Export")) {
             openFileExplorerAndSave(textBuffer.get());
         }
+         // Exit-Button
+        ImGui.sameLine(); // Optional: Button neben Speichern
+        if (ImGui.button("Beenden")) {
+            // Saubere Beendigung der Anwendung
+            System.exit(0);
+        }
 
         ImGui.end(); // End the ImGui window
     }
@@ -56,6 +69,32 @@ public class ImGuiTest extends Application {
             } catch (IOException e) {
                 System.err.println("Error saving file: " + e.getMessage());
             }
+        }
+    }
+
+    private void saveFile() {
+        try {
+            // Aktuelles Projektverzeichnis
+            String projectDir = System.getProperty("user.dir");
+            String saveDir = projectDir + "/Speicherdings";
+            
+            // Verzeichnis erstellen
+            Files.createDirectories(Paths.get(saveDir));
+
+            // Eindeutiger Dateiname
+            String fileName = "data_" + 
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + 
+                ".txt";
+            
+            // Vollständiger Pfad
+            Path fullPath = Paths.get(saveDir, fileName);
+            
+            // Datei speichern
+            Files.writeString(fullPath, textBuffer.get());
+            
+            System.out.println("Gespeichert: " + fullPath);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
