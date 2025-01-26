@@ -3,10 +3,11 @@ package com.Pseminar.Assets.Editor;
 import imgui.ImGui;
 import imgui.app.Application;
 import imgui.app.Configuration;
+import imgui.type.ImString;
 
 public class ImGuiTest extends Application {
 
-    private final StringBuilder textBuffer = new StringBuilder("Default Text"); // Text field buffer
+    private final ImString textBuffer = new ImString(256); // ImString with a maximum length of 256 characters
 
     @Override
     protected void configure(Configuration config) {
@@ -22,12 +23,12 @@ public class ImGuiTest extends Application {
         ImGui.text("You can add more controls here!");
 
         // Input text field
-        ImGui.inputText("Text Field", textBuffer, 0); // Pass 0 for no flags
+        ImGui.inputText("Text Field", textBuffer, 0); // Use ImString for mutable text input
 
         // Save button
         if (ImGui.button("Save")) {
             // Handle save logic (e.g., print the text to the console)
-            System.out.println("Saved Text: " + textBuffer.toString());
+            System.out.println("Saved Text: " + textBuffer.get());
         }
 
         ImGui.end(); // End the ImGui window
