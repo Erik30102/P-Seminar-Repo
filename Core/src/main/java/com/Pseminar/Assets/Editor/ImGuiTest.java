@@ -43,6 +43,7 @@ public class ImGuiTest extends Application {
         if (ImGui.button("Export")) {
             openFileExplorerAndSave(textBuffer.get());
         }
+        ImGui.sameLine();
 
         // Import Button für Textdateien
     if (ImGui.button("Import Textdatei")) {
@@ -66,10 +67,7 @@ public class ImGuiTest extends Application {
             }
         }   
     }
-
-
-         // Exit-Button
-        ImGui.sameLine(); // Optional: Button neben Speichern
+        // Exit-Button
         if (ImGui.button("Beenden")) {
             // Saubere Beendigung der Anwendung
             System.exit(0);
