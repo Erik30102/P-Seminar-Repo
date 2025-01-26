@@ -15,6 +15,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.nio.file.Files;
+
 
 
 public class ImGuiTest extends Application {
@@ -40,10 +45,35 @@ public class ImGuiTest extends Application {
         // Multiline text field
         ImGui.inputTextMultiline(" EASTER EGG", textBuffer, width, height, 0);
 
-        // Save button
+        // Export Button
         if (ImGui.button("Export")) {
             openFileExplorerAndSave(textBuffer.get());
         }
+
+        // Import Button für Textdateien
+    if (ImGui.button("Import Textdatei")) {
+        // Datei-Auswahldialog öffnen
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Textdatei importieren");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    
+        // Nur Textdateien filtern
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Textdateien", "txt"));
+    
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try {
+                // Dateiinhalt in Textbuffer laden
+                String content = new String(Files.readAllBytes(selectedFile.toPath()));
+                textBuffer.set(content);
+            } catch (IOException e) {
+                System.err.println("Fehler beim Importieren: " + e.getMessage());
+            }
+        }   
+    }
+
+
          // Exit-Button
         ImGui.sameLine(); // Optional: Button neben Speichern
         if (ImGui.button("Beenden")) {
