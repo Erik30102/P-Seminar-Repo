@@ -16,25 +16,25 @@ public class ImGuiTest extends Application {
 
     @Override
     protected void configure(Configuration config) {
-        config.setTitle("Hello ImGui Window");
+        config.setTitle("GUI Window");
     }
 
     @Override
     public void process() {
         // Start a new ImGui frame
-        ImGui.begin("Example Window"); // Begin a new ImGui window
+        ImGui.begin("Text Window"); // Begin a new ImGui window
 
-        ImGui.text("You can write your code down below");
+        ImGui.text("Write your Code down below:");
 
         // Calculate text field size relative to the window size
         float width = ImGui.getWindowWidth() - 20; // Leave padding
         float height = ImGui.getWindowHeight() * 0.6f; // Use 60% of window height
 
         // Multiline text field
-        ImGui.inputTextMultiline(" ", textBuffer, width, height, 0);
-        
+        ImGui.inputTextMultiline(" EASTER EGG", textBuffer, width, height, 0);
+
         // Save button
-        if (ImGui.button("Save")) {
+        if (ImGui.button("Export")) {
             openFileExplorerAndSave(textBuffer.get());
         }
 
