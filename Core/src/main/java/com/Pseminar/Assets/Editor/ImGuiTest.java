@@ -46,7 +46,7 @@ public class ImGuiTest extends Application {
         ImGui.sameLine();
 
         // Import Button für Textdateien
-    if (ImGui.button("Import Textdatei")) {
+    if (ImGui.button("Import")) {
         // Datei-Auswahldialog öffnen
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Textdatei importieren");
@@ -67,11 +67,6 @@ public class ImGuiTest extends Application {
             }
         }   
     }
-        // Exit-Button
-        if (ImGui.button("Beenden")) {
-            // Saubere Beendigung der Anwendung
-            System.exit(0);
-        }
 
         ImGui.end(); // End the ImGui window
     }
