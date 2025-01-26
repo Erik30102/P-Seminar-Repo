@@ -5,9 +5,14 @@ import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.type.ImString;
 
+import javax.swing.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class ImGuiTest extends Application {
 
-    private final ImString textBuffer = new ImString(256); // ImString with a maximum length of 256 characters
+    private final ImString textBuffer = new ImString(1024); // Text buffer with capacity for multiline text
 
     @Override
     protected void configure(Configuration config) {
@@ -18,20 +23,40 @@ public class ImGuiTest extends Application {
     public void process() {
         // Start a new ImGui frame
         ImGui.begin("Example Window"); // Begin a new ImGui window
+
+        ImGui.text("You can write your code down below");
+
+        // Calculate text field size relative to the window size
+        float width = ImGui.getWindowWidth() - 20; // Leave padding
+        float height = ImGui.getWindowHeight() * 0.6f; // Use 60% of window height
+
+        // Multiline text field
+        ImGui.inputTextMultiline(" ", textBuffer, width, height, 0);
         
-        ImGui.text("This is a simple ImGui window in Java.");
-        ImGui.text("You can add more controls here!");
-
-        // Input text field
-        ImGui.inputText("Text Field", textBuffer, 0); // Use ImString for mutable text input
-
         // Save button
         if (ImGui.button("Save")) {
-            // Handle save logic (e.g., print the text to the console)
-            System.out.println("Saved Text: " + textBuffer.get());
+            openFileExplorerAndSave(textBuffer.get());
         }
 
         ImGui.end(); // End the ImGui window
+    }
+
+    private void openFileExplorerAndSave(String content) {
+        // Use JFileChooser to open a file explorer dialog
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Text File");
+        fileChooser.setSelectedFile(new File("output.txt")); // Default file name
+
+        int userSelection = fileChooser.showSaveDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try (FileWriter writer = new FileWriter(fileToSave)) {
+                writer.write(content);
+                System.out.println("File saved: " + fileToSave.getAbsolutePath());
+            } catch (IOException e) {
+                System.err.println("Error saving file: " + e.getMessage());
+            }
+        }
     }
 
     public static void main(String[] args) {
