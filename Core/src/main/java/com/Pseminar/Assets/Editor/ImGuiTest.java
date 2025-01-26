@@ -102,32 +102,6 @@ public class ImGuiTest extends Application {
         }
     }
 
-    private void saveFile() {
-        try {
-            // Aktuelles Projektverzeichnis
-            String projectDir = System.getProperty("user.dir");
-            String saveDir = projectDir + "/Speicherdings";
-            
-            // Verzeichnis erstellen
-            Files.createDirectories(Paths.get(saveDir));
-
-            // Eindeutiger Dateiname
-            String fileName = "data_" + 
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + 
-                ".txt";
-            
-            // Vollständiger Pfad
-            Path fullPath = Paths.get(saveDir, fileName);
-            
-            // Datei speichern
-            Files.writeString(fullPath, textBuffer.get());
-            
-            System.out.println("Gespeichert: " + fullPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) {
         launch(new ImGuiTest());
     }
