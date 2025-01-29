@@ -43,5 +43,5 @@ dependencies {
     // Add this line for JOML dependency
     implementation "org.joml:joml:$jomlVersion"
 
-    implementation "io.github.spair:imgui-java-app:1.87.6"
+    implementation "io.github.spair:imgui-java-app:1.88.0"
 }

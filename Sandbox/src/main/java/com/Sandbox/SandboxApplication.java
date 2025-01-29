@@ -1,10 +1,13 @@
 package com.Sandbox;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.Pseminar.Application;
 import com.Pseminar.Logger;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
+import com.Pseminar.Assets.Editor.Serializer.GsonEditorSceneSerializer;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.Scene;
@@ -16,8 +19,11 @@ import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Graphics.Sprite;
 import com.Pseminar.Graphics.Texture;
+import com.Pseminar.Window.Input;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class SandboxApplication extends Application {
 
@@ -103,6 +109,11 @@ public class SandboxApplication extends Application {
         }
         
         spriteBatch.UpdateAndRender(camera);
+
+        if(Input.IsKeyPressed(GLFW.GLFW_KEY_Y)) {
+            Gson gson = new GsonBuilder().registerTypeAdapter(Scene.class, new GsonEditorSceneSerializer()).setPrettyPrinting().create();
+            Logger.info(gson.toJson(this.scene));
+        }
     }
 
     @Override

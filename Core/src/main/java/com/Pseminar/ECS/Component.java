@@ -7,7 +7,12 @@ public abstract class Component {
         CameraComponent
     }
 
-    private Entity entity;
+    private transient Entity entity;
+    private transient int id;
+
+    public final void setId(int id) {
+        this.id = id;
+    }
 
     public final void setEntity(Entity entity) {
         this.entity = entity;
@@ -15,6 +20,10 @@ public abstract class Component {
 
     public Entity GetEntity() {
         return entity;
+    }
+
+    public int GetComponentId() {
+        return this.id;
     }
 
     public abstract ComponentType GetComponentType();

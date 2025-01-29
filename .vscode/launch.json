@@ -1,0 +1,20 @@
+{ // DAS MUSS SO SONST FUNKTIONIERT VS CODE NED ODER JEDER MUSS ES SELBST EINSTELLEN IST JA DANN AUCH ARSCH
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "ImGuiTest",
+            "request": "launch",
+            "mainClass": "com.Pseminar.Assets.Editor.ImGuiTest",
+            "projectName": "Core"
+        },
+        {
+            "type": "java",
+            "name": "Main Sandbox Application",
+            "request": "launch",
+            "mainClass": "com.Sandbox.SandboxApplication",
+            "projectName": "Sandbox",
+            "cwd": "${workspaceFolder}/Sandbox"
+        }
+    ]
+}

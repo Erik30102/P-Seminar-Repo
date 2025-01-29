@@ -80,4 +80,8 @@ public class Scene {
 
         this.components.get(component.GetComponentType()).add(component);
     }
+
+    public List<Entity> GetEntites() {
+        return this.entities;
+    }
 }
