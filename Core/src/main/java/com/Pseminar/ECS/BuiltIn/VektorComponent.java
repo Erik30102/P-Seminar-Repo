@@ -33,4 +33,9 @@ public class VektorComponent extends Component{
         return this.y;
     }
 
+   @Override
+    public ComponentType GetComponentType() {
+        return ComponentType.SpriteComponent;
+    }
+
 }
