@@ -2,7 +2,7 @@ package com.Pseminar.ECS.BuiltIn;
 
 import com.Pseminar.ECS.Component;
 
-public class VektorComponent implements Component{
+public class VektorComponent extends Component{
     
     private int x = 0;
     private int y = 0;
