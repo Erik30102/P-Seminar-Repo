@@ -20,6 +20,10 @@ project.ext.jomlVersion = "1.10.5" // Add this line for JOML version
 
 repositories {
     mavenCentral()
+
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -44,4 +48,7 @@ dependencies {
     implementation "org.joml:joml:$jomlVersion"
 
     implementation "io.github.spair:imgui-java-app:1.88.0"
+
+    // Box2d
+    implementation files('../libs/jbox2d-library.jar')
 }
