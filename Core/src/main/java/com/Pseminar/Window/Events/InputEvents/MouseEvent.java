@@ -1,5 +1,7 @@
 package com.Pseminar.Window.Events.InputEvents;
 
+import com.Pseminar.Window.Events.Event;
+
 public class MouseEvent extends Event {
     private final int x, y;
 
@@ -9,11 +11,22 @@ public class MouseEvent extends Event {
         this.y = y;
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public String getEventDetails() {
+        return "x=" + x + ", y=" + y;
+    }
 
     @Override
     public String toString() {
-        return "MouseEvent{" + "type=" + getType() + ", x=" + x + ", y=" + y + '}';
+        return "MouseEvent{" + "type=" + getType() + ", " + getEventDetails() + '}';
     }
 }
+

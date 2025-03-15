@@ -1,21 +1,30 @@
 package com.Pseminar.Window.Events;
 
 public abstract class Event {
-
-    public enum EventType{
-        WINDOW_RESIZE, WINDOW_CLOSE
+    public enum EventType {
+        MOUSE_MOVED,
+        MOUSE_CLICKED,
+        MOUSE_SCROLLED,
+        KEY_PRESSED,
+        KEY_RELEASED
     }
 
     private final EventType type;
 
-    public Event(EventType type){
+    protected Event(EventType type) {
         this.type = type;
     }
 
-    public EventType getType(){
+    public EventType getType() {
         return type;
     }
 
-    public abstract String toString();
+    public abstract String getEventDetails();
 
+    @Override
+    public String toString() {
+        return "Event{type=" + type + ", details=" + getEventDetails() + '}';
+    }
 }
+
+
