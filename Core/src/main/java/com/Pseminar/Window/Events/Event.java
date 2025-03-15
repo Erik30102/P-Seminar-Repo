@@ -2,6 +2,8 @@ package com.Pseminar.Window.Events;
 
 public abstract class Event {
     public enum EventType {
+        WINDOW_CLOSE,
+        WINDOW_RESIZE,
         MOUSE_MOVED,
         MOUSE_CLICKED,
         MOUSE_SCROLLED,

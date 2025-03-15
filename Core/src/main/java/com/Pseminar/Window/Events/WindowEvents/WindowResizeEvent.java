@@ -20,6 +20,11 @@ public class WindowResizeEvent extends Event{
     }
 
     @Override
+    public String getEventDetails() {
+        return "Window Close Event";
+    }
+
+    @Override
     public String toString(){
         return "WindowResizeEvent: ["+width+", "+height+"]";
     }

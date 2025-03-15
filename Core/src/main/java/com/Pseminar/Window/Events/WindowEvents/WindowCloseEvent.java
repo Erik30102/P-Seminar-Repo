@@ -12,4 +12,9 @@ public String toString(){
     return "WindowCloseEvent";
 }
 
+@Override
+    public String getEventDetails() {
+        return "Window Close Event";
+    }
+
 }
