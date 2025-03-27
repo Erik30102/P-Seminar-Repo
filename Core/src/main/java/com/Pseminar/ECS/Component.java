@@ -4,7 +4,9 @@ public abstract class Component {
     public enum ComponentType {
         SpriteComponent, 
         BaseComponent,
-        CameraComponent
+        CameraComponent,
+
+        RidgedBodyComponent,
     }
 
     private transient Entity entity;

@@ -12,11 +12,15 @@ public class Scene {
     private List<Entity> entities;  
     private Map<ComponentType, List<Component>> components;
 
+	@SuppressWarnings("rawtypes")
+    private Map<ComponentType, IEntityListener> listenerDictionary;
+
     private static int IdRegister = 0;
 
     public Scene() {
         this.entities = new ArrayList<>();
         this.components = new HashMap<>();
+        this.listenerDictionary = new HashMap<>();
     }
 
     public void AddEntity(Entity entity) {
@@ -78,10 +82,32 @@ public class Scene {
             this.components.put(component.GetComponentType(), new ArrayList<>());
         }
 
+        if (listenerDictionary.containsKey(component.GetComponentType())) {
+			listenerDictionary.get(component.GetComponentType()).OnEntityAdded(component.GetEntity(), component);
+		}
+
         this.components.get(component.GetComponentType()).add(component);
     }
 
     public List<Entity> GetEntites() {
         return this.entities;
+    }
+
+    public <T extends Component> void AddListener(ComponentType componentT, IEntityListener<T> listener) {
+		listenerDictionary.put(componentT, listener);
+	}
+
+    public void RemoveListener(ComponentType component) {
+		listenerDictionary.remove(component);
+	}
+
+    public void RunAllAddingListeners() {
+        for(List<Component> _components : this.components.values()) {
+            for(Component component : _components) {
+                if (listenerDictionary.containsKey(component.GetComponentType())) {
+                    listenerDictionary.get(component.GetComponentType()).OnEntityAdded(component.GetEntity(), component);
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.Sandbox;
 
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Application;
@@ -10,15 +11,20 @@ import com.Pseminar.Assets.Editor.EditorAssetManager;
 import com.Pseminar.Assets.Editor.Serializer.GsonEditorSceneSerializer;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
+import com.Pseminar.ECS.IEntityListener;
 import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
+import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
 import com.Pseminar.ECS.Component.ComponentType;
 import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Graphics.Sprite;
 import com.Pseminar.Graphics.Texture;
+import com.Pseminar.Physics.Physics2D;
+import com.Pseminar.Physics.PhysicsBody;
+import com.Pseminar.Physics.PhysicsBody.BodyType;
 import com.Pseminar.Window.Input;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
@@ -33,6 +39,7 @@ public class SandboxApplication extends Application {
     private ScriptingEngine scriptingEngine;
 
     private Scene scene;
+    private Physics2D physicEngine;
 
     public static void main(String[] args) {
         new SandboxApplication().Run();
@@ -77,6 +84,22 @@ public class SandboxApplication extends Application {
         Entity exampleEntity = scene.CreateEntity();
         exampleEntity.AddComponent(new SpriteComponent(sprite));
         exampleEntity.AddComponent(this.scriptingEngine.GetNewComponent("com.ScriptingTest.TestComponent"));
+ 
+        this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
+
+        this.scene.AddListener(ComponentType.RidgedBodyComponent, new IEntityListener<RidgedBodyComponent>() {
+            @Override
+            public void OnEntityAdded(Entity entity, RidgedBodyComponent component) {
+                component.SetBody(new PhysicsBody(BodyType.DYNAMIC));
+            }
+
+            @Override
+            public void OnEntityRemoved(Entity entity, RidgedBodyComponent component) {
+
+            }
+        });
+
+        this.scene.RunAllAddingListeners();
     }
 
     @Override
@@ -91,6 +114,8 @@ public class SandboxApplication extends Application {
                 spriteComponent.OnUpdate(dt);
             }
         }
+
+        physicEngine.update(dt);
 
         // Start of rendering
 
