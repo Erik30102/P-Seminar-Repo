@@ -1,4 +1,4 @@
-package com.Pseminar.Assets.Editor;
+package com.Editor;
 
 import imgui.ImGui;
 import imgui.app.Application;
@@ -13,10 +13,7 @@ import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
-
-
-public class ImGuiTest extends Application {
+public class Editor extends Application {
 
     private final ImString textBuffer = new ImString(1024); // Text buffer with capacity for multiline text
 
@@ -90,6 +87,6 @@ public class ImGuiTest extends Application {
     }
 
     public static void main(String[] args) {
-        launch(new ImGuiTest());
+        launch(new Editor());
     }
 }

@@ -42,7 +42,7 @@ dependencies {
 
     implementation "com.google.code.gson:gson:$gsonVersion"
 
-    implementation "io.github.spair:imgui-java-app:1.87.6"
+    implementation "io.github.spair:imgui-java-app:1.88.0"
 }
 
 // wird nicht funktioniren weil die dependencies nicht included sind
