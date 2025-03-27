@@ -51,4 +51,5 @@ dependencies {
     implementation "org.joml:joml:$jomlVersion"
 
     implementation "io.github.spair:imgui-java-app:1.88.0"
+    implementation "org.jbox2d:jbox2d-library:2.2.1.1"
 }
