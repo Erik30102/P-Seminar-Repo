@@ -1,4 +1,4 @@
-package com.Pseminar.Assets.Editor;
+package com.Editor;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
+
+tasks.register("runImGuiTest", JavaExec) {
+    group = "application"
+    description = "Runs the ImGuiTest application"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set("Editor.ImGuiTest")
+}
+
+tasks.register("wrapper", Wrapper) {
+    gradleVersion = "8.10.2"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+project.ext.lwjglVersion = "3.3.4"
+project.ext.lwjglNatives = "natives-windows"
+project.ext.gsonVersion = "2.11.0"
+project.ext.jomlVersion = "1.10.5" // Add this line for JOML version
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation "io.github.spair:imgui-java-app:1.88.0"
+}
