@@ -7,6 +7,12 @@ import com.Pseminar.Window.Events.WindowEvents.WindowCloseEvent;
 import com.Pseminar.Window.Events.WindowEvents.WindowResizeEvent;
 
 import static org.lwjgl.glfw.GLFW.*;
+import com.Pseminar.Window.Events.InputEvents.KeyEvent;
+import com.Pseminar.Window.Events.InputEvents.MouseClickEvent;
+import com.Pseminar.Window.Events.InputEvents.MouseEvent;
+import com.Pseminar.Window.Events.InputEvents.ScrollEvent;
+import com.Pseminar.Window.Events.Event;
+
 
 public class Window {
     private long windowHandle;
@@ -63,6 +69,36 @@ public class Window {
             WindowCloseEvent event = new WindowCloseEvent();
             System.out.println(event);
         });
+        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
+        if (action == GLFW_PRESS) {
+            KeyEvent event = new KeyEvent(Event.EventType.KEY_PRESSED, key);
+            System.out.println(event);
+        } else if (action == GLFW_RELEASE) {
+            KeyEvent event = new KeyEvent(Event.EventType.KEY_RELEASED, key);
+            System.out.println(event);
+        }
+    });
+	 glfwSetMouseButtonCallback(windowHandle, (window, button, action, mods) -> {
+        double[] xpos = new double[1];
+        double[] ypos = new double[1];
+        glfwGetCursorPos(window, xpos, ypos);
+
+        if (action == GLFW_PRESS) {
+            MouseClickEvent event = new MouseClickEvent((int) xpos[0], (int) ypos[0], button);
+            System.out.println(event);
+        }
+    });
+	glfwSetCursorPosCallback(windowHandle, (window, xpos, ypos) -> {
+        MouseEvent event = new MouseEvent(Event.EventType.MOUSE_MOVED, (int) xpos, (int) ypos);
+        System.out.println(event);
+    });
+
+    // Scrollen
+    glfwSetScrollCallback(windowHandle, (window, xoffset, yoffset) -> {
+        ScrollEvent event = new ScrollEvent((float) yoffset);
+        System.out.println(event);
+    });
+	    
     }
 
     public boolean shouldClose() {
