@@ -135,6 +135,10 @@ public class EditorAssetManager implements AssetManager {
         return (T)loadedAsset;
     }
 
+    public Map<Integer, IntermidiateAssetData> GetAllAssets() {
+        return this.assetMap;
+    }
+
     @Override
     public void DisposeAsset(int id) {
         this.loadedAssets.remove(id);

@@ -1,6 +1,24 @@
 package com.Pseminar.Assets;
 
-public abstract class Asset {
+import java.io.Serializable;
+
+/**
+ * ANY Asset that requires special serialization needs to implment 
+ * <pre>
+ * private void readObject(java.io.ObjectInputStream stream)
+ * throws IOException, ClassNotFoundException {
+ *     
+ * }
+ * private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
+*
+ * }
+*
+ * private void readObjectNoData() throws ObjectStreamException {
+ *         
+ * }
+ * </pre>
+ */
+public abstract class Asset implements Serializable{
     private transient int numberOfHandlers = 0;
     private transient int id;
 

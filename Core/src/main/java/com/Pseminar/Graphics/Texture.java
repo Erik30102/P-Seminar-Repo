@@ -2,6 +2,10 @@ package com.Pseminar.Graphics;
 
 import org.lwjgl.opengl.GL46;
 
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.nio.ByteBuffer;
+
 import com.Pseminar.Assets.Asset;
 import com.Pseminar.TextureLoader.TextureLoader;
 
@@ -13,9 +17,11 @@ public class Texture extends Asset {
 
     // Nicht finaler code aber kein bock an der OPengllib weiter zu machen deswegene erstmal so 
     private int TextureId;
+    private String path;
 
     public Texture(String path) {
-        this.TextureId = TextureLoader.createTexture(path);
+        this.path = path;
+        this.TextureId = TextureLoader.createTexture(TextureLoader.loadTexture(path));
     }
 
     @Override
@@ -40,5 +46,22 @@ public class Texture extends Asset {
     @Override
     public String toString() {
         return new String("Texture with id: " + this.TextureId);
+    }
+
+    private void readObject(java.io.ObjectInputStream stream)
+        throws IOException, ClassNotFoundException {
+        byte[] texture = stream.readAllBytes();
+
+        this.TextureId = TextureLoader.createTexture(ByteBuffer.wrap(texture));
+    }
+
+
+    private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
+        ByteBuffer textureBuffer = TextureLoader.loadTexture(this.path);
+
+        byte[] arr = new byte[textureBuffer.remaining()];
+
+        textureBuffer.get(arr);
+        stream.writeObject(arr);
     }
 }

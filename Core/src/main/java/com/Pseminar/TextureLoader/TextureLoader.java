@@ -42,14 +42,7 @@ public class TextureLoader {
     }
 
     // Method to create an OpenGL texture from the ByteBuffer
-    public static int createTexture(String path) {
-        ByteBuffer buffer = loadTexture(path);
-        
-        if (buffer == null) {
-            System.err.println("Failed to load texture: " + path);
-            return -1;
-        }
-
+    public static int createTexture(ByteBuffer buffer) {        
         int width = imageWidth;
         int height = imageHeight;
 

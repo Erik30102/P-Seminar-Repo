@@ -9,6 +9,7 @@ import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
 import com.Pseminar.Assets.Editor.Serializer.GsonEditorSceneSerializer;
+import com.Pseminar.Assets.Runtime.AssetPack;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.IEntityListener;
@@ -100,6 +101,7 @@ public class SandboxApplication extends Application {
         });
 
         this.scene.RunAllAddingListeners();
+        AssetPack.BuildFromEditor().SaveToDisk("test.assetPack");
     }
 
     @Override
