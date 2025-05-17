@@ -15,6 +15,7 @@ mainClassName = "$mainClass"
 project.ext.lwjglVersion = "3.3.4"
 project.ext.lwjglNatives = "natives-windows"
 project.ext.gsonVersion = "2.11.0"
+project.ext.jomlVersion = "1.10.5"
 
 repositories {
     mavenCentral()
@@ -40,6 +41,7 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
 
+    implementation "org.joml:joml:$jomlVersion"
     implementation "com.google.code.gson:gson:$gsonVersion"
 
     implementation "io.github.spair:imgui-java-app:1.88.0"

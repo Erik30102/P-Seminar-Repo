@@ -14,8 +14,6 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-
-
 public class ImGuiTest extends Application {
 
     private final ImString textBuffer = new ImString(1024); // Text buffer with capacity for multiline text

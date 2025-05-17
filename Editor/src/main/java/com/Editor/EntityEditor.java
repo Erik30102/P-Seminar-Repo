@@ -1,5 +1,5 @@
 /*  Datei: src/main/java/com/Pseminar/Editor/EntityEditor.java  */
-package com.Pseminar.Editor;
+package com.Editor;
 
 import javax.swing.*;
 import java.awt.*;
