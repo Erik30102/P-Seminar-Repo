@@ -55,7 +55,7 @@ public class ControllerEvent extends Event{
 
             for (int i = 0; i < buttons.length; i++)
             {
-                System.out.println("Jimm Knopf:" + i + ":" + (buttons[i] == GLFW.GLFW_PRESS ? "Gedrückt" : "Nicht gedrückt"))
+                System.out.println("Jimm Knopf:" + i + ":" + (buttons[i] == GLFW.GLFW_PRESS ? "Gedrückt" : "Nicht gedrückt"));
             }
 
             GLFW.glfwSetJoystickCallback((jid, event) -> {
