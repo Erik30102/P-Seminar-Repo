@@ -2,11 +2,26 @@ package com.Pseminar.Graphics;
 
 import org.lwjgl.opengl.GL46;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import javax.imageio.ImageIO;
+
+import com.Pseminar.Logger;
 import com.Pseminar.Assets.Asset;
-import com.Pseminar.TextureLoader.TextureLoader;
+
+import imgui.assertion.ImAssertCallback;
+
+class ImageData {
+    public ByteBuffer buffer;
+    public int width;
+    public int heigth;
+
+    public String path;
+}
 
 public class Texture extends Asset {
     /**
@@ -21,6 +36,9 @@ public class Texture extends Asset {
     private int width;
     private int height;
 
+    private TextureFiliteringMode filiteringMode;
+    private TextureWrappingMode wrappingMode;
+
     public enum TextureWrappingMode {
         REPEAT,
         CLAMP_TO_EDGE,
@@ -32,10 +50,71 @@ public class Texture extends Asset {
         BILINEAR,
     };
 
+    public Texture(String path) {
+        this(path, TextureFiliteringMode.NEARST, TextureWrappingMode.CLAMP_TO_BORDER);
+    }
+
     public Texture(String path, TextureFiliteringMode filiteringMode, TextureWrappingMode wrappingMode) {
         this.path = path;
-        this.textureId = TextureLoader.createTexture(TextureLoader.loadTexture(path));
+
+        ImageData imData = GetImageDataFromPath(path);
+        if(imData.buffer == null) {
+            Logger.error("could not load file on path, " + path);
+        }
+
+        CreateImageFromData(imData.buffer, imData.width, imData.heigth, filiteringMode, wrappingMode);
     }    
+
+    private void CreateImageFromData(ByteBuffer textureBuffer, int width, int height, TextureFiliteringMode filiteringMode, TextureWrappingMode frapping) {
+        this.height = height;
+        this.width = width;
+
+        this.textureId = GL46.glGenTextures();
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, this.textureId);
+
+        GL46.glTexImage2D(GL46.GL_TEXTURE_2D, 0, GL46.GL_RGBA, width, height, 0,
+                          GL46.GL_RGBA, GL46.GL_UNSIGNED_BYTE, textureBuffer);
+
+        ApplyParamters(filiteringMode, frapping);
+    }
+
+    public ImageData GetImageDataFromPath(String path) {
+        ImageData imData = new ImageData();
+        imData.path = path;
+
+        try {
+            BufferedImage image = ImageIO.read(new File(path));
+            int imageWidth = image.getWidth();
+            int imageHeight = image.getHeight();
+
+            imData.heigth = imageHeight;
+            imData.width = imageWidth;
+
+            int[] pixels = new int[imageWidth * imageHeight];
+            image.getRGB(0, 0, imageWidth, imageHeight, pixels, 0, imageWidth);
+
+            ByteBuffer buffer = ByteBuffer.allocateDirect(imageWidth * imageHeight * 4);  
+
+            for (int y = 0; y < imageHeight; y++) {
+                for (int x = 0; x < imageWidth; x++) {
+                    int pixel = pixels[y * imageWidth + x];
+                    buffer.put((byte) ((pixel >> 16) & 0xFF)); 
+                    buffer.put((byte) ((pixel >> 8) & 0xFF));  
+                    buffer.put((byte) (pixel & 0xFF));         
+                    buffer.put((byte) ((pixel >> 24) & 0xFF)); 
+                }
+            }
+            buffer.flip();
+
+            imData.buffer = buffer;
+
+            return imData;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
     @Override
     public AssetType GetAssetType() {
@@ -71,6 +150,9 @@ public class Texture extends Asset {
 
     private void ApplyParamters(TextureFiliteringMode filtering, TextureWrappingMode wrapping)
     {
+        this.filiteringMode = filtering;
+        this.wrappingMode = wrapping;
+
         GL46.glTextureParameteri(this.textureId, GL46.GL_TEXTURE_MIN_FILTER,
 				this.InternalFilteringToGLFiltering(filtering));
 		GL46.glTextureParameteri(this.textureId, GL46.GL_TEXTURE_MAG_FILTER,
@@ -126,15 +208,21 @@ public class Texture extends Asset {
 
         byte[] texture = stream.readAllBytes();
 
-        this.textureId = TextureLoader.createTexture(ByteBuffer.wrap(texture));
+        CreateImageFromData(ByteBuffer.wrap(texture), textureWidth, textureHeight, filteringMode, wrapMode);
     }
 
     private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
-        ByteBuffer textureBuffer = TextureLoader.loadTexture(this.path);
+        ImageData imData = GetImageDataFromPath(path);
+        byte[] arr = new byte[imData.buffer.remaining()];
 
-        byte[] arr = new byte[textureBuffer.remaining()];
+        imData.buffer.get(arr);
 
-        textureBuffer.get(arr);
+        stream.writeInt(width);
+        stream.writeInt(height);
+
+        stream.writeInt(this.wrappingMode.ordinal());
+        stream.writeInt(this.filiteringMode.ordinal());
+
         stream.writeObject(arr);
     }
 }

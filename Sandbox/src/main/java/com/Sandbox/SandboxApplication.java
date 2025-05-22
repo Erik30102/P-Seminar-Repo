@@ -101,10 +101,10 @@ public class SandboxApplication extends Application {
             }
         });
 
-        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
+        // ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
 
         this.scene.RunAllAddingListeners();
-        AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");
+        // AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");
     }
 
     @Override
