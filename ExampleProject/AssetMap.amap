@@ -2,5 +2,9 @@
   "1652959484": {
     "path": "/images.png",
     "type": "TEXTURE2D"
-  }
+  },
+  "1552314512": {
+    "path": "/Basic-Charakter-Spritesheet.png",
+    "type": "TEXTURE2D"
+  },
 }

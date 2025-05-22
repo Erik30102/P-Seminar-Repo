@@ -13,6 +13,7 @@ import com.Pseminar.Assets.Asset;
 import com.Pseminar.Assets.AssetManager;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
+import com.Pseminar.Assets.Editor.Importers.EditorSceneImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,6 +42,7 @@ public class EditorAssetManager implements AssetManager {
      */
     private void SetupAssetImporters() {
         AssetImporters.put(AssetType.TEXTURE2D, new EditorTexture2dImporter());
+        AssetImporters.put(AssetType.SCENE, new EditorSceneImporter());
     }
 
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {
@@ -133,6 +135,20 @@ public class EditorAssetManager implements AssetManager {
         if(loadedAsset != null) loadedAsset.SetId(id);
 
         return (T)loadedAsset;
+    }
+
+    public void AppendAssetToProject(Asset asset, String path) {
+        IntermidiateAssetData metaData = new IntermidiateAssetData(path, asset.GetAssetType());
+
+        int assetId = new Random().nextInt();
+        asset.SetId(assetId);
+
+        AssetImporters.get(metaData.GetAssetType()).SerializeAsset(ProjectInfo.GetProjectInfo().GetProjectPath() + path, asset);
+
+        assetMap.put(assetId, metaData);
+        loadedAssets.put(assetId, asset);
+
+        SerializeAssetMap();
     }
 
     public Map<Integer, IntermidiateAssetData> GetAllAssets() {

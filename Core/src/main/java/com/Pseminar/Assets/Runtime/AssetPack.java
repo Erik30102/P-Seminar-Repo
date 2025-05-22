@@ -1,7 +1,9 @@
 package com.Pseminar.Assets.Runtime;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -56,5 +58,19 @@ public class AssetPack implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+
+    public static AssetPack AssetPackFromDisk(String path) {
+        AssetPack assetPack = null;
+		try (FileInputStream fileIn = new FileInputStream(path)) {
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			assetPack = (AssetPack) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return assetPack;
     }
 }

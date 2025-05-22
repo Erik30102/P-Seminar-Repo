@@ -3,17 +3,18 @@ package com.Pseminar.ECS;
 import java.util.List;
 import java.util.Map;
 
+import com.Pseminar.Assets.Asset;
 import com.Pseminar.ECS.Component.ComponentType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Scene {
+public class Scene  extends Asset{
     private List<Entity> entities;  
     private Map<ComponentType, List<Component>> components;
 
 	@SuppressWarnings("rawtypes")
-    private Map<ComponentType, IEntityListener> listenerDictionary;
+    private transient Map<ComponentType, IEntityListener> listenerDictionary;
 
     private static int IdRegister = 0;
 
@@ -109,5 +110,15 @@ public class Scene {
                 }
             }
         }
+    }
+
+    @Override
+    public AssetType GetAssetType() {
+        return AssetType.SCENE;
+    }
+
+    @Override
+    public void OnDispose() {
+        // TODO
     }
 }

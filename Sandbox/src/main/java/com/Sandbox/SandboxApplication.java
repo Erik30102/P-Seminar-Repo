@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Application;
 import com.Pseminar.Logger;
+import com.Pseminar.Assets.AssetManager;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
@@ -100,8 +101,10 @@ public class SandboxApplication extends Application {
             }
         });
 
+        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
+
         this.scene.RunAllAddingListeners();
-        AssetPack.BuildFromEditor().SaveToDisk("test.assetPack");
+        AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");
     }
 
     @Override
