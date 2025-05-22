@@ -137,6 +137,13 @@ public class EditorAssetManager implements AssetManager {
         return (T)loadedAsset;
     }
 
+
+    /**
+     * Erstellt man eine scene per programm und will sie dann zum asset manager zum speichern geben kann man es hiermit mache. dann erstellt es eine datei im project folder die in dem beispiel dann die scene enthält
+     * 
+     * @param asset das asset was man speichern will
+     * @param path der path WICHTIG: im asset folder also scene.scene würde die dann einfach im root ordner des projectes speichern also relativ zum project folder
+     */
     public void AppendAssetToProject(Asset asset, String path) {
         IntermidiateAssetData metaData = new IntermidiateAssetData(path, asset.GetAssetType());
 
@@ -151,6 +158,11 @@ public class EditorAssetManager implements AssetManager {
         SerializeAssetMap();
     }
 
+    /**
+     * Returnd die ganze asset map allso das id asset meta data tabel wo dann drinsteht was für asset das ist und wo es gespeichert ist
+     * 
+     * @return das eben besprochene
+     */
     public Map<Integer, IntermidiateAssetData> GetAllAssets() {
         return this.assetMap;
     }

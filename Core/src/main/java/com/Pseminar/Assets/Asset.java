@@ -37,11 +37,21 @@ public abstract class Asset implements Serializable{
         this.id = id;
     }
 
+    /**
+     * @return die asset id mit der man das asset von asset manager bekommen würde
+     */
     public int GetAssetId() {
         return this.id;
     }
 
+    /**
+     * @return das asset type von dem ding
+     */
     public abstract AssetType GetAssetType();
+    
+    /**
+     * damit werden alle sachen aufgeräumt die das asset so hat aber wird aktuell ned gecalled weil ref counting noch nicht implementiert ist und das warscheinlich auch nie wird
+     */
     public abstract void OnDispose();
 
     /**

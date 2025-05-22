@@ -24,11 +24,11 @@ public class Scene  extends Asset{
         this.listenerDictionary = new HashMap<>();
     }
 
-    public void AddEntity(Entity entity) {
-        entity.SetScene(this);
-        entities.add(entity);
-    }
-
+    /**
+     * damit ersttellt man neue entites in die scene die dann returnd wird und bearbeitet werden kann
+     * 
+     * @return das ertstellte entity
+     */
     public Entity CreateEntity() {
         Entity entity = new Entity();
         entity.SetScene(this);
@@ -36,38 +36,31 @@ public class Scene  extends Asset{
         return entity;
     }
 
-    public void ListComponentsOfEntity(int entityId) {
-        for (Entity entity : entities) {
-            if (entity.getId() == entityId) {
-                System.out.println("Components of Entity " + entityId + ":");
-                for (Component component : entity.getComponents()) {
-                    System.out.println(" - " + component.toString());
-                }
-                return;
-            }
-        }
-        System.out.println("Entity with ID " + entityId + " not found.");
-    }
-
+    /**
+     * Jedes entity hat eine id die man mit e.getId() bekommt und hier kann man ein entity damit dann wieder in der scene finden
+     * 
+     * @param entityId die id des entties
+     * @return
+     */
     public Entity GetEntityById(int entityId) {
         return entities.get(entityId);
     }
 
+    /**
+     * Wenn man alle components eines types haben will dann geht das hiermit
+     * 
+     * @param type der type
+     * @return
+     */
     public List<Component> GetComponentsByType(ComponentType type) {
         return components.get(type);
     }
 
-    public void ListComponentsByType(Class<? extends Component> componentType) {
-        System.out.println("Listing all components of type " + componentType.getSimpleName() + ":");
-        for (Entity entity : entities) {
-            for (Component component : entity.getComponents()) {
-                if (componentType.isInstance(component)) {
-                    System.out.println("Entity " + entity.getId() + " has " + component.toString());
-                }
-            }
-        }
-    }
-
+    /**
+     * Nur public um vom entity benutzt zu werden eigentlich ned wichtig internall scheiß ned anfassen
+     * 
+     * @return
+     */
     public static int CreateEntityId() {
         return IdRegister++;
     }
@@ -90,18 +83,38 @@ public class Scene  extends Asset{
         this.components.get(component.GetComponentType()).add(component);
     }
 
+    /**
+     * Glaub muss man ned erklären is ne liste vonallen entities
+     * 
+     * @return rate mal
+     */
     public List<Entity> GetEntites() {
         return this.entities;
     }
 
+    /**
+     * Regisriert einen neune Listener des interfaces IEntityListener womit man auf component erstell und component delete events hören kann einer bestimmten component types. wird eigentlich bis jetzt nur benutzt um physik components bei der physik engine zu registrieren eigentlich auch engine code
+     * 
+     * @param <T> Glaub braucht man ned mal einfach ignoriren 
+     * @param componentT Der Component type für den der listener funktionieren soll
+     * @param listener Der Eigentliche Listener bei dem dann alle funktionen des interfaces IEntityListener automatisch ausgeführt werden
+     */
     public <T extends Component> void AddListener(ComponentType componentT, IEntityListener<T> listener) {
 		listenerDictionary.put(componentT, listener);
 	}
 
+    /**
+     * Removed dann den listener des interfaces IEntityListener wieder für type x
+     * 
+     * @param component der type für den der listener removed werden soll
+     */
     public void RemoveListener(ComponentType component) {
 		listenerDictionary.remove(component);
 	}
 
+    /**
+     * wenn zuerst alle components hinzugefügt werden und dann die listener kann man das callen um dann alle listnerer abfragen nachzuholen. Wiedermal Internall engine stuff
+     */
     public void RunAllAddingListeners() {
         for(List<Component> _components : this.components.values()) {
             for(Component component : _components) {

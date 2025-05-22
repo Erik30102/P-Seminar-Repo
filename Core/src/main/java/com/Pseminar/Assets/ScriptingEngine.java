@@ -82,6 +82,9 @@ public class ScriptingEngine {
         }
     }
 
+    /**
+     * @return die hoffentlich einzige scripting engine damit man die componments jar nicht öfters laden muss
+     */
     public static ScriptingEngine GetInstance() {
         return INSTANCE;
     }

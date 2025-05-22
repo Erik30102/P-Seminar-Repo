@@ -50,10 +50,22 @@ public class Texture extends Asset {
         BILINEAR,
     };
 
+    /**
+     * Läd texture von festplatte mit default filtering und wrapping modus
+     * 
+     * @param path der path eigentlich logisch
+     */
     public Texture(String path) {
         this(path, TextureFiliteringMode.NEARST, TextureWrappingMode.CLAMP_TO_BORDER);
     }
 
+    /**
+     * Läd texture von disk
+     * 
+     * @param path der path 
+     * @param filiteringMode ob die pixel interpoliert werden sollen also obs pixel oder so ne übergang geben soll. Generell Eigentlich einfach pixel art = NEAREST alles andere BILINEAR
+     * @param wrappingMode wie das image sich verhalten soll bei uvs höher als 1 einfach googeln am besten für ne visuelle demonstartaion
+     */
     public Texture(String path, TextureFiliteringMode filiteringMode, TextureWrappingMode wrappingMode) {
         this.path = path;
 
@@ -78,7 +90,7 @@ public class Texture extends Asset {
         ApplyParamters(filiteringMode, frapping);
     }
 
-    public ImageData GetImageDataFromPath(String path) {
+    private ImageData GetImageDataFromPath(String path) {
         ImageData imData = new ImageData();
         imData.path = path;
 
@@ -126,19 +138,35 @@ public class Texture extends Asset {
         GL46.glDeleteTextures(this.textureId);
     }
 
+    /**
+     * Bindet Image zum benutzen auf den index index und diser kann dann beispielweise weiter an nen shader gegeben werden
+     * 
+     * @param index den index auf den die gebinded werden soll
+     */
     public void Bind(int index) {
         GL46.glActiveTexture(GL46.GL_TEXTURE0 + index);
         GL46.glBindTexture(GL46.GL_TEXTURE_2D, this.textureId);
     }
 
+    /**
+     * Unbinded alle textures muss man ned machen auser man will sicher gehen sonst einfahc immer überschreiben
+     */
     public void Unbind() {
         GL46.glBindTexture(GL46.GL_TEXTURE_2D, 0);
     }
 
+    /**
+     * 
+     * @return height in pxiel von dem image
+     */
     public int GetHeight() {
         return this.height;
     }
 
+    /**
+     * 
+     * @return width in pxiel von dem image
+     */
     public int GetWidth() {
         return this.width;
     }
