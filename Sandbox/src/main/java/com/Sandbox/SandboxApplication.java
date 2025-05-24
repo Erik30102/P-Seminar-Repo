@@ -27,11 +27,8 @@ import com.Pseminar.Graphics.Texture;
 import com.Pseminar.Physics.Physics2D;
 import com.Pseminar.Physics.PhysicsBody;
 import com.Pseminar.Physics.PhysicsBody.BodyType;
-import com.Pseminar.Window.Input;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class SandboxApplication extends Application {
 
@@ -82,6 +79,8 @@ public class SandboxApplication extends Application {
 
         this.scriptingEngine = new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
 
+        // this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(721655172);
+
         this.scene = new Scene();
         Entity exampleEntity = scene.CreateEntity();
         exampleEntity.AddComponent(new SpriteComponent(sprite));
@@ -101,7 +100,7 @@ public class SandboxApplication extends Application {
             }
         });
 
-        // ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
+        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
 
         this.scene.RunAllAddingListeners();
         // AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");
@@ -139,11 +138,6 @@ public class SandboxApplication extends Application {
         }
         
         spriteBatch.UpdateAndRender(camera);
-
-        if(Input.IsKeyPressed(GLFW.GLFW_KEY_Y)) {
-            Gson gson = new GsonBuilder().registerTypeAdapter(Scene.class, new GsonEditorSceneSerializer()).setPrettyPrinting().create();
-            Logger.info(gson.toJson(this.scene));
-        }
     }
 
     @Override

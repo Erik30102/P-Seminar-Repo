@@ -10,7 +10,7 @@ public abstract class Component {
     }
 
     private transient Entity entity;
-    private transient int id;
+    private int id;
 
     public final void setId(int id) {
         this.id = id;

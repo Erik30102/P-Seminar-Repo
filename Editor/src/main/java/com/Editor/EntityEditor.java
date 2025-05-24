@@ -10,11 +10,6 @@ import java.util.List;
 import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Transform;
-import com.Pseminar.ECS.Builtin.SpriteComponent;
-import com.Pseminar.ECS.Builtin.CameraComponent;
-import com.Pseminar.ECS.Builtin.RidgedBodyComponent;
-import com.Pseminar.ECS.Builtin.VektorComponent;
-import com.Pseminar.ECS.Builtin.BaseComponent;     // falls ihr ihn direkt testen wollt
 import org.joml.Vector2f;
 
 public class EntityEditor extends JFrame {
@@ -162,7 +157,7 @@ public class EntityEditor extends JFrame {
         if (t == boolean.class|| t == Boolean.class)  return Boolean.parseBoolean(s);
         return s;
     }
-    private void replace(Component oldC, Component newC) {
+    private void replace(JComponent oldC, JComponent newC) {
         Container p = oldC.getParent();
         int idx = Arrays.asList(p.getComponents()).indexOf(oldC);
         p.remove(oldC); p.add(newC, idx);
@@ -207,11 +202,6 @@ public class EntityEditor extends JFrame {
     /* -------- Test-Main -------- */
     public static void main(String[] args) {
         Entity e = new Entity();
-        e.AddComponent(new SpriteComponent());
-        e.AddComponent(new CameraComponent());
-        e.AddComponent(new RidgedBodyComponent());
-        e.AddComponent(new VektorComponent());
-        e.AddComponent(new BaseComponent());
         new EntityEditor(e);
     }
 }

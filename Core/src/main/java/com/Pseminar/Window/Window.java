@@ -20,6 +20,8 @@ public class Window {
     private String title;
     private boolean vsync;
 
+    private IEventCallback eventCallback;
+
     private static Window INSTANCE;
 
     public Window(int width, int height, String title, boolean vsync) {
@@ -62,43 +64,42 @@ public class Window {
     public void registerCallbacks(long windowHandle){
         glfwSetFramebufferSizeCallback(windowHandle, (win, width, height) -> {
             WindowResizeEvent event = new WindowResizeEvent(width, height);
-            System.out.println(event);
+            this.eventCallback.OnEvent(event);
         });
 
         glfwSetWindowCloseCallback(windowHandle, win -> {
             WindowCloseEvent event = new WindowCloseEvent();
-            System.out.println(event);
+            this.eventCallback.OnEvent(event);
         });
         glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-        if (action == GLFW_PRESS) {
-            KeyEvent event = new KeyEvent(Event.EventType.KEY_PRESSED, key);
-            System.out.println(event);
-        } else if (action == GLFW_RELEASE) {
-            KeyEvent event = new KeyEvent(Event.EventType.KEY_RELEASED, key);
-            System.out.println(event);
-        }
-    });
-	 glfwSetMouseButtonCallback(windowHandle, (window, button, action, mods) -> {
-        double[] xpos = new double[1];
-        double[] ypos = new double[1];
-        glfwGetCursorPos(window, xpos, ypos);
+            if (action == GLFW_PRESS) {
+                KeyEvent event = new KeyEvent(Event.EventType.KEY_PRESSED, key);
+            this.eventCallback.OnEvent(event);
+            } else if (action == GLFW_RELEASE) {
+                KeyEvent event = new KeyEvent(Event.EventType.KEY_RELEASED, key);
+            this.eventCallback.OnEvent(event);
+            }
+        });
+        glfwSetMouseButtonCallback(windowHandle, (window, button, action, mods) -> {
+            double[] xpos = new double[1];
+            double[] ypos = new double[1];
+            glfwGetCursorPos(window, xpos, ypos);
 
-        if (action == GLFW_PRESS) {
-            MouseClickEvent event = new MouseClickEvent((int) xpos[0], (int) ypos[0], button);
-            System.out.println(event);
-        }
-    });
-	glfwSetCursorPosCallback(windowHandle, (window, xpos, ypos) -> {
-        MouseEvent event = new MouseEvent(Event.EventType.MOUSE_MOVED, (int) xpos, (int) ypos);
-        System.out.println(event);
-    });
+            if (action == GLFW_PRESS) {
+                MouseClickEvent event = new MouseClickEvent((int) xpos[0], (int) ypos[0], button);
+                this.eventCallback.OnEvent(event);
+            }
+        });
+        glfwSetCursorPosCallback(windowHandle, (window, xpos, ypos) -> {
+            MouseEvent event = new MouseEvent(Event.EventType.MOUSE_MOVED, (int) xpos, (int) ypos);
+            this.eventCallback.OnEvent(event);
+        });
 
-    // Scrollen
-    glfwSetScrollCallback(windowHandle, (window, xoffset, yoffset) -> {
-        ScrollEvent event = new ScrollEvent((float) yoffset);
-        System.out.println(event);
-    });
-	    
+        // Scrollen
+        glfwSetScrollCallback(windowHandle, (window, xoffset, yoffset) -> {
+            ScrollEvent event = new ScrollEvent((float) yoffset);
+            this.eventCallback.OnEvent(event);
+        });
     }
 
     public boolean shouldClose() {
@@ -116,6 +117,10 @@ public class Window {
     public void cleanup() {
         GLFW.glfwDestroyWindow(windowHandle);
         GLFW.glfwTerminate();
+    }
+
+    public void SetEventCallback(IEventCallback eventCallback) {
+        this.eventCallback = eventCallback;
     }
 
     public long getHandle() {

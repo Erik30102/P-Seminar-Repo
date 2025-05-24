@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.Pseminar.Assets.Asset;
+import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Editor.IEditorAssetImporter;
 import com.Pseminar.Assets.Editor.IntermidiateAssetData;
 import com.Pseminar.Assets.Editor.Serializer.GsonEditorSceneSerializer;
@@ -20,7 +21,7 @@ public class EditorSceneImporter implements IEditorAssetImporter {
         Gson gson = new GsonBuilder().registerTypeAdapter(Scene.class, new GsonEditorSceneSerializer()).create();
 
         try {
-            return gson.fromJson(Files.readString(Path.of(assetMetaData.GetPath())), Scene.class);
+            return gson.fromJson(Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath())), Scene.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

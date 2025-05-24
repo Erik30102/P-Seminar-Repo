@@ -33,5 +33,25 @@ dependencies {
 
     implementation project(":Core")
     
+	implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+	implementation "org.lwjgl:lwjgl"
+	implementation "org.lwjgl:lwjgl-assimp"
+	implementation "org.lwjgl:lwjgl-glfw"
+	implementation "org.lwjgl:lwjgl-openal"
+	implementation "org.lwjgl:lwjgl-opengl"
+   	implementation "org.lwjgl:lwjgl-nfd"
+	implementation "org.lwjgl:lwjgl-stb"
+	runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
+
+    implementation "org.joml:joml:$jomlVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+        
     implementation "io.github.spair:imgui-java-app:1.88.0"
 }

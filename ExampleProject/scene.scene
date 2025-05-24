@@ -13,7 +13,17 @@
         },
         "rotation": 0.0
       },
-      "components": []
+      "components": [
+        {
+          "type": "SpriteComponent",
+          "id": 0
+        },
+        {
+          "type": "BaseComponent",
+          "id": 0,
+          "className": "com.ScriptingTest.TestComponent"
+        }
+      ]
     }
   ]
 }

@@ -7,7 +7,7 @@ import com.Pseminar.Assets.Asset;
 
 public class SpriteSheet extends Asset {
 	private Texture texture;
-	private List<Sprite> sprites;
+	private transient List<Sprite> sprites;
 
 	private int SpriteWidth;
 	private int SpriteHeight;

@@ -3,6 +3,9 @@ package com.Pseminar.Graphics.Buffers;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 
+// TODO: legit nix mit nem opengl frambuffer zu tun
+// https://www.khronos.org/opengl/wiki/Framebuffer_Object wenn wer implementiren will
+
 public class FrameBuffer {
     private int width;
     private int height;

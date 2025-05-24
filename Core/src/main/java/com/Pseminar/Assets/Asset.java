@@ -25,7 +25,8 @@ public abstract class Asset implements Serializable{
     public enum AssetType {
         TEXTURE2D,
         SCENE,
-        SPRITESHEET
+        SPRITESHEET,
+        SPRITE
     }
 
     /**

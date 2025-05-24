@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Editor",
+            "request": "launch",
+            "mainClass": "com.Editor.Editor",
+            "projectName": "Editor"
+        },
+        {
+            "type": "java",
             "name": "ImGuiTest",
             "request": "launch",
             "mainClass": "com.Pseminar.Assets.Editor.ImGuiTest",

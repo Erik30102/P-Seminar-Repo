@@ -6,5 +6,9 @@
   "1652959484": {
     "path": "/images.png",
     "type": "TEXTURE2D"
+  },
+  "-960303576": {
+    "path": "./scene.scene",
+    "type": "SCENE"
   }
 }

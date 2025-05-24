@@ -1,6 +1,8 @@
 package com.Pseminar.Graphics;
 
-public class Sprite {
+import com.Pseminar.Assets.Asset;
+
+public class Sprite extends Asset {
     private Texture texture;
 	private float[] uv;
 
@@ -15,5 +17,15 @@ public class Sprite {
 
 	public float[] getUv() {
 		return uv;
+	}
+
+	@Override
+	public AssetType GetAssetType() {
+		return AssetType.SPRITE;
+	}
+
+	@Override
+	public void OnDispose() {
+
 	}
 }

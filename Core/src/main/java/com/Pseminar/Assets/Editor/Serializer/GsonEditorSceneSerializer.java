@@ -24,7 +24,6 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
 
     @Override
     public JsonElement serialize(Scene src, Type typeOfSrc, JsonSerializationContext context) {
-
         JsonObject result = new JsonObject();
         JsonArray entities = new JsonArray();
 
@@ -37,6 +36,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
             for(Component c : e.getComponents()) {
                 JsonObject componentObject = new JsonObject();
                 componentObject.addProperty("type", c.GetComponentType().toString());
+                componentObject.addProperty("id", c.GetComponentId());
 
                 switch (c.GetComponentType()) {
                     case CameraComponent:
@@ -56,6 +56,8 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                         e1.printStackTrace();
                     }
                 }
+
+                componentArray.add(componentObject);
             }
 
             entityObject.add("components", componentArray);
@@ -81,11 +83,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                 Object value = field.get(c);
                 String name = field.getName();
 
-                if(type.isAssignableFrom(Entity.class)) {
-                    componentObject.addProperty(name, ((Entity) value).getId());
-                }else if(type.isAssignableFrom(Component.class)) {
-                    componentObject.addProperty(name, ((Component) value).GetComponentId());
-                } else if(type.isAssignableFrom(Asset.class)) {
+                if(type.isAssignableFrom(Asset.class)) {
                     componentObject.addProperty(name, ((Asset) value).GetAssetId());
                 } else {
                     componentObject.add(name, context.serialize(value));
