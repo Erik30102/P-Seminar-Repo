@@ -3,20 +3,25 @@ package com.Pseminar.Window.Events.InputEvents;
 import com.Pseminar.Window.Events.Event;
 
 public class ScrollEvent extends Event {
-    private final float scrollAmount;
+    private final float xOffset, yOffset;
 
-    public ScrollEvent(float scrollAmount) {
+    public ScrollEvent(float xOffset, float yOffset) {
         super(EventType.MOUSE_SCROLLED);
-        this.scrollAmount = scrollAmount;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
 
-    public float getScrollAmount() {
-        return scrollAmount;
+    public float GetXOffset() {
+        return xOffset;
+    }
+    
+    public float GetYOffset() {
+        return yOffset;
     }
 
     @Override
     public String getEventDetails() {
-        return "scrollAmount=" + scrollAmount;
+        return "xOffset=" + xOffset + ", yOffset=" + yOffset;
     }
 
     @Override

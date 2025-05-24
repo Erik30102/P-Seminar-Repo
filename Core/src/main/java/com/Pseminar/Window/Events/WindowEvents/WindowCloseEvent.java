@@ -4,15 +4,15 @@ import com.Pseminar.Window.Events.Event;
 
 public class WindowCloseEvent extends Event{
 
-public WindowCloseEvent(){
-    super(EventType.WINDOW_CLOSE);
-}
+    public WindowCloseEvent(){
+        super(EventType.WINDOW_CLOSE);
+    }
 
-public String toString(){
-    return "WindowCloseEvent";
-}
+    public String toString(){
+        return "WindowCloseEvent";
+    }
 
-@Override
+    @Override
     public String getEventDetails() {
         return "Window Close Event";
     }

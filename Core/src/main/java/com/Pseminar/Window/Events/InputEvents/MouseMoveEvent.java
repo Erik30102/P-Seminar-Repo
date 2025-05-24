@@ -2,11 +2,11 @@ package com.Pseminar.Window.Events.InputEvents;
 
 import com.Pseminar.Window.Events.Event;
 
-public class MouseEvent extends Event {
+public class MouseMoveEvent extends Event {
     private final int x, y;
 
-    public MouseEvent(EventType type, int x, int y) {
-        super(type);
+    public MouseMoveEvent(int x, int y) {
+        super(Event.EventType.MOUSE_MOVED);
         this.x = x;
         this.y = y;
     }

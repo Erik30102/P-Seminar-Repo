@@ -87,6 +87,8 @@ public class Editor extends Application {
     }
 
     public static void main(String[] args) {
-        launch(new Editor());
+        new EditorApplication().Run();
+        
+        //launch(new Editor());
     }
 }

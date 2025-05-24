@@ -1,8 +1,11 @@
 package com.Pseminar.Assets.Editor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -166,6 +169,27 @@ public class EditorAssetManager implements AssetManager {
     public Map<Integer, IntermidiateAssetData> GetAllAssets() {
         return this.assetMap;
     }
+
+    public List<IntermidiateAssetData> GetAssetsOfType(AssetType assetType) {
+		List<IntermidiateAssetData> assets = new ArrayList<IntermidiateAssetData>();
+
+		for (Map.Entry<Integer, IntermidiateAssetData> entry : assetMap.entrySet()) {
+			if (entry.getValue().GetAssetType() == assetType) {
+				assets.add(entry.getValue());
+			}
+		}
+
+		return assets;
+	}
+
+    public int GetIdFromMetadata(IntermidiateAssetData metaData) {
+		for (Map.Entry<Integer, IntermidiateAssetData> entry : assetMap.entrySet()) {
+			if (entry.getValue().GetPath().equals(metaData.GetPath())) {
+				return entry.getKey();
+			}
+		}
+		return -1;
+	}
 
     @Override
     public void DisposeAsset(int id) {

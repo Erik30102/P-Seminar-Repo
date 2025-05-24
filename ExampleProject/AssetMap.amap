@@ -1,4 +1,8 @@
 {
+  "2119923067": {
+    "path": "./scene.scene",
+    "type": "SCENE"
+  },
   "1552314512": {
     "path": "/Basic-Charakter-Spritesheet.png",
     "type": "TEXTURE2D"

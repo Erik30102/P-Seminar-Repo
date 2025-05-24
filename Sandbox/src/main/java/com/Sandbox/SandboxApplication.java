@@ -27,6 +27,7 @@ import com.Pseminar.Graphics.Texture;
 import com.Pseminar.Physics.Physics2D;
 import com.Pseminar.Physics.PhysicsBody;
 import com.Pseminar.Physics.PhysicsBody.BodyType;
+import com.Pseminar.Window.Events.Event;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
 
@@ -149,5 +150,10 @@ public class SandboxApplication extends Application {
     public void OnResize(float width, float height) {
         RenderApi.SetViewPort(width,height);
         this.camera.Resize(width, height);
+    }
+
+    @Override
+    protected void OnEventCallback(Event event) {
+
     }
 }

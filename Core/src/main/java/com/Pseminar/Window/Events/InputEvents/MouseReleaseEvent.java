@@ -2,11 +2,11 @@ package com.Pseminar.Window.Events.InputEvents;
 
 import com.Pseminar.Window.Events.Event;
 
-public class MouseClickEvent extends Event {
+public class MouseReleaseEvent extends Event {
     private final int button;
 
-    public MouseClickEvent(int button) {
-        super(EventType.MOUSE_PRESSED);
+    public MouseReleaseEvent(int button) {
+        super(EventType.MOUSE_RELEASED);
         this.button = button;
     }
 

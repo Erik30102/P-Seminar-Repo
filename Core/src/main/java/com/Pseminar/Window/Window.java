@@ -7,9 +7,12 @@ import com.Pseminar.Window.Events.WindowEvents.WindowCloseEvent;
 import com.Pseminar.Window.Events.WindowEvents.WindowResizeEvent;
 
 import static org.lwjgl.glfw.GLFW.*;
+
+import com.Pseminar.Window.Events.InputEvents.CharEvent;
 import com.Pseminar.Window.Events.InputEvents.KeyEvent;
 import com.Pseminar.Window.Events.InputEvents.MouseClickEvent;
-import com.Pseminar.Window.Events.InputEvents.MouseEvent;
+import com.Pseminar.Window.Events.InputEvents.MouseMoveEvent;
+import com.Pseminar.Window.Events.InputEvents.MouseReleaseEvent;
 import com.Pseminar.Window.Events.InputEvents.ScrollEvent;
 import com.Pseminar.Window.Events.Event;
 
@@ -62,42 +65,51 @@ public class Window {
     }
 
     public void registerCallbacks(long windowHandle){
-        glfwSetFramebufferSizeCallback(windowHandle, (win, width, height) -> {
+        GLFW.glfwSetWindowSizeCallback(windowHandle, (_, width, height) -> {
+            this.height = height;
+            this.width = width;
+
             WindowResizeEvent event = new WindowResizeEvent(width, height);
             this.eventCallback.OnEvent(event);
         });
 
-        glfwSetWindowCloseCallback(windowHandle, win -> {
+        glfwSetWindowCloseCallback(windowHandle, _ -> {
             WindowCloseEvent event = new WindowCloseEvent();
             this.eventCallback.OnEvent(event);
         });
-        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
+
+        glfwSetKeyCallback(windowHandle, (_, key, _, action, _) -> {
             if (action == GLFW_PRESS) {
                 KeyEvent event = new KeyEvent(Event.EventType.KEY_PRESSED, key);
-            this.eventCallback.OnEvent(event);
+                this.eventCallback.OnEvent(event);
             } else if (action == GLFW_RELEASE) {
                 KeyEvent event = new KeyEvent(Event.EventType.KEY_RELEASED, key);
-            this.eventCallback.OnEvent(event);
-            }
-        });
-        glfwSetMouseButtonCallback(windowHandle, (window, button, action, mods) -> {
-            double[] xpos = new double[1];
-            double[] ypos = new double[1];
-            glfwGetCursorPos(window, xpos, ypos);
-
-            if (action == GLFW_PRESS) {
-                MouseClickEvent event = new MouseClickEvent((int) xpos[0], (int) ypos[0], button);
                 this.eventCallback.OnEvent(event);
             }
         });
-        glfwSetCursorPosCallback(windowHandle, (window, xpos, ypos) -> {
-            MouseEvent event = new MouseEvent(Event.EventType.MOUSE_MOVED, (int) xpos, (int) ypos);
+
+        glfwSetCharCallback(windowHandle, (_, codepoint) -> {
+			CharEvent event = new CharEvent(codepoint);
+            this.eventCallback.OnEvent(event);
+        });
+
+        glfwSetMouseButtonCallback(windowHandle, (_, button, action, _) -> {
+            if (action == GLFW_PRESS) {
+                MouseClickEvent event = new MouseClickEvent(button);
+                this.eventCallback.OnEvent(event);
+            } else if(action == GLFW_RELEASE) {
+                MouseReleaseEvent event = new MouseReleaseEvent(button);
+                this.eventCallback.OnEvent(event);
+            }
+        });
+        glfwSetCursorPosCallback(windowHandle, (_, xpos, ypos) -> {
+            MouseMoveEvent event = new MouseMoveEvent((int) xpos, (int) ypos);
             this.eventCallback.OnEvent(event);
         });
 
         // Scrollen
-        glfwSetScrollCallback(windowHandle, (window, xoffset, yoffset) -> {
-            ScrollEvent event = new ScrollEvent((float) yoffset);
+        glfwSetScrollCallback(windowHandle, (_, xoffset, yoffset) -> {
+            ScrollEvent event = new ScrollEvent((float) xoffset, (float) yoffset);
             this.eventCallback.OnEvent(event);
         });
     }
@@ -117,6 +129,14 @@ public class Window {
     public void cleanup() {
         GLFW.glfwDestroyWindow(windowHandle);
         GLFW.glfwTerminate();
+    }
+
+    public int GetWidth() {
+        return this.width;
+    }
+
+    public int GetHeight() {
+        return this.height;
     }
 
     public void SetEventCallback(IEventCallback eventCallback) {

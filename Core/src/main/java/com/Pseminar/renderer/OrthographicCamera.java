@@ -11,7 +11,7 @@ public class OrthographicCamera {
     private float Zoom = 10;
     private float currentAspectRatio = 1;
 
-    private Vector2f position = new Vector2f();
+    private Vector2f position = new Vector2f(0,0);
 
     public OrthographicCamera() {
         projectionMatrix = new Matrix4f();

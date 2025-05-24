@@ -15,7 +15,7 @@ public class Logger {
         System.out.println(formatText(message, ""));
     }
 
-    public static void warm(String message) {
+    public static void warn(String message) {
         System.out.println(formatText(message, ANSI_YELLOW));
     }
 

@@ -52,6 +52,6 @@ dependencies {
 
     implementation "org.joml:joml:$jomlVersion"
     implementation "com.google.code.gson:gson:$gsonVersion"
-        
-    implementation "io.github.spair:imgui-java-app:1.88.0"
+
+    implementation "io.github.spair:imgui-java-app:1.89.0"
 }

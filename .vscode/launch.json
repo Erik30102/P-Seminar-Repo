@@ -6,7 +6,8 @@
             "name": "Editor",
             "request": "launch",
             "mainClass": "com.Editor.Editor",
-            "projectName": "Editor"
+            "projectName": "Editor",
+            "cwd": "${workspaceFolder}/Editor"
         },
         {
             "type": "java",

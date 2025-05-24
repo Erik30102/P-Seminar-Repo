@@ -2,9 +2,13 @@ package com.Pseminar;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.Pseminar.Window.IEventCallback;
 import com.Pseminar.Window.Window;
+import com.Pseminar.Window.Events.Event;
+import com.Pseminar.Window.Events.Event.EventType;
+import com.Pseminar.Window.Events.WindowEvents.WindowResizeEvent;
 
-public abstract class Application {
+public abstract class Application implements IEventCallback {
 
     private static Application INSTANCE;
     protected Window window;
@@ -21,9 +25,9 @@ public abstract class Application {
         window = new Window(800, 600, "Window", true);
         window.init();
     
-        GLFW.glfwSetWindowSizeCallback(window.getHandle(), (_, width, height) -> {
-            this.OnResize(width, height);
-        });
+        // TODO: move to window
+
+        window.SetEventCallback(this);
     }
 
     public void Run() {
@@ -49,11 +53,28 @@ public abstract class Application {
 
     public abstract void OnDispose();
 
+    public final void OnEvent(Event event) {
+        if(event.getType() == EventType.WINDOW_RESIZE) {
+            this.OnResize(((WindowResizeEvent)event).getWidth(), ((WindowResizeEvent)event).getHeight());
+        }
+        if(event.getType() == EventType.WINDOW_CLOSE) {
+            this.running = false;
+        }
+
+        OnEventCallback(event);
+    }
+
+    protected abstract void OnEventCallback(Event event);
+
     public void OnResize(float width, float height) {
 
     }
 
     public static Application GetApplication() {
         return INSTANCE;
+    }
+
+    public Window GetWindow() {
+        return this.window;
     }
 }

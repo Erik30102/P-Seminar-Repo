@@ -1,8 +1,7 @@
 package com.Pseminar.Graphics;
 
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL46;
-
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +11,6 @@ import javax.imageio.ImageIO;
 
 import com.Pseminar.Logger;
 import com.Pseminar.Assets.Asset;
-
-import imgui.assertion.ImAssertCallback;
 
 class ImageData {
     public ByteBuffer buffer;
@@ -39,6 +36,8 @@ public class Texture extends Asset {
     private TextureFiliteringMode filiteringMode;
     private TextureWrappingMode wrappingMode;
 
+    private TextureFormat textureFormat;
+
     public enum TextureWrappingMode {
         REPEAT,
         CLAMP_TO_EDGE,
@@ -48,6 +47,11 @@ public class Texture extends Asset {
     public enum TextureFiliteringMode {
         NEARST,
         BILINEAR,
+    };
+
+    public enum TextureFormat {
+        RGB8,
+		RGBA8,
     };
 
     /**
@@ -77,9 +81,30 @@ public class Texture extends Asset {
         CreateImageFromData(imData.buffer, imData.width, imData.heigth, filiteringMode, wrappingMode);
     }    
 
+    public Texture(int width, int height, TextureFormat format, TextureFiliteringMode filiteringMode, TextureWrappingMode wrappingMode) {
+        this.textureFormat = format;
+        this.height = height;
+        this.width = width;
+
+        this.textureId = GL46.glCreateTextures(GL46.GL_TEXTURE_2D);
+
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, this.textureId);
+
+		GL46.glTexImage2D(GL46.GL_TEXTURE_2D, 0, this.InternalFormatToGLInternalFormat(format), width, height, 0, this.InternalFormatToGLDataFormat(format),
+				GL30.GL_UNSIGNED_BYTE, 0);
+
+		GL46.glTextureStorage2D(this.textureId, 1, this.InternalFormatToGLInternalFormat(format), this.width, this.height);
+        
+        ApplyParamters(filiteringMode, wrappingMode);
+    
+        this.Unbind();
+    }
+
     private void CreateImageFromData(ByteBuffer textureBuffer, int width, int height, TextureFiliteringMode filiteringMode, TextureWrappingMode frapping) {
         this.height = height;
         this.width = width;
+
+        this.textureFormat = TextureFormat.RGBA8;
 
         this.textureId = GL46.glGenTextures();
         GL46.glBindTexture(GL46.GL_TEXTURE_2D, this.textureId);
@@ -171,6 +196,10 @@ public class Texture extends Asset {
         return this.width;
     }
 
+    public int GetTextureId() {
+        return this.textureId;
+    }
+
     @Override
     public String toString() {
         return new String("Texture with id: " + this.textureId);
@@ -190,6 +219,28 @@ public class Texture extends Asset {
 		GL46.glTextureParameteri(this.textureId, GL46.GL_TEXTURE_WRAP_T, this.InternalWrapModeToGLWrapMode(wrapping));
     }
     
+    private int InternalFormatToGLInternalFormat(TextureFormat format) {
+		switch (format) {
+			case RGB8:
+				return GL46.GL_RGB8;
+			case RGBA8:
+				return GL46.GL_RGBA8;
+			default:
+				return GL46.GL_RGBA8;
+		}
+	}
+
+    private int InternalFormatToGLDataFormat(TextureFormat format) {
+		switch (format) {
+			case RGB8:
+				return GL46.GL_RGB;
+			case RGBA8:
+				return GL46.GL_RGBA;
+			default:
+				return GL46.GL_RGBA;
+		}
+	}
+
     private int InternalWrapModeToGLWrapMode(TextureWrappingMode wrapMode) {
 		switch (wrapMode) {
 			case REPEAT:

@@ -5,10 +5,12 @@ public abstract class Event {
         WINDOW_CLOSE,
         WINDOW_RESIZE,
         MOUSE_MOVED,
-        MOUSE_CLICKED,
+        MOUSE_PRESSED,
+        MOUSE_RELEASED,
+        CHAR_EVENT,
         MOUSE_SCROLLED,
         KEY_PRESSED,
-        KEY_RELEASED
+        KEY_RELEASED // TODO: CHAR MOUSE BUTTON RELEASED CLICKED
     }
 
     private final EventType type;
