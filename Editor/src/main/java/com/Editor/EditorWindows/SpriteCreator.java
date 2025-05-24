@@ -6,7 +6,9 @@ import java.util.List;
 import org.joml.Vector2f;
 import org.w3c.dom.Text;
 
+import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
+import com.Pseminar.Assets.Editor.EditorAssetManager;
 import com.Pseminar.ECS.Transform;
 import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
@@ -19,6 +21,9 @@ import com.Pseminar.renderer.Shader;
 
 import imgui.ImGui;
 import imgui.ImVec2;
+import imgui.flag.ImGuiWindowFlags;
+import imgui.type.ImBoolean;
+import imgui.type.ImString;
 
 public class SpriteCreator implements IEditorImGuiWindow {
 
@@ -49,10 +54,28 @@ public class SpriteCreator implements IEditorImGuiWindow {
     }
 
     private int[] resizingTile = new int[2];
+    private ImString name = new ImString("test");
 
     @Override
     public void OnImgui() {
         ImGui.begin("SpriteCreator");
+
+        if(ImGui.beginPopupModal("##spriecreatorSave", new ImBoolean(true),ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoTitleBar)) {
+            if(this.generateSprites.size() == 1) {
+                ImGui.inputText("Name", name);
+
+                if(ImGui.button("Save")) {
+                    ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.generateSprites.get(0), "/assets/" + name.get() + ".sprite");
+                    ImGui.closeCurrentPopup();
+                }
+            }
+
+            if(ImGui.button("discard")) {
+                ImGui.closeCurrentPopup();
+            }
+
+			ImGui.endPopup();
+        }
 
         if(ImGui.button("Select Texture")) {
 			AssetPicker.Open("TEX", AssetType.TEXTURE2D);
@@ -84,6 +107,10 @@ public class SpriteCreator implements IEditorImGuiWindow {
 
         ImGui.columns(1);
 
+        if(ImGui.button("Save To Disk")) {
+            ImGui.openPopup("##spriecreatorSave");
+        }
+
 		ImVec2 windowSize = new ImVec2();
 		ImGui.getContentRegionAvail(windowSize);
 
@@ -93,7 +120,7 @@ public class SpriteCreator implements IEditorImGuiWindow {
 
 			fbo.Resize(fboWidth, fboHeight);
 
-			camera.SetZoom(2);
+			camera.SetZoom(5);
 			camera.Resize(fboWidth, fboHeight);
 		}
        
@@ -108,7 +135,7 @@ public class SpriteCreator implements IEditorImGuiWindow {
             int i = 0;
 
             for(Sprite s : this.generateSprites) {
-                this.batch.AddSprite(s, new Transform(new Vector2f((i++) + 0.2f, 0), new Vector2f(1,1), 0));
+                this.batch.AddSprite(s, new Transform(new Vector2f((i++)+0.2f, 0), new Vector2f(1f,1f), 0));
             }
 
             this.batch.UpdateAndRender(camera);
@@ -117,6 +144,7 @@ public class SpriteCreator implements IEditorImGuiWindow {
         fbo.Unbind();
 
 		ImGui.image(fbo.GetTexture().GetTextureId(), windowSize.x, windowSize.y, 0, 1, 1, 0);
+
 
         ImGui.end();
     }

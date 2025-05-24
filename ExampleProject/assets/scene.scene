@@ -16,8 +16,7 @@
       "components": [
         {
           "type": "SpriteComponent",
-          "id": 0,
-          "spriteId": 80711720
+          "id": 0
         },
         {
           "type": "BaseComponent",

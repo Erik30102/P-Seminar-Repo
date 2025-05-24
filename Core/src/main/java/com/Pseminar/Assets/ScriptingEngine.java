@@ -82,6 +82,10 @@ public class ScriptingEngine {
         }
     }
 
+    public Class<?> GetBaseClass(String ClassName) {
+        return ComponentDictionary.get(ClassName);
+    }
+
     /**
      * @return die hoffentlich einzige scripting engine damit man die componments jar nicht öfters laden muss
      */

@@ -1,18 +1,18 @@
 {
-  "2119923067": {
+  "1552314512": {
+    "path": "/assets/Basic-Charakter-Spritesheet.png",
+    "type": "TEXTURE2D"
+  },
+  "80711720": {
+    "path": "/assets/tesp.sprite",
+    "type": "SPRITE"
+  },
+  "2012601628": {
     "path": "./scene.scene",
     "type": "SCENE"
-  },
-  "1552314512": {
-    "path": "/Basic-Charakter-Spritesheet.png",
-    "type": "TEXTURE2D"
   },
   "1652959484": {
-    "path": "/images.png",
+    "path": "/assets/images.png",
     "type": "TEXTURE2D"
-  },
-  "-960303576": {
-    "path": "./scene.scene",
-    "type": "SCENE"
   }
 }

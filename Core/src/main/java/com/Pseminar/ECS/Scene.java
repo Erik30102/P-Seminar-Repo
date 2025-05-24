@@ -35,7 +35,6 @@ public class Scene  extends Asset{
         entities.add(entity);
         return entity;
     }
-
     /**
      * Jedes entity hat eine id die man mit e.getId() bekommt und hier kann man ein entity damit dann wieder in der scene finden
      * 

@@ -66,26 +66,14 @@ public class SandboxApplication extends Application {
         this.camera = new OrthographicCamera();
         camera.Resize(800, 600);
 
-        Texture testTexture = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(1652959484);
-        if(testTexture == null) {
-            Logger.error("Texture with id: "+ testTexture + " Failed to load");
-        }
-
-        Sprite sprite = new Sprite(testTexture, new float[] {
-            0,1,
-            1,0,
-            0,0,
-            1,1,
-        });
-
         this.scriptingEngine = new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
 
-        // this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(721655172);
-
-        this.scene = new Scene();
-        Entity exampleEntity = scene.CreateEntity();
-        exampleEntity.AddComponent(new SpriteComponent(sprite));
-        exampleEntity.AddComponent(this.scriptingEngine.GetNewComponent("com.ScriptingTest.TestComponent"));
+        this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
+//
+        //this.scene = new Scene();
+        //Entity exampleEntity = scene.CreateEntity();
+        //exampleEntity.AddComponent(new SpriteComponent((Sprite)ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(80711720)));
+        //exampleEntity.AddComponent(this.scriptingEngine.GetNewComponent("com.ScriptingTest.TestComponent"));
  
         this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
 
@@ -101,7 +89,7 @@ public class SandboxApplication extends Application {
             }
         });
 
-        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
+        // ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
 
         this.scene.RunAllAddingListeners();
         // AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");

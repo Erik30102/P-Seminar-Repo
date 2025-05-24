@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -17,6 +16,7 @@ import com.Pseminar.Assets.AssetManager;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
 import com.Pseminar.Assets.Editor.Importers.EditorSceneImporter;
+import com.Pseminar.Assets.Editor.Importers.EditorSpriteImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,6 +46,7 @@ public class EditorAssetManager implements AssetManager {
     private void SetupAssetImporters() {
         AssetImporters.put(AssetType.TEXTURE2D, new EditorTexture2dImporter());
         AssetImporters.put(AssetType.SCENE, new EditorSceneImporter());
+        AssetImporters.put(AssetType.SPRITE, new EditorSpriteImporter());
     }
 
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {
