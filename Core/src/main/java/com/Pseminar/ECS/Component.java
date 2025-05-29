@@ -1,6 +1,8 @@
 package com.Pseminar.ECS;
 
-public abstract class Component {
+import java.io.Serializable;
+
+public abstract class Component implements Serializable {
     public enum ComponentType {
         SpriteComponent, 
         BaseComponent,
@@ -9,7 +11,7 @@ public abstract class Component {
         RidgedBodyComponent,
     }
 
-    private transient Entity entity;
+    private Entity entity;
     private int id;
 
     public final void setId(int id) {

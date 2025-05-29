@@ -285,9 +285,13 @@ public class Texture extends Asset {
         TextureWrappingMode wrapMode = TextureWrappingMode.values()[stream.readInt()];
         TextureFiliteringMode filteringMode = TextureFiliteringMode.values()[stream.readInt()];
 
-        byte[] texture = stream.readAllBytes();
+        byte[] texture = (byte[])stream.readObject();
 
-        CreateImageFromData(ByteBuffer.wrap(texture), textureWidth, textureHeight, filteringMode, wrapMode);
+        ByteBuffer img = ByteBuffer.allocateDirect(texture.length * 4);
+        img.put(texture);
+        img.position(0);
+
+        CreateImageFromData(img, textureWidth, textureHeight, filteringMode, wrapMode);
     }
 
     private void writeObject(java.io.ObjectOutputStream stream) throws IOException {

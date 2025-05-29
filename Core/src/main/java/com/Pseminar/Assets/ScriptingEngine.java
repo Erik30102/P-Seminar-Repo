@@ -28,6 +28,10 @@ public class ScriptingEngine {
 
         LoadJar(jarPath);
     }
+
+    public URLClassLoader GetClassLoader() {
+        return this.classLoader;
+    }
         
     private void LoadJar(String jarPath) {
         try {

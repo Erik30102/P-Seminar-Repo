@@ -1,16 +1,13 @@
 package com.Sandbox;
 
 import org.joml.Vector2f;
-import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Application;
-import com.Pseminar.Logger;
-import com.Pseminar.Assets.AssetManager;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
-import com.Pseminar.Assets.Editor.Serializer.GsonEditorSceneSerializer;
 import com.Pseminar.Assets.Runtime.AssetPack;
+import com.Pseminar.Assets.Runtime.RuntimeAssetManager;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.IEntityListener;
@@ -22,8 +19,6 @@ import com.Pseminar.ECS.BuiltIn.SpriteComponent;
 import com.Pseminar.ECS.Component.ComponentType;
 import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
-import com.Pseminar.Graphics.Sprite;
-import com.Pseminar.Graphics.Texture;
 import com.Pseminar.Physics.Physics2D;
 import com.Pseminar.Physics.PhysicsBody;
 import com.Pseminar.Physics.PhysicsBody.BodyType;
@@ -36,8 +31,6 @@ public class SandboxApplication extends Application {
     private OrthographicCamera camera;
     private RenderBatch spriteBatch;
 
-    private ScriptingEngine scriptingEngine;
-
     private Scene scene;
     private Physics2D physicEngine;
 
@@ -47,9 +40,9 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnStart() {
-        new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
+        new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
 
-        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
+        new ProjectInfo(new RuntimeAssetManager(AssetPack.AssetPackFromDisk("../Editor/test.assetPack")), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
 
         // TODO: remove exceptions
         try {
@@ -66,15 +59,8 @@ public class SandboxApplication extends Application {
         this.camera = new OrthographicCamera();
         camera.Resize(800, 600);
 
-        this.scriptingEngine = new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
-
         this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
-//
-        //this.scene = new Scene();
-        //Entity exampleEntity = scene.CreateEntity();
-        //exampleEntity.AddComponent(new SpriteComponent((Sprite)ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(80711720)));
-        //exampleEntity.AddComponent(this.scriptingEngine.GetNewComponent("com.ScriptingTest.TestComponent"));
- 
+
         this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
 
         this.scene.AddListener(ComponentType.RidgedBodyComponent, new IEntityListener<RidgedBodyComponent>() {
@@ -88,8 +74,6 @@ public class SandboxApplication extends Application {
 
             }
         });
-
-        // ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.scene, "./scene.scene");
 
         this.scene.RunAllAddingListeners();
         // AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");
@@ -131,7 +115,7 @@ public class SandboxApplication extends Application {
 
     @Override
     public void OnDispose() {
-        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).SerializeAssetMap();  
+
     }
 
     @Override

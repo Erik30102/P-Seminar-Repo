@@ -1,6 +1,7 @@
 package com.Pseminar.ECS;
 
 import java.util.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,7 @@ import java.util.ArrayList;
 *welche ihr eigenschaften und Verhaltensweisen verleihen
 *(z.B.kann ein Component ein PositionsComponent sein, was die Position definiert)
 */
-@SuppressWarnings("unused")
-public class Entity {
+public class Entity implements Serializable{
     private int id;
     private List<Component> components;
 

@@ -9,20 +9,14 @@ import com.Pseminar.ECS.Component.ComponentType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Scene  extends Asset{
-    private List<Entity> entities;  
-    private Map<ComponentType, List<Component>> components;
+public class Scene extends Asset{
+    private List<Entity> entities = new ArrayList<>();  
+    private Map<ComponentType, List<Component>> components = new HashMap<>();
 
 	@SuppressWarnings("rawtypes")
-    private transient Map<ComponentType, IEntityListener> listenerDictionary;
+    private transient Map<ComponentType, IEntityListener> listenerDictionary = new HashMap<>();
 
     private static int IdRegister = 0;
-
-    public Scene() {
-        this.entities = new ArrayList<>();
-        this.components = new HashMap<>();
-        this.listenerDictionary = new HashMap<>();
-    }
 
     /**
      * damit ersttellt man neue entites in die scene die dann returnd wird und bearbeitet werden kann
@@ -70,6 +64,7 @@ public class Scene  extends Asset{
      * 
      * @param component
      */
+    @SuppressWarnings("unchecked")
     public void RegisterComponentInTypeComponentMap(Component component) {
         if(!this.components.containsKey(component.GetComponentType())){
             this.components.put(component.GetComponentType(), new ArrayList<>());
@@ -99,7 +94,10 @@ public class Scene  extends Asset{
      * @param listener Der Eigentliche Listener bei dem dann alle funktionen des interfaces IEntityListener automatisch ausgeführt werden
      */
     public <T extends Component> void AddListener(ComponentType componentT, IEntityListener<T> listener) {
-		listenerDictionary.put(componentT, listener);
+		if(listenerDictionary == null) 
+            this.listenerDictionary = new HashMap<>();
+        
+        listenerDictionary.put(componentT, listener);
 	}
 
     /**
@@ -114,6 +112,7 @@ public class Scene  extends Asset{
     /**
      * wenn zuerst alle components hinzugefügt werden und dann die listener kann man das callen um dann alle listnerer abfragen nachzuholen. Wiedermal Internall engine stuff
      */
+    @SuppressWarnings("unchecked")
     public void RunAllAddingListeners() {
         for(List<Component> _components : this.components.values()) {
             for(Component component : _components) {

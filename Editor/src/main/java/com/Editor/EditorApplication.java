@@ -1,7 +1,6 @@
 package com.Editor;
 
-import java.security.KeyException;
-
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 import com.Editor.EditorWindows.AssetPicker;
@@ -10,20 +9,37 @@ import com.Editor.EditorWindows.IEditorImGuiWindow;
 import com.Editor.EditorWindows.SpriteCreator;
 import com.Pseminar.Application;
 import com.Pseminar.Assets.ProjectInfo;
+import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Editor.EditorAssetManager;
+import com.Pseminar.Assets.Runtime.AssetPack;
+import com.Pseminar.ECS.Component;
+import com.Pseminar.ECS.Component.ComponentType;
+import com.Pseminar.ECS.Entity;
+import com.Pseminar.ECS.IEntityListener;
+import com.Pseminar.ECS.Scene;
+import com.Pseminar.ECS.Transform;
+import com.Pseminar.ECS.BuiltIn.BaseComponent;
+import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
+import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.Graphics.RenderApi;
+import com.Pseminar.Graphics.RenderBatch;
+import com.Pseminar.Graphics.Buffers.FrameBuffer;
+import com.Pseminar.Physics.Physics2D;
+import com.Pseminar.Physics.PhysicsBody;
+import com.Pseminar.Physics.PhysicsBody.BodyType;
 import com.Pseminar.Window.Events.Event;
 import com.Pseminar.Window.Events.Event.EventType;
 import com.Pseminar.Window.Events.InputEvents.CharEvent;
-import com.Pseminar.Window.Events.InputEvents.KeyEvent;
 import com.Pseminar.Window.Events.InputEvents.MouseClickEvent;
 import com.Pseminar.Window.Events.InputEvents.MouseMoveEvent;
 import com.Pseminar.Window.Events.InputEvents.ScrollEvent;
+import com.Pseminar.renderer.OrthographicCamera;
+import com.Pseminar.renderer.Shader;
 
 import imgui.gl3.ImGuiImplGl3;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.ImVec2;
-import imgui.extension.imguizmo.ImGuizmo;
 import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiConfigFlags;
@@ -40,9 +56,20 @@ public class EditorApplication extends Application {
 
 	private IEditorImGuiWindow[] windows;
 
+    private OrthographicCamera camera;
+    private RenderBatch spriteBatch;
+
+    private Scene scene;
+    private Physics2D physicEngine;
+
+	private FrameBuffer viewportFbo;
+	private int viewportWidth = 200,viewportHeight = 200;
+
 	private enum PlayState {
 		PLAYING, STOPPED, DEBUGGING
 	}
+
+	private PlayState state = PlayState.STOPPED;
 
     @Override
     public void OnStart() {
@@ -52,6 +79,42 @@ public class EditorApplication extends Application {
 		new ProjectInfo(new EditorAssetManager(), "C:\\Users\\erik\\Documents\\prj\\test\\P-Seminar-Repo\\ExampleProject");
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
 
+		try {
+            Shader shader = new Shader();
+            shader.createVertexShader(Shader.loadResource("basic.vert"));
+            shader.createFragmentShader(Shader.loadResource("basic.frag"));
+            shader.link();
+
+            this.spriteBatch = new RenderBatch(5000, shader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.camera = new OrthographicCamera();
+        camera.Resize(800, 600);
+
+        new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
+
+        this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
+
+        this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
+
+        this.scene.AddListener(ComponentType.RidgedBodyComponent, new IEntityListener<RidgedBodyComponent>() {
+            @Override
+            public void OnEntityAdded(Entity entity, RidgedBodyComponent component) {
+                component.SetBody(new PhysicsBody(BodyType.DYNAMIC));
+            }
+
+            @Override
+            public void OnEntityRemoved(Entity entity, RidgedBodyComponent component) {
+				// TODO: destroy
+            }
+        });
+
+        this.scene.RunAllAddingListeners();
+
+		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
+
 		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator() };
     }
 
@@ -59,21 +122,95 @@ public class EditorApplication extends Application {
 
     @Override
     public void OnUpdate(float dt) {
+		if (window.shouldClose()) {
+            running = false;
+        }
+
 		ImGuiBegin();
 		
-        ImGui.begin("test");
+		// ------------------------------------- Da kann alles rein was man so will nur testing grad noch
+
+        ImGui.begin("Generall Settings");
 		
 		ImGui.dragInt("texId", this.TexId);
 		ImGui.image(TexId[0], new ImVec2(200, 200));
 
+		if(ImGui.button(state == PlayState.STOPPED ? "Start" : "Stop")) {
+			state = state == PlayState.STOPPED ? PlayState.PLAYING : PlayState.STOPPED;
+		}
+
+		if(ImGui.button("Build Asset Pack")) {
+			AssetPack.BuildFromEditor().SaveToDisk("test.assetPack");
+		}
+
         ImGui.end();
 		
+		// ------------------------------------- die einzelnen extra dinger die andere klassen sind
+
 		for(IEditorImGuiWindow e : this.windows) {
 			e.OnImgui();
 		}
 		
+		// -------------------------------------
+
+		ImGui.begin("viewport");
+
+		ImVec2 windowSize = new ImVec2();
+		ImGui.getContentRegionAvail(windowSize);
+
+        if (windowSize.x != viewportWidth || windowSize.y != viewportHeight) {
+			viewportWidth = (int) windowSize.x;
+			viewportHeight = (int) windowSize.y;
+
+			viewportFbo.Resize(viewportWidth, viewportHeight);
+
+			camera.SetZoom(5);
+			camera.Resize(viewportWidth, viewportHeight);
+		}
+
+		RenderAndUpdateViewport(dt);
+
+		ImGui.image(viewportFbo.GetTexture().GetTextureId(), windowSize.x, windowSize.y, 0, 1, 1, 0);
+
+		ImGui.end();
+
+		// -------------------------------------
+
         ImGuiEnd();
     }
+
+	private void RenderAndUpdateViewport(float dt) {
+
+		if(state == PlayState.PLAYING) {
+			if(this.scene.GetComponentsByType(ComponentType.BaseComponent) != null) {
+				for(Component component : this.scene.GetComponentsByType(ComponentType.BaseComponent)) {
+					BaseComponent spriteComponent = (BaseComponent) component;
+					spriteComponent.OnUpdate(dt);
+				}
+			}
+
+			physicEngine.update(dt);
+		}
+
+		viewportFbo.Bind();
+        RenderApi.SetViewPort(viewportWidth, viewportHeight);
+        RenderApi.setClearColor(0.1f, 0.1f, 0.1f);
+        RenderApi.clear();
+	
+		this.spriteBatch.Begin();
+
+		if(this.scene.GetComponentsByType(ComponentType.SpriteComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.SpriteComponent)) {
+                SpriteComponent spriteComponent = (SpriteComponent) component;
+                Transform transform = spriteComponent.GetEntity().transform;
+
+                spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+            }
+        }
+
+		this.spriteBatch.UpdateAndRender(camera);
+		viewportFbo.Unbind();
+	}
 	
     @Override
     public void OnDispose() {

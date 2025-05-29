@@ -13,7 +13,7 @@ import java.io.Serializable;
 *
  * }
 *
- * private void readObjectNoData() throws ObjectStreamException {
+ * private void readObject() throws ObjectStreamException {
  *         
  * }
  * </pre>
@@ -93,5 +93,9 @@ public abstract class Asset implements Serializable{
                 return null;
         }
     }
+
+    // private transient byte[] DeserilizationRemainging; 
+
+    // public void GetAllMissing
 
 }

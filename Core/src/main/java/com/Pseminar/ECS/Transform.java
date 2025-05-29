@@ -1,5 +1,7 @@
 package com.Pseminar.ECS;
 
+import java.io.Serializable;
+
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
@@ -7,7 +9,7 @@ import org.joml.Vector2f;
  * Die Klasse Transform hält einfach die 2D-Transformationswerte:
  * Position, Skalierung und Rotation.
  */
-public class Transform {
+public class Transform implements Serializable {
     private final Vector2f position;
     private final Vector2f scale;
     private float rotation;

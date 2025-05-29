@@ -13,14 +13,19 @@ public class RuntimeAssetManager implements AssetManager {
 
     private Map<Integer, Asset> loadedAssets = new HashMap<>();
 
+    public RuntimeAssetManager(AssetPack assetPack) {
+        loadedAssets = assetPack.GetAssetInfoMap();
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Asset> T GetAsset(int id) {
-        throw new UnsupportedOperationException("Unimplemented method 'GetAsset'");
+        return (T)loadedAssets.get(id);
     }
 
     @Override
     public void DisposeAsset(int id) {
-        throw new UnsupportedOperationException("Unimplemented method 'DisposeAsset'");
+        
     } 
     
 }
