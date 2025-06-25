@@ -6,4 +6,4 @@ bin/
 
 *.log
 
-imgui.ini
+*/**/imgui.ini

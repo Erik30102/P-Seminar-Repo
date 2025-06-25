@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 import com.Editor.EditorWindows.AssetPicker;
 import com.Editor.EditorWindows.ContentBrowser;
 import com.Editor.EditorWindows.IEditorImGuiWindow;
+import com.Editor.EditorWindows.SceneHiarchy;
 import com.Editor.EditorWindows.SpriteCreator;
 import com.Pseminar.Application;
 import com.Pseminar.Assets.ProjectInfo;
@@ -115,7 +116,7 @@ public class EditorApplication extends Application {
 
 		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
 
-		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator() };
+		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this) };
     }
 
 	private int[] TexId = new int[] { 0 };
@@ -128,6 +129,14 @@ public class EditorApplication extends Application {
 
 		ImGuiBegin();
 		
+		ImGui.begin("Start Stop");
+
+		if(ImGui.button(state == PlayState.STOPPED ? "Start" : "Stop")) {
+			state = state == PlayState.STOPPED ? PlayState.PLAYING : PlayState.STOPPED;
+		}
+
+		ImGui.end();
+
 		// ------------------------------------- Da kann alles rein was man so will nur testing grad noch
 
         ImGui.begin("Generall Settings");
@@ -135,9 +144,6 @@ public class EditorApplication extends Application {
 		ImGui.dragInt("texId", this.TexId);
 		ImGui.image(TexId[0], new ImVec2(200, 200));
 
-		if(ImGui.button(state == PlayState.STOPPED ? "Start" : "Stop")) {
-			state = state == PlayState.STOPPED ? PlayState.PLAYING : PlayState.STOPPED;
-		}
 
 		if(ImGui.button("Build Asset Pack")) {
 			AssetPack.BuildFromEditor().SaveToDisk("test.assetPack");
@@ -212,6 +218,10 @@ public class EditorApplication extends Application {
 		viewportFbo.Unbind();
 	}
 	
+	public Scene GetCurrentScene() {
+		return this.scene;
+	}
+
     @Override
     public void OnDispose() {
 		

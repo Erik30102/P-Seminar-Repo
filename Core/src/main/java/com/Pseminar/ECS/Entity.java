@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Entity implements Serializable{
     private int id;
     private List<Component> components;
+    private String name;
 
     private Scene scene;//Szene zu der die Entity gehört
     public Transform transform;
@@ -24,11 +25,21 @@ public class Entity implements Serializable{
         this.id = Scene.CreateEntityId();
         this.transform = new Transform();
         this.components = new ArrayList<>();
+
+        this.name = "Entity " + this.id;
     }
     
     //legt fest zu welcher Szene die Entity angehört
     public final void SetScene(Scene scene){
         this.scene = scene;
+    }
+
+    public void SetName(String name) {
+        this.name = name;
+    }
+
+    public String GetName(){
+        return this.name;
     }
 
     public int getId() {
