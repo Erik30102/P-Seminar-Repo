@@ -1,5 +1,7 @@
 # Render Batch Documentation und alles was man dafür braucht
 ---
+***Man sollte eigetnlich immer einfach enties mit spriteComponents Rendern da diese automatisch von der Engine übernommen wird***
+
 ## was ist ein Renderbatch
 ein RenderBatcher fässt eigentlich nur viele verschiede sprites, also sachen die man zeichen will, welche vorher viele verschiedene draw calls sind in einen zusammen um performance erheblich zu verbessern. braucht mann wenn man auch nur mehr als 100 sprites auf einmal zeichnen will weil ne drawcall an den gpu zu senden insane aufwendig ist von performace her zusätzlich vereinfacht es den gesamten render process weil alles was man sonst mauell machen muss wie memory layout erstellen für einen gemacht wird.
 

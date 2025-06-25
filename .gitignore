@@ -5,5 +5,3 @@ bin/
 .vscode/settings.json
 
 *.log
-
-*/**/imgui.ini
