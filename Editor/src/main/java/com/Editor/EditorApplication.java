@@ -1,5 +1,7 @@
 package com.Editor;
 
+import java.nio.file.Path;
+
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
@@ -77,7 +79,7 @@ public class EditorApplication extends Application {
 		ImGUIINIT();
 
 		AssetPicker.Init();
-		new ProjectInfo(new EditorAssetManager(), "C:\\Users\\erik\\Documents\\prj\\test\\P-Seminar-Repo\\ExampleProject");
+		new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/../ExampleProject");
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
 
 		try {

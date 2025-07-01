@@ -36,19 +36,22 @@ public class ContentBrowser  implements IEditorImGuiWindow{
 		int columCount = (int) (ImGui.getContentRegionAvailX() / (size + 16));
 		ImGui.columns(columCount == 0 ? 1 : columCount, "##contentBrowser", false);
 
-		for (File file : content.get(currentPath)) {
-			if (file.isDirectory()) {
-				ImGui.pushID(file.getPath());
-				if (ImGui.button("Folder", size, size)) {
-					currentPath = file.getPath();
+		if(content.get(currentPath) != null) {
+			for (File file : content.get(currentPath)) {
+				if (file.isDirectory()) {
+					ImGui.pushID(file.getPath());
+					if (ImGui.button("Folder", size, size)) {
+						currentPath = file.getPath();
+					}
+					ImGui.popID();
+					ImGui.text(file.getName());
+				} else {
+					HandelFile(file);
 				}
-				ImGui.popID();
-				ImGui.text(file.getName());
-			} else {
-				HandelFile(file);
+				ImGui.nextColumn();
 			}
-			ImGui.nextColumn();
 		}
+		
 		ImGui.columns(1);
 
         ImGui.end();
