@@ -118,6 +118,7 @@ public class EditorApplication extends Application {
 
 		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
 
+		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
 		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this) };
     }
 

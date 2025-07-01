@@ -8,8 +8,11 @@ import java.util.*;
 import java.util.List;
 
 import com.Pseminar.ECS.Entity;
+import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Transform;
+import com.Pseminar.ECS.BuiltIn.VektorComponent;
+
 import org.joml.Vector2f;
 
 public class EntityEditor extends JFrame {
@@ -146,10 +149,13 @@ public class EntityEditor extends JFrame {
     private boolean isNumeric(Class<?> t) {
         return t == int.class || t == Integer.class || t == float.class || t == Float.class;
     }
+    
     private void apply(Field f, Component c, String text) {
         try { f.set(c, convert(t(f), text)); } catch (Exception ignored) {}
     }
+
     private Class<?> t(Field f) { return f.getType(); }
+
     private Object convert(Class<?> t, String s) {
         if (t == int.class    || t == Integer.class)  return Integer.parseInt(s);
         if (t == float.class  || t == Float.class)    return Float.parseFloat(s);
@@ -157,6 +163,7 @@ public class EntityEditor extends JFrame {
         if (t == boolean.class|| t == Boolean.class)  return Boolean.parseBoolean(s);
         return s;
     }
+    
     private void replace(JComponent oldC, JComponent newC) {
         Container p = oldC.getParent();
         int idx = Arrays.asList(p.getComponents()).indexOf(oldC);
@@ -202,6 +209,8 @@ public class EntityEditor extends JFrame {
     /* -------- Test-Main -------- */
     public static void main(String[] args) {
         Entity e = new Entity();
+        e.SetScene(new Scene());
+        e.AddComponent(new VektorComponent());
         new EntityEditor(e);
     }
 }

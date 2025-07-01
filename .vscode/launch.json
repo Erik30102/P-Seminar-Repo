@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EntityEditor",
+            "request": "launch",
+            "mainClass": "com.Editor.EntityEditor",
+            "projectName": "Editor"
+        },
+        {
+            "type": "java",
             "name": "Editor",
             "request": "launch",
             "mainClass": "com.Editor.Editor",

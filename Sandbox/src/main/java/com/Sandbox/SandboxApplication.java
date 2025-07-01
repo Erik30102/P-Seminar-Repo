@@ -5,7 +5,6 @@ import org.joml.Vector2f;
 import com.Pseminar.Application;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.ScriptingEngine;
-import com.Pseminar.Assets.Editor.EditorAssetManager;
 import com.Pseminar.Assets.Runtime.AssetPack;
 import com.Pseminar.Assets.Runtime.RuntimeAssetManager;
 import com.Pseminar.ECS.Component;

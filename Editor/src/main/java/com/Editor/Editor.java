@@ -43,27 +43,27 @@ public class Editor extends Application {
         ImGui.sameLine();
 
         // Import Button für Textdateien
-    if (ImGui.button("Import")) {
-        // Datei-Auswahldialog öffnen
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Textdatei importieren");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    
-        // Nur Textdateien filtern
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Textdateien", "txt"));
-    
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            try {
-                // Dateiinhalt in Textbuffer laden
-                String content = new String(Files.readAllBytes(selectedFile.toPath()));
-                textBuffer.set(content);
-            } catch (IOException e) {
-                System.err.println("Fehler beim Importieren: " + e.getMessage());
-            }
-        }   
-    }
+        if (ImGui.button("Import")) {
+            // Datei-Auswahldialog öffnen
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Textdatei importieren");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+            // Nur Textdateien filtern
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Textdateien", "txt"));
+        
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                try {
+                    // Dateiinhalt in Textbuffer laden
+                    String content = new String(Files.readAllBytes(selectedFile.toPath()));
+                    textBuffer.set(content);
+                } catch (IOException e) {
+                    System.err.println("Fehler beim Importieren: " + e.getMessage());
+                }
+            }   
+        }
 
         ImGui.end(); // End the ImGui window
     }
