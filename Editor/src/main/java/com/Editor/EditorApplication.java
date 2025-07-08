@@ -141,6 +141,7 @@ public class EditorApplication extends Application {
 			state = state == PlayState.STOPPED ? PlayState.PLAYING : PlayState.STOPPED;
 		}
 
+
 		ImGui.end();
 
 		// ------------------------------------- Da kann alles rein was man so will nur testing grad noch
@@ -153,6 +154,10 @@ public class EditorApplication extends Application {
 
 		if(ImGui.button("Build Asset Pack")) {
 			AssetPack.BuildFromEditor().SaveToDisk("test.assetPack");
+		}
+
+		if(ImGui.button("Save Current Scene")) {
+			((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).UpdateAsset(this.scene);
 		}
 
         ImGui.end();

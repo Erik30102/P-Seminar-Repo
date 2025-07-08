@@ -18,6 +18,7 @@ import com.Pseminar.Assets.Asset.AssetType;
 import com.Pseminar.Assets.Editor.Importers.EditorSceneImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSpriteImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
+import com.Pseminar.ECS.Scene;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -196,7 +197,14 @@ public class EditorAssetManager implements AssetManager {
     public void DisposeAsset(int id) {
         this.loadedAssets.remove(id);
     }
-    
+
+    public void UpdateAsset(Asset asset) {
+        IntermidiateAssetData metaData = this.assetMap.get(asset.GetAssetId());
+
+        AssetImporters.get(metaData.GetAssetType()).SerializeAsset(ProjectInfo.GetProjectInfo().GetProjectPath() + metaData.GetPath(), asset);
+
+        SerializeAssetMap();
+    }
 }
 
 /**
