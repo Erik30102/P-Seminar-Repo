@@ -6,6 +6,7 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -95,5 +96,9 @@ public class ScriptingEngine {
      */
     public static ScriptingEngine GetInstance() {
         return INSTANCE;
+    }
+
+    public Set<String> GetClasses() {
+        return this.ComponentDictionary.keySet();
     }
 }

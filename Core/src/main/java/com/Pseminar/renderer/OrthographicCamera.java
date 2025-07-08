@@ -46,6 +46,11 @@ public class OrthographicCamera {
 				cameraFront.add(position.x(), position.y(), 0), cameraUp);
     }
 
+    public void Move(Vector2f cameraPos) {
+        this.position = cameraPos;
+        ReCalculateTransformMatrix();
+    }
+
     public void SetZoom(float newZoom) {
         this.Zoom = newZoom;    
     }  

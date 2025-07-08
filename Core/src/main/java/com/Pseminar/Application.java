@@ -3,6 +3,7 @@ package com.Pseminar;
 import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Window.IEventCallback;
+import com.Pseminar.Window.Input;
 import com.Pseminar.Window.Window;
 import com.Pseminar.Window.Events.Event;
 import com.Pseminar.Window.Events.Event.EventType;
@@ -37,6 +38,8 @@ public abstract class Application implements IEventCallback {
         while (running) {
 			double dt = GLFW.glfwGetTime() - lastFrametime;
 			lastFrametime = GLFW.glfwGetTime();
+
+            Input.OnUpdate();
 
             this.OnUpdate((float)dt);
 

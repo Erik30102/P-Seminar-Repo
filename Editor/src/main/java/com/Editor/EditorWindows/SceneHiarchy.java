@@ -8,9 +8,11 @@ import imgui.ImGui;
 public class SceneHiarchy implements IEditorImGuiWindow {
 
     private transient EditorApplication editor;
+    private transient Inspector inspector;
 
-    public SceneHiarchy(EditorApplication editor) {
+    public SceneHiarchy(EditorApplication editor, Inspector inspector) {
         this.editor = editor;
+        this.inspector = inspector;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class SceneHiarchy implements IEditorImGuiWindow {
 
         for (Entity entity : editor.GetCurrentScene().GetEntites()) {
             if (ImGui.button(entity.GetName())) {
-                // TODO: mit inspector dann verlinken
+                inspector.SetEntity(entity);
             }
         }
 

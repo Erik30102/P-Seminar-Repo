@@ -6,6 +6,10 @@ import com.Pseminar.Graphics.Sprite;
 public class SpriteComponent extends Component {
     private Sprite sprite;
 
+    public SpriteComponent() {
+        
+    }
+
     public SpriteComponent(Sprite sprite) {
         this.sprite = sprite;
     }

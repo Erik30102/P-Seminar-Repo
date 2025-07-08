@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFW;
 import com.Editor.EditorWindows.AssetPicker;
 import com.Editor.EditorWindows.ContentBrowser;
 import com.Editor.EditorWindows.IEditorImGuiWindow;
+import com.Editor.EditorWindows.Inspector;
 import com.Editor.EditorWindows.SceneHiarchy;
 import com.Editor.EditorWindows.SpriteCreator;
 import com.Pseminar.Application;
@@ -118,8 +119,10 @@ public class EditorApplication extends Application {
 
 		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
 
+		Inspector inspector = new Inspector();
+
 		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
-		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this) };
+		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector };
     }
 
 	private int[] TexId = new int[] { 0 };

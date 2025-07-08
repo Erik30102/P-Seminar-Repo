@@ -7,8 +7,6 @@ import com.Pseminar.Window.Input;
 
 public class TestComponent extends BaseComponent {
 
-    public float speed = 2;
-
     @Override
     public void OnUpdate(float dt) {
         if(Input.IsKeyPressed(GLFW.GLFW_KEY_D)) {

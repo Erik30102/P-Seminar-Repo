@@ -60,4 +60,6 @@ public class SpriteSheet extends Asset {
     public void OnDispose() {
         // TODO
     }
+
+	// TODO: custom serialization
 }

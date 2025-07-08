@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector2f;
-import org.w3c.dom.Text;
+import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
@@ -16,6 +16,7 @@ import com.Pseminar.Graphics.Sprite;
 import com.Pseminar.Graphics.SpriteSheet;
 import com.Pseminar.Graphics.Texture;
 import com.Pseminar.Graphics.Buffers.FrameBuffer;
+import com.Pseminar.Window.Input;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
 
@@ -31,6 +32,7 @@ public class SpriteCreator implements IEditorImGuiWindow {
     private Texture selectedTexture;
 
     private OrthographicCamera camera;
+    private Vector2f cameraPos = new Vector2f();
 
     private RenderBatch batch;
 
@@ -144,7 +146,11 @@ public class SpriteCreator implements IEditorImGuiWindow {
         fbo.Unbind();
 
 		ImGui.image(fbo.GetTexture().GetTextureId(), windowSize.x, windowSize.y, 0, 1, 1, 0);
-
+        
+        if (ImGui.isWindowHovered() && Input.IsMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_2)) {
+			cameraPos.add((float) Input.GetDeltaMouse().x, 0);
+			camera.Move(cameraPos);
+		}
 
         ImGui.end();
     }
