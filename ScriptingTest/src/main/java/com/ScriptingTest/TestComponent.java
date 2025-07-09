@@ -1,12 +1,18 @@
 package com.ScriptingTest;
 
+import java.util.Vector;
+
 import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.Window.Input;
+import com.Pseminar.Window.Events.InputEvents.KeyEvent;
 
 public class TestComponent extends BaseComponent {
+
+    public float movementSpeed = 100f;
+    public float decellSpeed = 5f;
 
     private transient RidgedBodyComponent c;
 
@@ -19,21 +25,40 @@ public class TestComponent extends BaseComponent {
     @Override
     public void OnUpdate(float dt) {
         if(c != null) {
-            if(Input.IsKeyPressed(GLFW.GLFW_KEY_D)) {
-                c.GetBody().ApplyImpulse(500f * dt, 0);
+            int deltaX = 0;
+            int deltaY = 0;
+            if (Input.IsKeyPressed(GLFW.GLFW_KEY_W)) {
+                deltaY += 1;
             }
-            if(Input.IsKeyPressed(GLFW.GLFW_KEY_W)) {
-                c.GetBody().ApplyImpulse(0.0f , 500f * dt);
+            if (Input.IsKeyPressed(GLFW.GLFW_KEY_S)) {
+                deltaY -= 1;
             }
-            if(Input.IsKeyPressed(GLFW.GLFW_KEY_S)) {
-                c.GetBody().ApplyImpulse(0.0f, -500f * dt);
+            if (Input.IsKeyPressed(GLFW.GLFW_KEY_A)) {
+                deltaX -= 1;
             }
-            if(Input.IsKeyPressed(GLFW.GLFW_KEY_A)) {
-                c.GetBody().ApplyImpulse(-500f * dt, 0);
+            if (Input.IsKeyPressed(GLFW.GLFW_KEY_D)) {
+                deltaX += 1;
             }
+
+            this.move(deltaX, deltaY, dt);
         }else {
             c = this.GetEntity().GetComponent(RidgedBodyComponent.class);
         }
+    }
+
+    private void move(int deltaX, int deltaY, float dt) {
+        float targetY = deltaY * this.movementSpeed;
+        float targetX = deltaX * this.movementSpeed;
+
+        float speedDiffY = targetY - c.GetBody().GetVelocity().y() * this.decellSpeed;
+        float speedDiffX = targetX - c.GetBody().GetVelocity().x() * this.decellSpeed;
+
+        float movementY = (float) Math.pow(Math.abs(speedDiffY) * 30, 0.9)
+                * Math.signum(speedDiffY);
+        float movementX = (float) Math.pow(Math.abs(speedDiffX) * 30, 0.9)
+                * Math.signum(speedDiffX);
+
+        c.GetBody().ApplyImpulse(movementX, movementY);
     }
             
 }
