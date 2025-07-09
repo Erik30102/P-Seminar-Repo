@@ -1,13 +1,10 @@
 package com.ScriptingTest;
 
-import java.util.Vector;
-
 import org.lwjgl.glfw.GLFW;
 
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.Window.Input;
-import com.Pseminar.Window.Events.InputEvents.KeyEvent;
 
 public class TestComponent extends BaseComponent {
 
@@ -60,5 +57,4 @@ public class TestComponent extends BaseComponent {
 
         c.GetBody().ApplyImpulse(movementX, movementY);
     }
-            
 }
