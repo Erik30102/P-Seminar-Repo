@@ -1,3 +1,5 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Game {
     private Scene scene;
     private CharacterController CharacterController1;
@@ -12,6 +14,36 @@ public class Game {
         Entity player = scene.CreateEntity();
         player.SetName("Player");
         player.AddComponent(new VektorComponent());
+
+        // Gegner erstellen
+        Entity enemy = scene.CreateEntity();
+        enemy.SetName("Enemy 1");
+        enemy.AddComponent(new VektorComponent());
+
+        public void pathfinding()
+        {
+            int spieler_y = player.GiveY();
+            int spieler_x = player.GiveX();
+        }
+        
+        //Setzt den Gegner nach oben links Anfangs auf die Map
+        enemy.Move(100, 100);
+
+
+        //Map erstellen
+        Entity map = scene.CreateEntity();
+        map.SetName("Map");
+
+
+        //Erstellt eine 100x100 Grid in die die Map unterteilt ist
+        int[][] map_grid = map_grid[100][100];
+
+        //Erstell random Obstacles
+        for(int i = 0; i < 100; i++)
+        {
+            map_grid[ThreadLocalRandom.current().nextInt(0, 100)][ThreadLocalRandom.current().nextInt(0, 100)] = 1;
+            System.out.println(map_grid);
+        }
 
         while (true) { // Game Loop
             CharacterController1.update(scene, input);
