@@ -14,5 +14,9 @@
   "1652959484": {
     "path": "/assets/images.png",
     "type": "TEXTURE2D"
+  },
+  "1588908137": {
+    "path": "/assets/teas.sprite",
+    "type": "SPRITE"
   }
 }

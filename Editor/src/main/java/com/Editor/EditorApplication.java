@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFW;
 import com.Editor.EditorWindows.AssetPicker;
 import com.Editor.EditorWindows.ContentBrowser;
 import com.Editor.EditorWindows.IEditorImGuiWindow;
+import com.Editor.EditorWindows.Inspector;
 import com.Editor.EditorWindows.SceneHiarchy;
 import com.Editor.EditorWindows.SpriteCreator;
 import com.Pseminar.Application;
@@ -118,8 +119,10 @@ public class EditorApplication extends Application {
 
 		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
 
+		Inspector inspector = new Inspector();
+
 		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
-		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this) };
+		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector };
     }
 
 	private int[] TexId = new int[] { 0 };
@@ -138,6 +141,7 @@ public class EditorApplication extends Application {
 			state = state == PlayState.STOPPED ? PlayState.PLAYING : PlayState.STOPPED;
 		}
 
+
 		ImGui.end();
 
 		// ------------------------------------- Da kann alles rein was man so will nur testing grad noch
@@ -150,6 +154,10 @@ public class EditorApplication extends Application {
 
 		if(ImGui.button("Build Asset Pack")) {
 			AssetPack.BuildFromEditor().SaveToDisk("test.assetPack");
+		}
+
+		if(ImGui.button("Save Current Scene")) {
+			((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).UpdateAsset(this.scene);
 		}
 
         ImGui.end();
