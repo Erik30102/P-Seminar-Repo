@@ -8,19 +8,19 @@ import com.Pseminar.Assets.Asset;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Editor.IEditorAssetImporter;
 import com.Pseminar.Assets.Editor.IntermidiateAssetData;
-import com.Pseminar.Assets.Editor.Serializer.GsonEditorSpriteSerializer;
-import com.Pseminar.Graphics.Sprite;
+import com.Pseminar.Assets.Editor.Serializer.GsonEditorAnimationSerilaizer;
+import com.Pseminar.Graphics.Animation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class EditorSpriteImporter implements IEditorAssetImporter {
+public class EditorAnimationImporter implements IEditorAssetImporter {
 
     @Override
     public Asset LoadAsset(IntermidiateAssetData assetMetaData) {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Sprite.class, new GsonEditorSpriteSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(Animation.class, new GsonEditorAnimationSerilaizer()).create();
 
         try {
-            return gson.fromJson(Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath())), Sprite.class);
+            return gson.fromJson(Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath())), Animation.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,7 +30,7 @@ public class EditorSpriteImporter implements IEditorAssetImporter {
 
     @Override
     public void SerializeAsset(String path, Asset asset) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Sprite.class, new GsonEditorSpriteSerializer()).create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Animation.class, new GsonEditorAnimationSerilaizer()).create();
 
         String json = gson.toJson(asset);
         try {

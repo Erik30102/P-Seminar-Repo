@@ -1,4 +1,12 @@
 {
+  "-1230503173": {
+    "path": "/assets/Vorn.spritesheet",
+    "type": "SPRITESHEET"
+  },
+  "2006549325": {
+    "path": "\\assets\\Character\\Main\\maincharacter_rechts_sprite.png",
+    "type": "TEXTURE2D"
+  },
   "1552314512": {
     "path": "\\assets\\Basic-Charakter-Spritesheet.png",
     "type": "TEXTURE2D"
@@ -15,6 +23,10 @@
     "path": "\\assets\\scene.scene",
     "type": "SCENE"
   },
+  "2131312323": {
+    "path": "/assets/vornAnimation.animation",
+    "type": "ANIMATION"
+  },
   "1652959484": {
     "path": "\\assets\\images.png",
     "type": "TEXTURE2D"
@@ -22,5 +34,13 @@
   "1588908137": {
     "path": "\\assets\\teas.sprite",
     "type": "SPRITE"
+  },
+  "751166027": {
+    "path": "\\assets\\Character\\Main\\maincharacter_hinten_sprite.png",
+    "type": "TEXTURE2D"
+  },
+  "250213687": {
+    "path": "\\assets\\Character\\Main\\maincharacter_vorne_sprite.png",
+    "type": "TEXTURE2D"
   }
 }

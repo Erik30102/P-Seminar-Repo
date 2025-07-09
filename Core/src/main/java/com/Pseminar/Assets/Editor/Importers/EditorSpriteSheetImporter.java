@@ -8,9 +8,7 @@ import com.Pseminar.Assets.Asset;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Editor.IEditorAssetImporter;
 import com.Pseminar.Assets.Editor.IntermidiateAssetData;
-import com.Pseminar.Assets.Editor.Serializer.GsonEditorSpriteSerializer;
 import com.Pseminar.Assets.Editor.Serializer.GsonSpriteSheetSerilailizer;
-import com.Pseminar.Graphics.Sprite;
 import com.Pseminar.Graphics.SpriteSheet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +20,7 @@ public class EditorSpriteSheetImporter implements IEditorAssetImporter {
         Gson gson = new GsonBuilder().registerTypeAdapter(SpriteSheet.class, new GsonSpriteSheetSerilailizer()).create();
 
         try {
-            return gson.fromJson(Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath())), Sprite.class);
+            return gson.fromJson(Files.readString(Path.of(ProjectInfo.GetProjectInfo().GetProjectPath() + assetMetaData.GetPath())), SpriteSheet.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

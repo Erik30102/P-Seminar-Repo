@@ -15,6 +15,7 @@ import com.Pseminar.Assets.Asset;
 import com.Pseminar.Assets.AssetManager;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
+import com.Pseminar.Assets.Editor.Importers.EditorAnimationImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSceneImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSpriteImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSpriteSheetImporter;
@@ -49,6 +50,7 @@ public class EditorAssetManager implements AssetManager {
         AssetImporters.put(AssetType.SCENE, new EditorSceneImporter());
         AssetImporters.put(AssetType.SPRITE, new EditorSpriteImporter());
         AssetImporters.put(AssetType.SPRITESHEET, new EditorSpriteSheetImporter());
+        AssetImporters.put(AssetType.ANIMATION, new EditorAnimationImporter());
     }
 
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {

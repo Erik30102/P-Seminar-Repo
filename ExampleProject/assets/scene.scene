@@ -50,6 +50,27 @@
           "spriteId": 80711720
         }
       ]
+    },
+    {
+      "id": 2,
+      "transfrom": {
+        "position": {
+          "x": 1.2,
+          "y": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "rotation": 0.0
+      },
+      "components": [
+        {
+          "type": "AnimationComponent",
+          "id": 0,
+          "animationId": 2131312323
+        }
+      ]
     }
   ]
 }

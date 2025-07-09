@@ -19,8 +19,8 @@ public class SpriteSheet extends Asset {
 		this.SpriteHeight = SpriteHeight;
 		this.SpriteWidth = SpriteWidth;
 
-		for (int y = 0; y < texture.GetHeight() - SpriteHeight; y += SpriteHeight) {
-			for (int x = 0; x < texture.GetWidth() - SpriteWidth; x += SpriteWidth) {
+		for (int y = 0; y < texture.GetHeight() + 1 - SpriteHeight; y += SpriteHeight) {
+			for (int x = 0; x < texture.GetWidth() + 1  - SpriteWidth; x += SpriteWidth) {
 				float[] uv = new float[]{
 					x / (float) texture.GetWidth(), (y + SpriteHeight) / (float) texture.GetHeight(),
 					(x + SpriteWidth) / (float) texture.GetWidth(), y / (float) texture.GetHeight(),

@@ -28,6 +28,9 @@ public abstract class Asset implements Serializable{
         SPRITESHEET,
         SPRITE,
         TILEMAP,
+        ANIMATION,
+
+        
         NULL
     }
 

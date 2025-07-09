@@ -1,6 +1,8 @@
 package com.Pseminar.Graphics;
 
-public class Animation {
+import com.Pseminar.Assets.Asset;
+
+public class Animation extends Asset {
     private SpriteSheet spriteSheet;
     private int[] animationKeyFrames;
     private float frameDruation = 1;
@@ -18,7 +20,25 @@ public class Animation {
         return this.frameDruation;
     }
 
+    public int[] GetAnimationKeyFrames(){
+        return this.animationKeyFrames;
+    }
+
+    public SpriteSheet GetSpritesheet() {
+        return this.spriteSheet;
+    }
+
     public Sprite GetSpriteAtKeyfarme(int num) {
         return this.spriteSheet.getSprite(animationKeyFrames[num % animationKeyFrames.length]);
+    }
+
+    @Override
+    public AssetType GetAssetType() {
+        return AssetType.ANIMATION;
+    }
+
+    @Override
+    public void OnDispose() {
+
     }
 }

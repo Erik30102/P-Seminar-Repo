@@ -1,6 +1,7 @@
 package com.Pseminar;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL46;
 
 import com.Pseminar.Window.IEventCallback;
 import com.Pseminar.Window.Input;
@@ -34,6 +35,9 @@ public abstract class Application implements IEventCallback {
     public void Run() {
         this.InitializeOpengl();
         OnStart();
+
+        GL46.glBlendFunc(GL46.GL_SRC_ALPHA, GL46.GL_ONE_MINUS_SRC_ALPHA);
+        GL46.glEnable(GL46.GL_BLEND );
 
         while (running) {
 			double dt = GLFW.glfwGetTime() - lastFrametime;

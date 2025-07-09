@@ -23,6 +23,7 @@ import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.IEntityListener;
 import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
+import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
@@ -240,6 +241,20 @@ public class EditorApplication extends Application {
 					Transform transform = spriteComponent.GetEntity().transform;
 
 					spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+				}
+            }
+        }
+
+		if(this.scene.GetComponentsByType(ComponentType.AnimationComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.AnimationComponent)) {
+                AnimationSpriteComponent animationCompoennet = (AnimationSpriteComponent) component;
+
+				animationCompoennet.OnUpdate(dt);
+
+				if(animationCompoennet.GetCurrentSprite() != null) {
+					Transform transform = animationCompoennet.GetEntity().transform;
+
+					spriteBatch.AddSprite(animationCompoennet.GetCurrentSprite(), transform);
 				}
             }
         }

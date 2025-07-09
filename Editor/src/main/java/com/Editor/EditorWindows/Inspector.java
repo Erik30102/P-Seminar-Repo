@@ -12,10 +12,12 @@ import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Asset.AssetType;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
+import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.Graphics.Animation;
 import com.Pseminar.Graphics.Sprite;
 
 import imgui.ImGui;
@@ -100,7 +102,22 @@ public class Inspector implements IEditorImGuiWindow {
 						}
 
 						ImGui.columns(1);
-					} 
+					} else if(component.getClass() == AnimationSpriteComponent.class) {
+						ImGui.columns(2);
+
+						ImGui.text("Aniamtion: ");
+						ImGui.nextColumn();
+						if (ImGui.button("Select Aniamtion")) {
+							AssetPicker.Open("ani", AssetType.ANIMATION);
+						}
+
+						if (AssetPicker.Display("ani")) {
+							((AnimationSpriteComponent) component).SetAnimation(AssetPicker.GetSelected(Animation.class));
+						}
+
+						ImGui.columns(1);
+
+					}
 				}
 			}
 
@@ -132,7 +149,7 @@ public class Inspector implements IEditorImGuiWindow {
         ImGui.end();
     }
 
-    private static Component[] c = new Component[] { new SpriteComponent(), new CameraComponent(), new RidgedBodyComponent() };
+    private static Component[] c = new Component[] { new SpriteComponent(), new CameraComponent(), new RidgedBodyComponent(), new AnimationSpriteComponent() };
     
     private void HandleCustomComponentSlider(BaseComponent component) {
 		ImGui.columns(2);
