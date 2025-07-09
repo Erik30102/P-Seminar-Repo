@@ -40,9 +40,10 @@ public class SandboxApplication extends Application {
     @Override
     public void OnStart() {
         new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
-
-        new ProjectInfo(new RuntimeAssetManager(AssetPack.AssetPackFromDisk("../Editor/test.assetPack")), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
-
+        AssetPack assetPack = AssetPack.AssetPackFromDisk("../Editor/test.assetPack");
+        
+        new ProjectInfo(new RuntimeAssetManager(assetPack), System.getProperty("user.dir").substring(0, System.getProperty("user.dir").lastIndexOf("\\")) + "/ExampleProject");
+        
         // TODO: remove exceptions
         try {
             Shader shader = new Shader();
@@ -75,7 +76,6 @@ public class SandboxApplication extends Application {
         });
 
         this.scene.RunAllAddingListeners();
-        // AssetPack.BuildFromEditor().SaveToDisk("../test.assetPack");
     }
 
     @Override

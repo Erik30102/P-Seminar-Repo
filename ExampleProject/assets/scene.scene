@@ -4,25 +4,50 @@
       "id": 0,
       "transfrom": {
         "position": {
-          "x": -0.82910377,
-          "y": -0.9505759
+          "x": 0.0,
+          "y": 0.0
         },
         "scale": {
-          "x": 3.8,
-          "y": 1.4
+          "x": 1.0,
+          "y": 1.0
         },
-        "rotation": 53.5
+        "rotation": 0.0
       },
       "components": [
         {
           "type": "SpriteComponent",
           "id": 0,
-          "spriteId": 1588908137
+          "spriteId": 80711720
         },
         {
           "type": "BaseComponent",
           "id": 0,
           "className": "com.ScriptingTest.TestComponent"
+        },
+        {
+          "type": "RidgedBodyComponent",
+          "id": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "transfrom": {
+        "position": {
+          "x": 4.7,
+          "y": 0.0
+        },
+        "scale": {
+          "x": 2.8,
+          "y": 1.3
+        },
+        "rotation": 2.0
+      },
+      "components": [
+        {
+          "type": "SpriteComponent",
+          "id": 0,
+          "spriteId": 80711720
         }
       ]
     }

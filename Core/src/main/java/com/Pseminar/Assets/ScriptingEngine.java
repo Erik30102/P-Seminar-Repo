@@ -1,20 +1,30 @@
 package com.Pseminar.Assets;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import com.Pseminar.Logger;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 
 public class ScriptingEngine {
-    private URLClassLoader classLoader;
+    private ClassLoader classLoader;
     private static ScriptingEngine INSTANCE;
 
     private Map<String, Class<?>> ComponentDictionary = new HashMap<>();
@@ -30,7 +40,7 @@ public class ScriptingEngine {
         LoadJar(jarPath);
     }
 
-    public URLClassLoader GetClassLoader() {
+    public ClassLoader GetClassLoader() {
         return this.classLoader;
     }
         
@@ -100,5 +110,32 @@ public class ScriptingEngine {
 
     public Set<String> GetClasses() {
         return this.ComponentDictionary.keySet();
+    }
+
+    public static void InitEditor() {
+        new ScriptingEngine(ProjectInfo.GetProjectInfo().GetComoponentJarPath());
+    }
+
+    public static void InitRuntime(byte[] componentJar) {
+        URL.setURLStreamHandlerFactory(new URLStreamHandlerFactory() {
+            public URLStreamHandler createURLStreamHandler(String urlProtocol) {
+                if ("customJarLoader".equalsIgnoreCase(urlProtocol)) {
+                    return new URLStreamHandler() {
+                        @Override
+                        protected URLConnection openConnection(URL url) throws IOException {
+                            return new URLConnection(url) {
+                                public void connect() throws IOException {}
+                                public InputStream getInputStream() throws IOException {
+                                    return new ByteArrayInputStream(componentJar);
+                                }
+                            };
+                        }
+                    };
+                }
+                return null;
+            }
+        });
+
+        new ScriptingEngine("customJarLoader:xyz");
     }
 }

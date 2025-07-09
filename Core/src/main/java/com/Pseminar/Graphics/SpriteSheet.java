@@ -26,7 +26,7 @@ public class SpriteSheet extends Asset {
 					(x + SpriteWidth) / (float) texture.GetWidth(), y / (float) texture.GetHeight(),
 					x / (float) texture.GetWidth(), y / (float) texture.GetHeight(),
 					(x + SpriteWidth) / (float) texture.GetWidth(), (y + SpriteHeight) / (float) texture.GetHeight(),
-                    };
+                };
 				sprites.add(new Sprite(texture, uv));
 			}
 		}

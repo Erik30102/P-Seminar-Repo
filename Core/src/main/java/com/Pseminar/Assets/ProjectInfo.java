@@ -9,6 +9,7 @@ public class ProjectInfo implements Serializable {
     private transient AssetManager assetManager;
 
     private String projectPath;
+    private String compoentJarPath;
 
     private int StartSceneAssetId;
 
@@ -22,8 +23,18 @@ public class ProjectInfo implements Serializable {
     public ProjectInfo(AssetManager assetManager, String projectPath) {
         this.assetManager = assetManager;
         this.projectPath = Path.of(projectPath).toString();
+        this.compoentJarPath = "INTERNAL";
 
         INSTANCE = this;
+    }
+
+    public ProjectInfo(AssetManager assetManager, String projectPath, String componentJarPath) {
+        this(assetManager, projectPath);
+        this.compoentJarPath = componentJarPath;
+    }
+
+    public String GetComoponentJarPath() {
+        return this.compoentJarPath;
     }
 
     /**

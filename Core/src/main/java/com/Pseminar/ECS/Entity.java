@@ -46,6 +46,16 @@ public class Entity implements Serializable{
         return id;
     }
 
+	public <T extends Component> T GetComponent(Class<T> clazz) {
+        for (Component component : this.components) {
+            if(component.getClass().isAssignableFrom(clazz)) {
+                return (T)component;
+            }
+        }
+        
+        return null;
+    }
+
     public void AddComponent(Component component) {
         component.setEntity(this);
         components.add(component);

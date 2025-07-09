@@ -15,6 +15,7 @@ import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.CameraComponent;
+import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
 import com.Pseminar.Graphics.Sprite;
 import com.google.gson.JsonArray;
@@ -50,7 +51,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                         break;
                     case SpriteComponent:
                         componentObject.addProperty("spriteId", ((SpriteComponent)c).GetSprite().GetAssetId());
-                    default:
+                        default:
                         break;
                 }
 
@@ -130,8 +131,12 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                     case "SpriteComponent":
                         int spriteId = compJson.get("spriteId").getAsInt();
                         Sprite asset = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(spriteId);
-                        SpriteComponent sprite = new SpriteComponent(asset);
+                        SpriteComponent sprite = new SpriteComponent();
+                        sprite.SetSprite(asset);
                         comp = sprite;
+                        break;
+                    case "RidgedBodyComponent":
+                        comp = new RidgedBodyComponent();
                         break;
                     default:
                         break;

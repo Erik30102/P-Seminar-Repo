@@ -133,4 +133,8 @@ public class PhysicsBody {
 	public Vector2f GetVelocity() {
 		return new Vector2f(this.body.getLinearVelocity().x, this.body.getLinearVelocity().y);
 	}
+
+    public void Destroy() {
+
+	}
 }

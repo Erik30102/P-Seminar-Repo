@@ -11,6 +11,7 @@ import com.Editor.EditorWindows.IEditorImGuiWindow;
 import com.Editor.EditorWindows.Inspector;
 import com.Editor.EditorWindows.SceneHiarchy;
 import com.Editor.EditorWindows.SpriteCreator;
+import com.Editor.EditorWindows.TileMapEditor;
 import com.Pseminar.Application;
 import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.ScriptingEngine;
@@ -30,6 +31,7 @@ import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Graphics.Buffers.FrameBuffer;
 import com.Pseminar.Physics.Physics2D;
 import com.Pseminar.Physics.PhysicsBody;
+import com.Pseminar.Physics.Collider.BoxCollider;
 import com.Pseminar.Physics.PhysicsBody.BodyType;
 import com.Pseminar.Window.Events.Event;
 import com.Pseminar.Window.Events.Event.EventType;
@@ -80,7 +82,7 @@ public class EditorApplication extends Application {
 		ImGUIINIT();
 
 		AssetPicker.Init();
-		new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/../ExampleProject");
+		new ProjectInfo(new EditorAssetManager(), System.getProperty("user.dir") + "/../ExampleProject", "..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
         ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).LoadAssetMap();
 
 		try {
@@ -97,7 +99,7 @@ public class EditorApplication extends Application {
         this.camera = new OrthographicCamera();
         camera.Resize(800, 600);
 
-        new ScriptingEngine("..\\ScriptingTest\\build\\libs\\ScriptingTest.jar");
+        ScriptingEngine.InitEditor();
 
         this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
 
@@ -107,13 +109,17 @@ public class EditorApplication extends Application {
             @Override
             public void OnEntityAdded(Entity entity, RidgedBodyComponent component) {
                 component.SetBody(new PhysicsBody(BodyType.DYNAMIC));
-            }
+				component.GetBody().SetPosition(entity.transform.GetPosition());
+				component.GetBody().AddCollider(new BoxCollider(1, 1));
+			}
 
             @Override
             public void OnEntityRemoved(Entity entity, RidgedBodyComponent component) {
-				// TODO: destroy
+				component.GetBody().Destroy();
             }
         });
+
+		Physics2D.GetInstance().SetGravit(new Vector2f());
 
         this.scene.RunAllAddingListeners();
 
@@ -122,7 +128,7 @@ public class EditorApplication extends Application {
 		Inspector inspector = new Inspector();
 
 		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
-		windows = new IEditorImGuiWindow[] { new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector };
+		windows = new IEditorImGuiWindow[] { new TileMapEditor(), new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector };
     }
 
 	private int[] TexId = new int[] { 0 };
@@ -206,6 +212,16 @@ public class EditorApplication extends Application {
 				}
 			}
 
+
+			if(this.scene.GetComponentsByType(ComponentType.RidgedBodyComponent) != null) {
+				for(Component component : this.scene.GetComponentsByType(ComponentType.RidgedBodyComponent)) {
+					RidgedBodyComponent c = (RidgedBodyComponent)component;
+
+					c.GetEntity().transform.setPosition(c.GetBody().GetPosition());
+				}
+			}
+
+
 			physicEngine.update(dt);
 		}
 
@@ -216,12 +232,15 @@ public class EditorApplication extends Application {
 	
 		this.spriteBatch.Begin();
 
+
 		if(this.scene.GetComponentsByType(ComponentType.SpriteComponent) != null) {
             for(Component component : this.scene.GetComponentsByType(ComponentType.SpriteComponent)) {
                 SpriteComponent spriteComponent = (SpriteComponent) component;
-                Transform transform = spriteComponent.GetEntity().transform;
+				if(spriteComponent.GetSprite() != null) {
+					Transform transform = spriteComponent.GetEntity().transform;
 
-                spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+					spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+				}
             }
         }
 

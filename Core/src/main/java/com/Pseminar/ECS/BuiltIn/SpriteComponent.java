@@ -4,14 +4,10 @@ import com.Pseminar.ECS.Component;
 import com.Pseminar.Graphics.Sprite;
 
 public class SpriteComponent extends Component {
-    private Sprite sprite;
+    private Sprite sprite = null;
 
     public SpriteComponent() {
         
-    }
-
-    public SpriteComponent(Sprite sprite) {
-        this.sprite = sprite;
     }
 
     public void SetSprite(Sprite sprite) {

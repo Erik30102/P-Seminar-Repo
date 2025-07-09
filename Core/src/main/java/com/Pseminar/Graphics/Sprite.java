@@ -39,14 +39,14 @@ public class Sprite extends Asset {
 	 */
 
 	// private void readObject(java.io.ObjectInputStream stream)
-    //     throws IOException, ClassNotFoundException {
-    //     
+    // 	throws IOException, ClassNotFoundException {
+    //      
     //     this.texture = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(stream.readInt());
-	// 	this.uv = (float[])stream.readObject();
+	//  	this.uv = (float[])stream.readObject();
     // }
-
+// 
     // private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
-    //     stream.writeInt(this.texture.GetAssetId());
+    //    	stream.writeInt(this.texture.GetAssetId());
 	// 	stream.writeObject(this.uv);
     // }
 }

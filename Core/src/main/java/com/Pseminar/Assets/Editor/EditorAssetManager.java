@@ -17,6 +17,7 @@ import com.Pseminar.Assets.ProjectInfo;
 import com.Pseminar.Assets.Asset.AssetType;
 import com.Pseminar.Assets.Editor.Importers.EditorSceneImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSpriteImporter;
+import com.Pseminar.Assets.Editor.Importers.EditorSpriteSheetImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,6 +48,7 @@ public class EditorAssetManager implements AssetManager {
         AssetImporters.put(AssetType.TEXTURE2D, new EditorTexture2dImporter());
         AssetImporters.put(AssetType.SCENE, new EditorSceneImporter());
         AssetImporters.put(AssetType.SPRITE, new EditorSpriteImporter());
+        AssetImporters.put(AssetType.SPRITESHEET, new EditorSpriteSheetImporter());
     }
 
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {
@@ -139,6 +141,8 @@ public class EditorAssetManager implements AssetManager {
 
         Asset loadedAsset = this.LoadAsset(assetMetaData);
         if(loadedAsset != null) loadedAsset.SetId(id);
+
+        loadedAssets.put(id, loadedAsset);
 
         return (T)loadedAsset;
     }

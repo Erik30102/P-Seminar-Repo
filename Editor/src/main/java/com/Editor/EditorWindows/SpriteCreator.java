@@ -39,6 +39,7 @@ public class SpriteCreator implements IEditorImGuiWindow {
     private int fboHeight = 200, fboWidth = 200;
 
     private List<Sprite> generateSprites = new ArrayList<>();
+    private SpriteSheet spriteSheet;
 
     public SpriteCreator() {
         camera = new OrthographicCamera();
@@ -68,6 +69,13 @@ public class SpriteCreator implements IEditorImGuiWindow {
 
                 if(ImGui.button("Save")) {
                     ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.generateSprites.get(0), "/assets/" + name.get() + ".sprite");
+                    ImGui.closeCurrentPopup();
+                }
+            } else {
+                ImGui.inputText("Name", name);
+
+                if(ImGui.button("Save")) {
+                    ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(spriteSheet, "/assets/" + name.get() + ".spritesheet");
                     ImGui.closeCurrentPopup();
                 }
             }
@@ -103,8 +111,8 @@ public class SpriteCreator implements IEditorImGuiWindow {
         ImGui.dragInt2("Size Of Singel Tile", resizingTile);
         ImGui.nextColumn();
         if(ImGui.button("Generate SpriteSheet")) {
-            SpriteSheet s = new SpriteSheet(selectedTexture, resizingTile[0], resizingTile[1]);
-            this.generateSprites = s.getSprites();
+            spriteSheet = new SpriteSheet(selectedTexture, resizingTile[0], resizingTile[1]);
+            this.generateSprites = spriteSheet.getSprites();
         }
 
         ImGui.columns(1);

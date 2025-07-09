@@ -132,7 +132,7 @@ public class Inspector implements IEditorImGuiWindow {
         ImGui.end();
     }
 
-    private static Component[] c = new Component[] { new SpriteComponent(null), new CameraComponent(), new RidgedBodyComponent() };
+    private static Component[] c = new Component[] { new SpriteComponent(), new CameraComponent(), new RidgedBodyComponent() };
     
     private void HandleCustomComponentSlider(BaseComponent component) {
 		ImGui.columns(2);
