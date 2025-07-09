@@ -4,8 +4,8 @@
       "id": 0,
       "transfrom": {
         "position": {
-          "x": 0.0,
-          "y": 0.0
+          "x": -0.7676032,
+          "y": -0.87614447
         },
         "scale": {
           "x": 1.0,
@@ -20,13 +20,15 @@
           "spriteId": 80711720
         },
         {
-          "type": "BaseComponent",
-          "id": 0,
-          "className": "com.ScriptingTest.TestComponent"
-        },
-        {
           "type": "RidgedBodyComponent",
           "id": 0
+        },
+        {
+          "type": "BaseComponent",
+          "id": 0,
+          "className": "com.ScriptingTest.TestComponent",
+          "movementSpeed": 100.0,
+          "decellSpeed": 5.0
         }
       ]
     },
@@ -48,6 +50,27 @@
           "type": "SpriteComponent",
           "id": 0,
           "spriteId": 80711720
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "transfrom": {
+        "position": {
+          "x": 1.2,
+          "y": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "rotation": 0.0
+      },
+      "components": [
+        {
+          "type": "AnimationComponent",
+          "id": 0,
+          "animationId": 2131312323
         }
       ]
     }

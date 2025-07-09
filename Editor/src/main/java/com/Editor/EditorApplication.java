@@ -6,6 +6,7 @@ import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 import com.Editor.EditorWindows.AssetPicker;
+import com.Editor.EditorWindows.CodeEditor;
 import com.Editor.EditorWindows.ContentBrowser;
 import com.Editor.EditorWindows.IEditorImGuiWindow;
 import com.Editor.EditorWindows.Inspector;
@@ -23,6 +24,7 @@ import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.IEntityListener;
 import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
+import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
@@ -103,7 +105,7 @@ public class EditorApplication extends Application {
 
         this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
 
-        this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
+        this.physicEngine = new Physics2D(new Vector2f(0, 0));
 
         this.scene.AddListener(ComponentType.RidgedBodyComponent, new IEntityListener<RidgedBodyComponent>() {
             @Override
@@ -119,8 +121,6 @@ public class EditorApplication extends Application {
             }
         });
 
-		Physics2D.GetInstance().SetGravit(new Vector2f());
-
         this.scene.RunAllAddingListeners();
 
 		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
@@ -128,7 +128,7 @@ public class EditorApplication extends Application {
 		Inspector inspector = new Inspector();
 
 		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
-		windows = new IEditorImGuiWindow[] { new TileMapEditor(), new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector };
+		windows = new IEditorImGuiWindow[] { new TileMapEditor(), new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector, new CodeEditor()};
     }
 
 	private int[] TexId = new int[] { 0 };
@@ -240,6 +240,20 @@ public class EditorApplication extends Application {
 					Transform transform = spriteComponent.GetEntity().transform;
 
 					spriteBatch.AddSprite(spriteComponent.GetSprite(), transform);
+				}
+            }
+        }
+
+		if(this.scene.GetComponentsByType(ComponentType.AnimationComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.AnimationComponent)) {
+                AnimationSpriteComponent animationCompoennet = (AnimationSpriteComponent) component;
+
+				animationCompoennet.OnUpdate(dt);
+
+				if(animationCompoennet.GetCurrentSprite() != null) {
+					Transform transform = animationCompoennet.GetEntity().transform;
+
+					spriteBatch.AddSprite(animationCompoennet.GetCurrentSprite(), transform);
 				}
             }
         }

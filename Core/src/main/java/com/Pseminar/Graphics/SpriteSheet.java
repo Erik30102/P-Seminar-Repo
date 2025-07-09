@@ -1,5 +1,6 @@
 package com.Pseminar.Graphics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,19 @@ public class SpriteSheet extends Asset {
 	private int SpriteHeight;
 
 	public SpriteSheet(Texture texture2d, int SpriteWidth, int SpriteHeight) {
+		Init(texture2d, SpriteWidth, SpriteHeight);
+	}
+
+	private void Init(Texture texture2d, int SpriteWidth, int SpriteHeight)
+	{
 		this.texture = texture2d;
 		this.sprites = new ArrayList<Sprite>();
 
 		this.SpriteHeight = SpriteHeight;
 		this.SpriteWidth = SpriteWidth;
 
-		for (int y = 0; y < texture.GetHeight() - SpriteHeight; y += SpriteHeight) {
-			for (int x = 0; x < texture.GetWidth() - SpriteWidth; x += SpriteWidth) {
+		for (int y = 0; y < texture.GetHeight() + 1 - SpriteHeight; y += SpriteHeight) {
+			for (int x = 0; x < texture.GetWidth() + 1  - SpriteWidth; x += SpriteWidth) {
 				float[] uv = new float[]{
 					x / (float) texture.GetWidth(), (y + SpriteHeight) / (float) texture.GetHeight(),
 					(x + SpriteWidth) / (float) texture.GetWidth(), y / (float) texture.GetHeight(),
@@ -62,5 +68,12 @@ public class SpriteSheet extends Asset {
         // TODO
     }
 
+	private void readObject(java.io.ObjectInputStream stream)
+        throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+
+		Init(texture, SpriteWidth, SpriteHeight);
+	}
+	
 	// TODO: custom serialization
 }

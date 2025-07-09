@@ -12,6 +12,7 @@ import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.IEntityListener;
 import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
+import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
@@ -21,6 +22,7 @@ import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Physics.Physics2D;
 import com.Pseminar.Physics.PhysicsBody;
 import com.Pseminar.Physics.PhysicsBody.BodyType;
+import com.Pseminar.Physics.Collider.BoxCollider;
 import com.Pseminar.Window.Events.Event;
 import com.Pseminar.renderer.OrthographicCamera;
 import com.Pseminar.renderer.Shader;
@@ -61,17 +63,19 @@ public class SandboxApplication extends Application {
 
         this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
 
-        this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
+        this.physicEngine = new Physics2D(new Vector2f(0, 0));
 
         this.scene.AddListener(ComponentType.RidgedBodyComponent, new IEntityListener<RidgedBodyComponent>() {
             @Override
             public void OnEntityAdded(Entity entity, RidgedBodyComponent component) {
                 component.SetBody(new PhysicsBody(BodyType.DYNAMIC));
+				component.GetBody().SetPosition(entity.transform.GetPosition());
+				component.GetBody().AddCollider(new BoxCollider(1, 1));
             }
 
             @Override
             public void OnEntityRemoved(Entity entity, RidgedBodyComponent component) {
-
+				component.GetBody().Destroy();
             }
         });
 
@@ -91,6 +95,15 @@ public class SandboxApplication extends Application {
             }
         }
 
+        if(this.scene.GetComponentsByType(ComponentType.RidgedBodyComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.RidgedBodyComponent)) {
+                RidgedBodyComponent c = (RidgedBodyComponent)component;
+
+                c.GetEntity().transform.setPosition(c.GetBody().GetPosition());
+            }
+        }
+
+
         physicEngine.update(dt);
 
         // Start of rendering
@@ -109,6 +122,21 @@ public class SandboxApplication extends Application {
             }
         }
         
+        if(this.scene.GetComponentsByType(ComponentType.AnimationComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.AnimationComponent)) {
+                AnimationSpriteComponent animationCompoennet = (AnimationSpriteComponent) component;
+
+				animationCompoennet.OnUpdate(dt);
+
+				if(animationCompoennet.GetCurrentSprite() != null) {
+					Transform transform = animationCompoennet.GetEntity().transform;
+
+					spriteBatch.AddSprite(animationCompoennet.GetCurrentSprite(), transform);
+				}
+            }
+        }
+
+
         spriteBatch.UpdateAndRender(camera);
     }
 

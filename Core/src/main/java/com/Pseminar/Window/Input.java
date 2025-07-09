@@ -11,7 +11,6 @@ public class Input {
 	private static Vector2d lastMousePosition = new Vector2d();
 	private static Vector2d deltaMouse = new Vector2d();
 
-
     public static boolean IsKeyPressed(int KeyCode) {
         return GLFW.glfwGetKey(Window.GetWindow().getHandle(), KeyCode) == GLFW.GLFW_PRESS;
     }

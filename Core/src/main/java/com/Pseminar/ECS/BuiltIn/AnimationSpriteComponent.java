@@ -11,7 +11,13 @@ public class AnimationSpriteComponent extends Component {
     private transient float countdown;
     private transient int count;
 
+    public AnimationSpriteComponent() {
+
+    }
+
     public void OnUpdate(float dt) {
+        if(animation == null) return;
+
         countdown += dt;
 
         if(countdown >= animation.GetFrameDuration()) {
@@ -20,7 +26,17 @@ public class AnimationSpriteComponent extends Component {
         }
     }
 
+    public void SetAnimation(Animation a) {
+        this.animation = a;
+    }
+
+    public Animation GetAnimation() {
+        return this.animation;
+    }
+
     public Sprite GetCurrentSprite() {
+        if(animation == null) return null;
+        
         return animation.GetSpriteAtKeyfarme(count);
     }
 
