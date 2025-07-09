@@ -17,6 +17,7 @@ import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.ECS.Component.ComponentType;
 import com.Pseminar.Graphics.Animation;
 import com.Pseminar.Graphics.Sprite;
 
@@ -77,11 +78,9 @@ public class Inspector implements IEditorImGuiWindow {
 			ImGui.columns(1);
 
 			for (Component component : entity.getComponents()) {
-				if (component.getClass().isAssignableFrom(BaseComponent.class)) {
-					BaseComponent comp = ((BaseComponent) component);
-
-					if (ImGui.collapsingHeader(comp.getClass().getSimpleName())) {
-						HandleCustomComponentSlider(comp);
+				if (component.GetComponentType() == ComponentType.BaseComponent) {
+					if (ImGui.collapsingHeader(component.getClass().getSimpleName())) {
+						HandleCustomComponentSlider(component);
 					}
 
 					continue;
@@ -151,7 +150,7 @@ public class Inspector implements IEditorImGuiWindow {
 
     private static Component[] c = new Component[] { new SpriteComponent(), new CameraComponent(), new RidgedBodyComponent(), new AnimationSpriteComponent() };
     
-    private void HandleCustomComponentSlider(BaseComponent component) {
+    private void HandleCustomComponentSlider(Component component) {
 		ImGui.columns(2);
 
 		try {

@@ -8,8 +8,8 @@ import com.Pseminar.Window.Input;
 
 public class TestComponent extends BaseComponent {
 
-    public float movementSpeed = 100f;
-    public float decellSpeed = 5f;
+    public float movementSpeed;
+    public float decellSpeed;
 
     private transient RidgedBodyComponent c;
 
