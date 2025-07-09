@@ -105,7 +105,7 @@ public class EditorApplication extends Application {
 
         this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
 
-        this.physicEngine = new Physics2D(new Vector2f(0, 9.81f));
+        this.physicEngine = new Physics2D(new Vector2f(0, 0));
 
         this.scene.AddListener(ComponentType.RidgedBodyComponent, new IEntityListener<RidgedBodyComponent>() {
             @Override
@@ -120,8 +120,6 @@ public class EditorApplication extends Application {
 				component.GetBody().Destroy();
             }
         });
-
-		Physics2D.GetInstance().SetGravit(new Vector2f());
 
         this.scene.RunAllAddingListeners();
 

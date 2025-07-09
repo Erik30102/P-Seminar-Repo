@@ -1,5 +1,6 @@
 package com.Pseminar.Graphics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,11 @@ public class SpriteSheet extends Asset {
 	private int SpriteHeight;
 
 	public SpriteSheet(Texture texture2d, int SpriteWidth, int SpriteHeight) {
+		Init(texture2d, SpriteWidth, SpriteHeight);
+	}
+
+	private void Init(Texture texture2d, int SpriteWidth, int SpriteHeight)
+	{
 		this.texture = texture2d;
 		this.sprites = new ArrayList<Sprite>();
 
@@ -62,5 +68,12 @@ public class SpriteSheet extends Asset {
         // TODO
     }
 
+	private void readObject(java.io.ObjectInputStream stream)
+        throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+
+		Init(texture, SpriteWidth, SpriteHeight);
+	}
+	
 	// TODO: custom serialization
 }
