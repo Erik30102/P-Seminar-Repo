@@ -7,6 +7,7 @@ public abstract class Component implements Serializable {
         SpriteComponent, 
         BaseComponent,
         CameraComponent,
+        AnimationComponent,
 
         RidgedBodyComponent,
     }
