@@ -37,7 +37,7 @@ public class OrthographicCamera {
 		projectionMatrix.identity();
 		projectionMatrix.ortho(-width, width, -height, height, 0f, 100f);
 
-        inversProjectionMatrix = projectionMatrix.invert();
+        inversProjectionMatrix = projectionMatrix.invert(new Matrix4f());
     }
     
     private void ReCalculateTransformMatrix() {
@@ -50,7 +50,7 @@ public class OrthographicCamera {
 						position.y(), 20),
 				cameraFront.add(position.x(), position.y(), 0), cameraUp);
 
-        inversTransformMatrix = transformMatrix.invert();
+        inversTransformMatrix = transformMatrix.invert(new Matrix4f());
     }
 
     public void Move(Vector2f cameraPos) {
