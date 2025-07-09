@@ -19,16 +19,11 @@ public class Game {
         Entity enemy = scene.CreateEntity();
         enemy.SetName("Enemy 1");
         enemy.AddComponent(new VektorComponent());
+        enemy.AddComponent(new SpriteComponent());
+        enemy.AddComponent(new BaseComponent());
 
-        public void pathfinding()
-        {
-            int spieler_y = player.GiveY();
-            int spieler_x = player.GiveX();
-        }
-        
         //Setzt den Gegner nach oben links Anfangs auf die Map
         enemy.Move(100, 100);
-
 
         //Map erstellen
         Entity map = scene.CreateEntity();
@@ -50,5 +45,15 @@ public class Game {
             
         }
     }
+
+    //Gegner pathfinding
+    void pathfinding()
+        {
+            int spieler_y = player.GiveY();
+            int spieler_x = player.GiveX();
+
+            int diff_zu_spieler_x = spieler_x - enemy.GiveX();
+            int diff_zu_spieler_y = spieler_y - enemy.GiveY();
+        }
 }
 
