@@ -120,7 +120,7 @@ public class PhysicsBody {
 		body.setTransform(new Vec2(position.x(), position.y()), body.getAngle());
 	}
 
-	public void SerVelocity(Vector2f verloicy) {
+	public void SetVelocity(Vector2f verloicy) {
 		body.setLinearVelocity(new Vec2(verloicy.x(), verloicy.y()));
 	}
 
