@@ -6,6 +6,7 @@ import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 import com.Editor.EditorWindows.AssetPicker;
+import com.Editor.EditorWindows.CodeEditor;
 import com.Editor.EditorWindows.ContentBrowser;
 import com.Editor.EditorWindows.IEditorImGuiWindow;
 import com.Editor.EditorWindows.Inspector;
@@ -129,7 +130,7 @@ public class EditorApplication extends Application {
 		Inspector inspector = new Inspector();
 
 		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
-		windows = new IEditorImGuiWindow[] { new TileMapEditor(), new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector };
+		windows = new IEditorImGuiWindow[] { new TileMapEditor(), new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector, new CodeEditor()};
     }
 
 	private int[] TexId = new int[] { 0 };
