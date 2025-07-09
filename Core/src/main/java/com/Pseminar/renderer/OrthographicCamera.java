@@ -8,6 +8,9 @@ public class OrthographicCamera {
     private Matrix4f transformMatrix;
     private Matrix4f projectionMatrix;
 
+    private Matrix4f inversTransformMatrix;
+    private Matrix4f inversProjectionMatrix;
+
     private float Zoom = 10;
     private float currentAspectRatio = 1;
 
@@ -33,6 +36,8 @@ public class OrthographicCamera {
 
 		projectionMatrix.identity();
 		projectionMatrix.ortho(-width, width, -height, height, 0f, 100f);
+
+        inversProjectionMatrix = projectionMatrix.invert();
     }
     
     private void ReCalculateTransformMatrix() {
@@ -44,6 +49,8 @@ public class OrthographicCamera {
 						position.x(),
 						position.y(), 20),
 				cameraFront.add(position.x(), position.y(), 0), cameraUp);
+
+        inversTransformMatrix = transformMatrix.invert();
     }
 
     public void Move(Vector2f cameraPos) {

@@ -2,7 +2,6 @@ package com.ScriptingTest;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.Pseminar.Logger;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.Window.Input;
