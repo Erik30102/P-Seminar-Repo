@@ -1,6 +1,7 @@
 package com.Pseminar.Assets;
 
 import java.io.Serializable;
+import java.nio.file.Path;
 
 public class ProjectInfo implements Serializable {
 
@@ -20,7 +21,7 @@ public class ProjectInfo implements Serializable {
      */
     public ProjectInfo(AssetManager assetManager, String projectPath) {
         this.assetManager = assetManager;
-        this.projectPath = projectPath;
+        this.projectPath = Path.of(projectPath).toString();
 
         INSTANCE = this;
     }

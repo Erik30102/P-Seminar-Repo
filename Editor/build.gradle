@@ -8,7 +8,7 @@ java {
     }
 }
 
-tasks.register("runImGuiTest", JavaExec) {
+tasks.register("runEditor", JavaExec) {
     group = "application"
     description = "Runs the ImGuiTest application"
     classpath = sourceSets.main.runtimeClasspath

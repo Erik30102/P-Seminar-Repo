@@ -27,7 +27,8 @@ public abstract class Asset implements Serializable{
         SCENE,
         SPRITESHEET,
         SPRITE,
-        TILEMAP
+        TILEMAP,
+        NULL
     }
 
     /**

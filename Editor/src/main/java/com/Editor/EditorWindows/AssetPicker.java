@@ -1,5 +1,6 @@
 package com.Editor.EditorWindows;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class AssetPicker {
 
 				for (IntermidiateAssetData metaData : INSTANCE.ChashedAssets) {
                     if(metaData.GetPath().contains(search.get())) {
-                        if (ImGui.button(metaData.GetPath(), 64, 64)) {
+						String path = Path.of(metaData.GetPath()).getFileName().toString();
+
+                        if (ImGui.button(path, 64, 64)) {
                             INSTANCE.selected = ProjectInfo.GetProjectInfo().GetAssetManager()
                                     .GetAsset(((EditorAssetManager) ProjectInfo.GetProjectInfo().GetAssetManager()).GetIdFromMetadata(metaData));
 
