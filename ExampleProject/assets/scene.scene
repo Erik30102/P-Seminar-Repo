@@ -2,10 +2,11 @@
   "entites": [
     {
       "id": 0,
+      "name": "Player",
       "transfrom": {
         "position": {
-          "x": 1.8021611,
-          "y": -0.017277509
+          "x": 2.184894,
+          "y": -0.5448562
         },
         "scale": {
           "x": 1.0,
@@ -39,10 +40,11 @@
     },
     {
       "id": 1,
+      "name": "Camera",
       "transfrom": {
         "position": {
-          "x": 0.0,
-          "y": 0.0
+          "x": 2.3,
+          "y": -0.3
         },
         "scale": {
           "x": 1.0,
@@ -55,12 +57,14 @@
         {
           "type": "CameraComponent",
           "id": 0,
-          "active": true
+          "active": true,
+          "zoom": 6.0
         }
       ]
     },
     {
       "id": 2,
+      "name": "Tilemap",
       "transfrom": {
         "position": {
           "x": -2.8000002,
@@ -77,7 +81,7 @@
         {
           "type": "TilemapComponent",
           "id": 0,
-          "tilemapId": 224329153
+          "tilemapId": 691649568
         }
       ]
     }

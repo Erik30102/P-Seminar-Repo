@@ -73,6 +73,14 @@ public class OrthographicCamera {
         return this.transformMatrix;
     }
 
+    public Matrix4f GetInversTransformationMatrix() {
+        return this.inversTransformMatrix;
+    }
+
+    public Matrix4f GetInversProjectionMatrix() {
+        return this.inversProjectionMatrix;
+    }
+
     /**
      * DO NOT USE JUST FOR SCNEE CAMERA VERY SHIT
      * 
@@ -80,5 +88,9 @@ public class OrthographicCamera {
      */
     public void MoveBy(Vector2d detla) {
         this.Move(position.add((float)detla.x() * 0.02f, (float)detla.y() * -0.02f));
+    }
+
+    public float GetZoom() {
+        return this.Zoom;
     }
 }

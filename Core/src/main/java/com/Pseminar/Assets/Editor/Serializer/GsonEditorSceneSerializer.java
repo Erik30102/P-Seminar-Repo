@@ -39,6 +39,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
         for(Entity e : src.GetEntites()) {
             JsonObject entityObject = new JsonObject();
             entityObject.addProperty("id", e.getId());
+            entityObject.addProperty("name", e.GetName());
             entityObject.add("transfrom", context.serialize(e.transform));
 
             JsonArray componentArray = new JsonArray();
@@ -50,6 +51,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                 switch (c.GetComponentType()) {
                     case CameraComponent:
                         componentObject.addProperty("active", ((CameraComponent)c).GetActive());
+                        componentObject.addProperty("zoom", ((CameraComponent)c).GetCamera().GetZoom());
                         break;
                     case SpriteComponent:
                         componentObject.addProperty("spriteId", ((SpriteComponent)c).GetSprite().GetAssetId());
@@ -121,6 +123,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
             int id = entityJson.get("id").getAsInt();
             Entity entity = scene.CreateEntity(); // TODO: implement id but scene is written so fucking awfully that i cant be botherd
 
+            entity.SetName(entityJson.get("name").getAsString());
             entity.transform = context.deserialize(entityJson.get("transfrom"), entity.transform.getClass());
 
             JsonArray componentsJson = entityJson.getAsJsonArray("components");
@@ -134,6 +137,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                     case "CameraComponent":
                         CameraComponent cam = new CameraComponent();
                         cam.SetActive(compJson.get("active").getAsBoolean());
+                        cam.GetCamera().SetZoom(compJson.get("zoom").getAsFloat());
                         comp = cam;
                         break;
                     case "SpriteComponent":

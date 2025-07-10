@@ -178,13 +178,13 @@ public class SandboxApplication extends Application {
     public void OnResize(float width, float height) {
         RenderApi.SetViewPort(width,height);
         if(this.scene.GetComponentsByType(ComponentType.CameraComponent) != null) {
-				for(Component component : this.scene.GetComponentsByType(ComponentType.CameraComponent)) {
-					CameraComponent cameraComponent = (CameraComponent) component;
+            for(Component component : this.scene.GetComponentsByType(ComponentType.CameraComponent)) {
+                CameraComponent cameraComponent = (CameraComponent) component;
 
-					cameraComponent.GetCamera().Resize(width, height);
-				}
-			}
+                cameraComponent.GetCamera().Resize(width, height);
+            }
         }
+    }
 
     @Override
     protected void OnEventCallback(Event event) {

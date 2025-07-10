@@ -23,8 +23,10 @@ public abstract class Application implements IEventCallback {
 
 	private double lastFrametime = 1;
 
+    private int WIDTH = 800, HEIGHT = 600;
+
     private final void InitializeOpengl() {
-        window = new Window(800, 600, "Window", true);
+        window = new Window(WIDTH, HEIGHT, "Window", true);
         window.init();
     
         // TODO: move to window
@@ -38,6 +40,8 @@ public abstract class Application implements IEventCallback {
 
         GL46.glBlendFunc(GL46.GL_SRC_ALPHA, GL46.GL_ONE_MINUS_SRC_ALPHA);
         GL46.glEnable(GL46.GL_BLEND );
+
+        OnResize(WIDTH, HEIGHT);
 
         while (running) {
 			double dt = GLFW.glfwGetTime() - lastFrametime;

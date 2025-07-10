@@ -12,7 +12,7 @@
             "type": "java",
             "name": "Editor",
             "request": "launch",
-            "mainClass": "com.Editor.Editor",
+            "mainClass": "com.Editor.EditorApplication",
             "projectName": "Editor",
             "cwd": "${workspaceFolder}/Editor"
         },

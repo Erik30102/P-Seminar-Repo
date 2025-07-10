@@ -51,6 +51,10 @@
     "path": "\\assets\\Maps\\Dungeon_Tileset.png",
     "type": "TEXTURE2D"
   },
+  "691649568": {
+    "path": "/assets/Main-Dungeon.tilemap",
+    "type": "TILEMAP"
+  },
   "86891766": {
     "path": "/assets//Character/Spritsheets/rechtsAnim.spritesheet",
     "type": "SPRITESHEET"

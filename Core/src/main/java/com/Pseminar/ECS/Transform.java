@@ -44,6 +44,11 @@ public class Transform implements Serializable {
         this(new Vector2f(0, 0), new Vector2f(1, 1), 0);
     }
 
+    public Transform(Vector2f vector2f, Vector2f vector2f2, int i, int j) {
+        this(vector2f, vector2f2, i);
+        this.zIndex = j;
+    }
+
     /**
      * Addiert den übergebenen Vektor zur aktuellen Position.
      *

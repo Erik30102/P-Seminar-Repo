@@ -57,7 +57,7 @@ public class SpriteCreator implements IEditorImGuiWindow {
     }
 
     private int[] resizingTile = new int[2];
-    private ImString name = new ImString("test");
+    private ImString name = new ImString(20);
 
     @Override
     public void OnImgui() {

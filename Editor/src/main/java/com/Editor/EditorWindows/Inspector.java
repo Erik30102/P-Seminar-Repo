@@ -154,6 +154,18 @@ public class Inspector implements IEditorImGuiWindow {
 						}
 						ImGui.nextColumn();
 
+						ImGui.text("Zoom");
+						ImGui.nextColumn();
+
+						float zoom = (float) c.GetCamera().GetZoom();
+						float[] imfloat = { zoom };
+
+						if (ImGui.dragFloat("##camerazoom" , imfloat)) {
+							c.GetCamera().SetZoom(imfloat[0]);
+						}
+
+						ImGui.nextColumn();
+
 						ImGui.columns(1);
 					}
 				}

@@ -190,7 +190,12 @@ public class EditorApplication extends Application {
 		
 		// -------------------------------------
 
-		ImGui.begin("viewport");
+		if(ImGui.begin("viewport")) {
+			if(Input.IsMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_3)) {
+				Vector2d detla = Input.GetDeltaMouse();
+				camera.MoveBy(detla);
+			}
+		}
 
 		ImVec2 windowSize = new ImVec2();
 		ImGui.getContentRegionAvail(windowSize);
@@ -280,12 +285,7 @@ public class EditorApplication extends Application {
 
 
 			physicEngine.update(dt);
-		} else {
-			if(Input.IsMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_3)) {
-				Vector2d detla = Input.GetDeltaMouse();
-				camera.MoveBy(detla);
-			}
-		}
+		} 
 
 		viewportFbo.Bind();
         RenderApi.SetViewPort(viewportWidth, viewportHeight);

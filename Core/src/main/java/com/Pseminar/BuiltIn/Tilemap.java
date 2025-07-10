@@ -56,5 +56,9 @@ public class Tilemap extends Asset {
     @Override
     public void OnDispose() {
 
+    }
+
+    public void SetTile(int x, int y, int currentSelectedSpriteIndex) {
+        this.tiles[x+y*width] = currentSelectedSpriteIndex;
     }    
 }
