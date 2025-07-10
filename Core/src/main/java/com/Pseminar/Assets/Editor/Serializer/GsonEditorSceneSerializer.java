@@ -95,7 +95,7 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                 Object value = field.get(c);
                 String name = field.getName();
 
-                if(type.isAssignableFrom(Asset.class)) {
+                if(Asset.class.isAssignableFrom(type)) {
                     componentObject.addProperty(name, ((Asset) value).GetAssetId());
                 } else {
                     componentObject.add(name, context.serialize(value));

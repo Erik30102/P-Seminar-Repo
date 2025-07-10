@@ -116,6 +116,21 @@ public class Inspector implements IEditorImGuiWindow {
 
 						ImGui.columns(1);
 
+					} else if(component.getClass() == CameraComponent.class) {
+						ImGui.columns(2);
+
+						CameraComponent c = ((CameraComponent)component);
+						
+						ImGui.text("Active");
+						ImGui.nextColumn();
+
+						boolean val = (boolean) c.GetActive();
+						if (ImGui.checkbox("##cameraAcitve", val)) {
+							c.SetActive(!c.GetActive());
+						}
+						ImGui.nextColumn();
+
+						ImGui.columns(1);
 					}
 				}
 			}
@@ -219,6 +234,20 @@ public class Inspector implements IEditorImGuiWindow {
 
 						if (AssetPicker.Display(field.hashCode() + "TEX")) {
 							field.set(component, AssetPicker.GetSelected(Sprite.class));
+						}
+
+						ImGui.nextColumn();
+					}else if (type == Animation.class) {
+						ImGui.text(name);
+						ImGui.nextColumn();
+						ImGui.pushID(field.hashCode());
+						if (ImGui.button("Select Animation")) {
+							AssetPicker.Open(field.hashCode() + "ANIM", AssetType.ANIMATION);
+						}
+						ImGui.popID();
+
+						if (AssetPicker.Display(field.hashCode() + "ANIM")) {
+							field.set(component, AssetPicker.GetSelected(Animation.class));
 						}
 
 						ImGui.nextColumn();

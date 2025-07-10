@@ -4,61 +4,8 @@
       "id": 0,
       "transfrom": {
         "position": {
-          "x": -0.7676032,
-          "y": -0.87614447
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0
-        },
-        "rotation": 0.0
-      },
-      "components": [
-        {
-          "type": "SpriteComponent",
-          "id": 0,
-          "spriteId": 80711720
-        },
-        {
-          "type": "RidgedBodyComponent",
-          "id": 0
-        },
-        {
-          "type": "BaseComponent",
-          "id": 0,
-          "className": "com.ScriptingTest.TestComponent",
-          "movementSpeed": 100.0,
-          "decellSpeed": 5.0
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "transfrom": {
-        "position": {
-          "x": 4.7,
-          "y": 0.0
-        },
-        "scale": {
-          "x": 2.8,
-          "y": 1.3
-        },
-        "rotation": 2.0
-      },
-      "components": [
-        {
-          "type": "SpriteComponent",
-          "id": 0,
-          "spriteId": 80711720
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "transfrom": {
-        "position": {
-          "x": 1.2,
-          "y": 0.0
+          "x": -0.48235878,
+          "y": -0.38971373
         },
         "scale": {
           "x": 1.0,
@@ -71,6 +18,42 @@
           "type": "AnimationComponent",
           "id": 0,
           "animationId": 2131312323
+        },
+        {
+          "type": "RidgedBodyComponent",
+          "id": 0
+        },
+        {
+          "type": "BaseComponent",
+          "id": 0,
+          "className": "com.ScriptingTest.TestComponent",
+          "movementSpeed": 100.0,
+          "decellSpeed": 25.0,
+          "vorwaerts": 2112312323,
+          "ruckwaerts": 2131312323,
+          "rechts": 2135312323,
+          "links": 2131212323
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "transfrom": {
+        "position": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "rotation": 0.0
+      },
+      "components": [
+        {
+          "type": "CameraComponent",
+          "id": 0,
+          "active": true
         }
       ]
     }

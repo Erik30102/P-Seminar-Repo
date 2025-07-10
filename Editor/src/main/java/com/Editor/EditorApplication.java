@@ -2,6 +2,7 @@ package com.Editor;
 
 import java.nio.file.Path;
 
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
@@ -26,6 +27,7 @@ import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
 import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
+import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
 import com.Pseminar.Graphics.RenderApi;
@@ -35,6 +37,7 @@ import com.Pseminar.Physics.Physics2D;
 import com.Pseminar.Physics.PhysicsBody;
 import com.Pseminar.Physics.Collider.BoxCollider;
 import com.Pseminar.Physics.PhysicsBody.BodyType;
+import com.Pseminar.Window.Input;
 import com.Pseminar.Window.Events.Event;
 import com.Pseminar.Window.Events.Event.EventType;
 import com.Pseminar.Window.Events.InputEvents.CharEvent;
@@ -189,6 +192,14 @@ public class EditorApplication extends Application {
 
 			camera.SetZoom(5);
 			camera.Resize(viewportWidth, viewportHeight);
+
+			if(this.scene.GetComponentsByType(ComponentType.CameraComponent) != null) {
+				for(Component component : this.scene.GetComponentsByType(ComponentType.CameraComponent)) {
+					CameraComponent cameraComponent = (CameraComponent) component;
+
+					cameraComponent.GetCamera().Resize(viewportWidth, viewportHeight);
+				}
+			}
 		}
 
 		RenderAndUpdateViewport(dt);
@@ -223,6 +234,11 @@ public class EditorApplication extends Application {
 
 
 			physicEngine.update(dt);
+		} else {
+			if(Input.IsMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_3)) {
+				Vector2d detla = Input.GetDeltaMouse();
+				camera.MoveBy(detla);
+			}
 		}
 
 		viewportFbo.Bind();
@@ -258,7 +274,24 @@ public class EditorApplication extends Application {
             }
         }
 
-		this.spriteBatch.UpdateAndRender(camera);
+		if(this.state == PlayState.PLAYING) {
+			if(this.scene.GetComponentsByType(ComponentType.CameraComponent) != null) {
+				for(Component component : this.scene.GetComponentsByType(ComponentType.CameraComponent)) {
+					CameraComponent cameraComponent = (CameraComponent) component;
+
+					if(cameraComponent.GetActive()) {
+						cameraComponent.GetCamera().Move(cameraComponent.GetEntity().transform.GetPosition());
+
+						this.spriteBatch.UpdateAndRender(cameraComponent.GetCamera());
+						break;
+					}
+				}
+			}
+		} else {
+			this.spriteBatch.UpdateAndRender(this.camera);
+		}
+
+
 		viewportFbo.Unbind();
 	}
 	

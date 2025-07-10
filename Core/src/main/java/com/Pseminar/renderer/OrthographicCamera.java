@@ -1,8 +1,11 @@
 package com.Pseminar.renderer;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+
+import com.Pseminar.Logger;
 
 public class OrthographicCamera {
     private Matrix4f transformMatrix;
@@ -68,5 +71,14 @@ public class OrthographicCamera {
 
     public Matrix4f GetTransformMatrix() {
         return this.transformMatrix;
+    }
+
+    /**
+     * DO NOT USE JUST FOR SCNEE CAMERA VERY SHIT
+     * 
+     * @param detla
+     */
+    public void MoveBy(Vector2d detla) {
+        this.Move(position.add((float)detla.x() * 0.02f, (float)detla.y() * -0.02f));
     }
 }

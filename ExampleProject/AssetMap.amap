@@ -1,43 +1,55 @@
 {
-  "-1230503173": {
-    "path": "/assets/Vorn.spritesheet",
-    "type": "SPRITESHEET"
-  },
-  "2006549325": {
-    "path": "\\assets\\Character\\Main\\maincharacter_rechts_sprite.png",
+  "290107531": {
+    "path": "\\assets\\Character\\Main\\maincharakter_links_sprite.png",
     "type": "TEXTURE2D"
   },
-  "1552314512": {
-    "path": "\\assets\\Basic-Charakter-Spritesheet.png",
-    "type": "TEXTURE2D"
+  "2131212323": {
+    "path": "/assets/Character/Animation/linksAnim.animation",
+    "type": "ANIMATION"
   },
-  "80711720": {
-    "path": "\\assets\\tesp.sprite",
-    "type": "SPRITE"
+  "2112312323": {
+    "path": "/assets/Character/Animation/hintenAnim.animation",
+    "type": "ANIMATION"
   },
-  "724989153": {
-    "path": "\\assets\\Maps\\tiles.png",
-    "type": "TEXTURE2D"
+  "2135312323": {
+    "path": "/assets/Character/Animation/rechtsAnim.animation",
+    "type": "ANIMATION"
   },
   "2012601628": {
     "path": "\\assets\\scene.scene",
     "type": "SCENE"
   },
   "2131312323": {
-    "path": "/assets/vornAnimation.animation",
+    "path": "/assets/Character/Animation/vornAnim.animation",
     "type": "ANIMATION"
   },
-  "1652959484": {
-    "path": "\\assets\\images.png",
-    "type": "TEXTURE2D"
+  "1773408249": {
+    "path": "/assets//Character/Spritsheets/linksAnim.spritesheet",
+    "type": "SPRITESHEET"
   },
-  "1588908137": {
-    "path": "\\assets\\teas.sprite",
-    "type": "SPRITE"
+  "273987289": {
+    "path": "/assets//Character/Spritsheets/hintenAnim.spritesheet",
+    "type": "SPRITESHEET"
   },
   "751166027": {
     "path": "\\assets\\Character\\Main\\maincharacter_hinten_sprite.png",
     "type": "TEXTURE2D"
+  },
+  "-1230503173": {
+    "path": "/assets/Character/Spritsheets/vornAnim.spritesheet",
+    "type": "SPRITESHEET"
+  },
+  "2006549325": {
+    "path": "\\assets\\Character\\Main\\maincharacter_rechts_sprite.png",
+    "type": "TEXTURE2D"
+  },
+  "724989153": {
+    "path": "\\assets\\Maps\\tiles.png",
+    "type": "TEXTURE2D"
+  },
+  "86891766": {
+    "path": "/assets//Character/Spritsheets/rechtsAnim.spritesheet",
+    "type": "SPRITESHEET"
   },
   "250213687": {
     "path": "\\assets\\Character\\Main\\maincharacter_vorne_sprite.png",
