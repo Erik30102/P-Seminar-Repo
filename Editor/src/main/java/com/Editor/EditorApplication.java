@@ -2,8 +2,10 @@ package com.Editor;
 
 import java.nio.file.Path;
 
+import org.joml.Matrix4f;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import com.Editor.EditorWindows.AssetPicker;
@@ -30,6 +32,7 @@ import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.ECS.BuiltIn.TilemapComponent;
 import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
 import com.Pseminar.Graphics.Buffers.FrameBuffer;
@@ -51,6 +54,9 @@ import imgui.gl3.ImGuiImplGl3;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.ImVec2;
+import imgui.extension.imguizmo.ImGuizmo;
+import imgui.extension.imguizmo.flag.Operation;
+import imgui.extension.imguizmo.flag.Mode;
 import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiConfigFlags;
@@ -81,6 +87,11 @@ public class EditorApplication extends Application {
 	}
 
 	private PlayState state = PlayState.STOPPED;
+	private Inspector inspector;
+
+	public static void main(String[] args) {
+		new EditorApplication().Run();
+	}
 
     @Override
     public void OnStart() {
@@ -128,7 +139,7 @@ public class EditorApplication extends Application {
 
 		viewportFbo = new FrameBuffer(viewportWidth, viewportHeight);
 
-		Inspector inspector = new Inspector();
+		inspector = new Inspector();
 
 		// HIER DIE IMGUI WINDOWS REINSCHREIBEN
 		windows = new IEditorImGuiWindow[] { new TileMapEditor(), new ContentBrowser(), new SpriteCreator(), new SceneHiarchy(this, inspector), inspector, new CodeEditor()};
@@ -206,6 +217,41 @@ public class EditorApplication extends Application {
 
 		ImGui.image(viewportFbo.GetTexture().GetTextureId(), windowSize.x, windowSize.y, 0, 1, 1, 0);
 
+		if(inspector.GetActiveEntity() != null && state == PlayState.STOPPED) {
+			
+			ImGuizmo.setOrthographic(true);
+			Entity activeEntity = inspector.GetActiveEntity();
+
+			ImGuizmo.setDrawList();
+			ImGuizmo.setRect(ImGui.getWindowPosX(), ImGui.getWindowPosY(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY());
+
+			Matrix4f cameraView = camera.GetTransformMatrix();
+			Matrix4f cameraProj = camera.GetProjectionMatrix();
+
+			Matrix4f trans = new Matrix4f().identity()
+					.translate(activeEntity.transform.GetPosition().x(), activeEntity.transform.GetPosition().y(), 0)
+					.scale(activeEntity.transform.GetScale().x(), activeEntity.transform.GetScale().y(), 0)
+					.rotateZ((float) Math.toRadians(activeEntity.transform.GetRotation()));
+
+			float[] _trans = new float[16];
+
+			ImGuizmo.manipulate(cameraView.get(new float[16]), cameraProj.get(new float[16]),
+					Operation.ROTATE_X | Operation.ROTATE_Z | Operation.SCALE_X | Operation.SCALE_Z | Operation.TRANSLATE_Z | Operation.TRANSLATE_Y, Mode.WORLD, trans.get(_trans));
+
+			if (ImGuizmo.isUsing()) {
+				trans = new Matrix4f().set(_trans);
+
+				Vector3f pos = new Vector3f();
+				Vector3f scale = new Vector3f();
+
+				trans.getTranslation(pos);
+				trans.getScale(scale);
+
+				activeEntity.transform.setScale(scale.x, scale.y);
+				activeEntity.transform.setPosition(pos.x, pos.y);
+			}
+		}
+
 		ImGui.end();
 
 		// -------------------------------------
@@ -271,6 +317,26 @@ public class EditorApplication extends Application {
 
 					spriteBatch.AddSprite(animationCompoennet.GetCurrentSprite(), transform);
 				}
+            }
+        }
+
+		if(this.scene.GetComponentsByType(ComponentType.TilemapComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.TilemapComponent)) {
+                TilemapComponent tilemapComponent = (TilemapComponent) component;
+
+				Transform transform = tilemapComponent.GetEntity().transform;
+
+				if(tilemapComponent.GetTilemap() == null) break;
+
+				for(int x = 0; x < tilemapComponent.GetTilemap().GetWidth(); x++)  {
+					for(int y = 0; y < tilemapComponent.GetTilemap().GetHeight(); y++)  {
+						spriteBatch.AddSprite(tilemapComponent.GetTileAt(x, y), transform);
+
+						transform.move(0, 1);
+					}
+					transform.move(1, -tilemapComponent.GetTilemap().GetHeight());
+				}
+				transform.move(-tilemapComponent.GetTilemap().GetWidth(), 0);
             }
         }
 
@@ -444,7 +510,8 @@ public class EditorApplication extends Application {
 
         imGuiGl3.newFrame();
 		ImGui.newFrame();
-		// ImGuizmo.beginFrame();
+		ImGuizmo.beginFrame();
+
 		setupDockspace();
     }
 

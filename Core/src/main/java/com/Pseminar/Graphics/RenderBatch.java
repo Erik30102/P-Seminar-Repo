@@ -76,7 +76,13 @@ public class RenderBatch {
         return texSlots;
     }
 
+    private List<SpriteRenderEntry> renderEntries = new ArrayList<>();
+
     public void AddSprite(Sprite sprite, Transform transform) {
+        renderEntries.add(new SpriteRenderEntry(sprite, transform.GenerateTransformMatrix(), transform.GetZIndex()));
+    }
+
+    private void AddSpriteToVertexArray(Sprite sprite, Matrix4f transformMatrix) {
         if(!IsTextureAttached(sprite.getTexture())) {
             textures.add(sprite.getTexture());
             texCount++;
@@ -86,9 +92,6 @@ public class RenderBatch {
         }
 
         int texIndex = textures.indexOf(sprite.getTexture());
-
-        // Ich mach die transform matrix multiplizerung einfach aufm cpu dann muss man weniger zeug an den gpu senden
-        Matrix4f transformMatrix = transform.GenerateTransformMatrix();
 
         Vector4f[] vec = new Vector4f[] {
             new Vector4f(0.5f, -0.5f, 0f, 1f).mul(transformMatrix),
@@ -130,6 +133,12 @@ public class RenderBatch {
     }
         
     public void ReloadData() {
+        this.renderEntries.sort((a,b) -> Float.compare(a.zIndex, b.zIndex));
+
+        for (SpriteRenderEntry spriteRenderEntry : renderEntries) {
+            this.AddSpriteToVertexArray(spriteRenderEntry.sprite, spriteRenderEntry.transform);
+        }
+
         this.vbo.bind();
         this.vbo.SetData(this.vertecies);
         this.vbo.unbind();
@@ -138,6 +147,8 @@ public class RenderBatch {
     public void UpdateAndRender(OrthographicCamera camera) {
         this.ReloadData();
         this.render(camera);
+
+        renderEntries.clear();
     }
 
     public void render(OrthographicCamera camera) {
@@ -179,5 +190,18 @@ public class RenderBatch {
 
     public boolean HasRoomTextures() {
         return this.hasRoomTextures;
+    }
+}
+
+class SpriteRenderEntry {
+    public Sprite sprite;
+    public Matrix4f transform;
+
+    public float zIndex;
+
+    public SpriteRenderEntry(Sprite sprite, Matrix4f transform,float zIndex) {
+        this.sprite = sprite;
+        this.transform = transform;
+        this.zIndex = zIndex;
     }
 }

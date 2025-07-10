@@ -1,10 +1,12 @@
 package com.Pseminar.ECS.BuiltIn;
 
+import java.io.IOException;
+
 import com.Pseminar.ECS.Component;
 import com.Pseminar.renderer.OrthographicCamera;
 
 public class CameraComponent extends Component {
-    private OrthographicCamera camera;
+    private transient OrthographicCamera camera;
     private boolean isActive = true;
 
     public CameraComponent() {
@@ -39,5 +41,16 @@ public class CameraComponent extends Component {
     @Override
     public ComponentType GetComponentType() {
         return ComponentType.CameraComponent;
+    }
+
+    private void readObject(java.io.ObjectInputStream stream)
+    throws IOException, ClassNotFoundException {
+        this.isActive = stream.readBoolean();
+
+        this.camera = new OrthographicCamera();
+    }
+
+    private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
+        stream.writeBoolean(isActive);
     }
 }

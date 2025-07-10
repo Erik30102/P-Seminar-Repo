@@ -12,7 +12,7 @@ tasks.register("runEditor", JavaExec) {
     group = "application"
     description = "Runs the ImGuiTest application"
     classpath = sourceSets.main.runtimeClasspath
-    mainClass.set("com.Editor.Editor")
+    mainClass.set("com.Editor.EditorApplication")
 }
 
 tasks.register("wrapper", Wrapper) {

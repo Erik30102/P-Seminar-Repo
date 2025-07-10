@@ -22,14 +22,29 @@ public class TileMapEditor implements IEditorImGuiWindow {
         
     }
 
+    private int[] createNewTilemapSize = { 10, 10 };
+
     @Override
     public void OnImgui() {
         ImGui.begin("TileMapEditor");
 
         ImGui.columns(2);
         if(ImGui.button("Create New Tilemap")) {
-
+            if(this.selectedSpriteSheet != null) {
+                ImGui.openPopup("tilemapCreateNew");
+            }
         }
+
+        if(ImGui.beginPopup("tilemapCreateNew")) {
+            ImGui.dragInt2("Size", createNewTilemapSize);
+
+            if(ImGui.button("Create")) {
+                this.tilemap = new Tilemap(selectedSpriteSheet, createNewTilemapSize[0], createNewTilemapSize[1]);
+            }
+
+            ImGui.endPopup();
+        }
+
         ImGui.nextColumn();
         if(ImGui.button("Save")) {
 
@@ -43,6 +58,8 @@ public class TileMapEditor implements IEditorImGuiWindow {
         if(AssetPicker.Display("tilemapSpirtesheet")) {
             selectedSpriteSheet = AssetPicker.GetSelected(SpriteSheet.class);
         }
+
+        
 
         ImGui.end();
     }

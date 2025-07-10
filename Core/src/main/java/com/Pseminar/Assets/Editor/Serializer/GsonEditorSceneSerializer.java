@@ -18,6 +18,7 @@ import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.ECS.BuiltIn.TilemapComponent;
 import com.Pseminar.Graphics.Sprite;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -56,6 +57,8 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                     case AnimationComponent:
                         componentObject.addProperty("animationId", ((AnimationSpriteComponent)c).GetAnimation().GetAssetId());
                         break;
+                    case TilemapComponent:
+                        componentObject.addProperty("tilemapId", ((TilemapComponent)c).GetTilemap().GetAssetId());
                     default:
                         break;
                 }
@@ -148,7 +151,11 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
                         comp = new AnimationSpriteComponent();
                         ((AnimationSpriteComponent)comp).SetAnimation(ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(animId));
                         break;
-                    default:
+                    case "TilemapComponent":
+                        int tilemapId = compJson.get("tilemapId").getAsInt();
+                        comp = new TilemapComponent();
+                        ((TilemapComponent)comp).SetTilemap(ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(tilemapId));
+                        default:
                         break;
                 }
 

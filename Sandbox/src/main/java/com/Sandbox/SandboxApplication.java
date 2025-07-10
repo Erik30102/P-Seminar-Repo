@@ -14,8 +14,10 @@ import com.Pseminar.ECS.Scene;
 import com.Pseminar.ECS.Transform;
 import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
 import com.Pseminar.ECS.BuiltIn.BaseComponent;
+import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.ECS.BuiltIn.TilemapComponent;
 import com.Pseminar.ECS.Component.ComponentType;
 import com.Pseminar.Graphics.RenderApi;
 import com.Pseminar.Graphics.RenderBatch;
@@ -29,7 +31,6 @@ import com.Pseminar.renderer.Shader;
 
 public class SandboxApplication extends Application {
 
-    private OrthographicCamera camera;
     private RenderBatch spriteBatch;
 
     private Scene scene;
@@ -57,9 +58,6 @@ public class SandboxApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        this.camera = new OrthographicCamera();
-        camera.Resize(800, 600);
 
         this.scene = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(2012601628);
 
@@ -136,8 +134,39 @@ public class SandboxApplication extends Application {
             }
         }
 
+        if(this.scene.GetComponentsByType(ComponentType.TilemapComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.TilemapComponent)) {
+                TilemapComponent tilemapComponent = (TilemapComponent) component;
 
-        spriteBatch.UpdateAndRender(camera);
+				Transform transform = tilemapComponent.GetEntity().transform;
+
+				if(tilemapComponent.GetTilemap() == null) break;
+
+				for(int x = 0; x < tilemapComponent.GetTilemap().GetWidth(); x++)  {
+					for(int y = 0; y < tilemapComponent.GetTilemap().GetHeight(); y++)  {
+						spriteBatch.AddSprite(tilemapComponent.GetTileAt(x, y), transform);
+
+						transform.move(0, 1);
+					}
+					transform.move(1, -tilemapComponent.GetTilemap().GetHeight());
+				}
+				transform.move(-tilemapComponent.GetTilemap().GetWidth(), 0);
+            }
+        }
+
+
+		if(this.scene.GetComponentsByType(ComponentType.CameraComponent) != null) {
+			for(Component component : this.scene.GetComponentsByType(ComponentType.CameraComponent)) {
+				CameraComponent cameraComponent = (CameraComponent) component;
+
+				if(cameraComponent.GetActive()) {
+					cameraComponent.GetCamera().Move(cameraComponent.GetEntity().transform.GetPosition());
+
+					this.spriteBatch.UpdateAndRender(cameraComponent.GetCamera());
+					break;
+				}
+			}
+		}
     }
 
     @Override
@@ -148,8 +177,14 @@ public class SandboxApplication extends Application {
     @Override
     public void OnResize(float width, float height) {
         RenderApi.SetViewPort(width,height);
-        this.camera.Resize(width, height);
-    }
+        if(this.scene.GetComponentsByType(ComponentType.CameraComponent) != null) {
+				for(Component component : this.scene.GetComponentsByType(ComponentType.CameraComponent)) {
+					CameraComponent cameraComponent = (CameraComponent) component;
+
+					cameraComponent.GetCamera().Resize(width, height);
+				}
+			}
+        }
 
     @Override
     protected void OnEventCallback(Event event) {

@@ -4,14 +4,15 @@
       "id": 0,
       "transfrom": {
         "position": {
-          "x": -0.48235878,
-          "y": -0.38971373
+          "x": 1.8021611,
+          "y": -0.017277509
         },
         "scale": {
           "x": 1.0,
           "y": 1.0
         },
-        "rotation": 0.0
+        "rotation": 0.0,
+        "zIndex": 0.0
       },
       "components": [
         {
@@ -47,13 +48,36 @@
           "x": 1.0,
           "y": 1.0
         },
-        "rotation": 0.0
+        "rotation": 0.0,
+        "zIndex": 0.0
       },
       "components": [
         {
           "type": "CameraComponent",
           "id": 0,
           "active": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "transfrom": {
+        "position": {
+          "x": -2.8000002,
+          "y": -3.4
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "rotation": 0.0,
+        "zIndex": -3.3
+      },
+      "components": [
+        {
+          "type": "TilemapComponent",
+          "id": 0,
+          "tilemapId": 224329153
         }
       ]
     }

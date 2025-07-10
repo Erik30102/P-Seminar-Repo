@@ -14,6 +14,8 @@ public class Transform implements Serializable {
     private final Vector2f scale;
     private float rotation;
 
+    private float zIndex = 0;
+
     /**
      * Initialisiert die Transform mit eigener Position, Scale und Rotation.
      *
@@ -25,6 +27,14 @@ public class Transform implements Serializable {
         this.position = position;
         this.scale = scale;
         this.rotation = rotation;
+    }
+
+    public void SetZIndex(float zIndex) {
+        this.zIndex = zIndex;
+    }
+
+    public float GetZIndex() {
+        return this.zIndex;
     }
 
     /**
@@ -144,7 +154,7 @@ public class Transform implements Serializable {
     public Matrix4f GenerateTransformMatrix() {
         Matrix4f transform = new Matrix4f();
         transform.identity()
-                 .translate(this.position.x, this.position.y, -10)
+                 .translate(this.position.x, this.position.y, -10 + zIndex)
                  .scale(this.scale.x, this.scale.y, 1)
                  .rotateZ((float) Math.toRadians(rotation));
         return transform;

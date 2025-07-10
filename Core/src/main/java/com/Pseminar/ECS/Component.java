@@ -2,12 +2,14 @@ package com.Pseminar.ECS;
 
 import java.io.Serializable;
 
+
 public abstract class Component implements Serializable {
     public enum ComponentType {
         SpriteComponent, 
         BaseComponent,
         CameraComponent,
         AnimationComponent,
+        TilemapComponent,
 
         RidgedBodyComponent,
     }

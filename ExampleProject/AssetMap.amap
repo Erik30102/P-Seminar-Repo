@@ -43,8 +43,12 @@
     "path": "\\assets\\Character\\Main\\maincharacter_rechts_sprite.png",
     "type": "TEXTURE2D"
   },
+  "-80440319": {
+    "path": "/assets/Dung.spritesheet",
+    "type": "SPRITESHEET"
+  },
   "724989153": {
-    "path": "\\assets\\Maps\\tiles.png",
+    "path": "\\assets\\Maps\\Dungeon_Tileset.png",
     "type": "TEXTURE2D"
   },
   "86891766": {
@@ -54,5 +58,9 @@
   "250213687": {
     "path": "\\assets\\Character\\Main\\maincharacter_vorne_sprite.png",
     "type": "TEXTURE2D"
+  },
+  "224329153": {
+    "path": "\\assets\\Maps\\tilemap.tilemap",
+    "type": "TILEMAP"
   }
 }

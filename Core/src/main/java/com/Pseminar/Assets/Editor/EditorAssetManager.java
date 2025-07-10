@@ -20,6 +20,7 @@ import com.Pseminar.Assets.Editor.Importers.EditorSceneImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSpriteImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorSpriteSheetImporter;
 import com.Pseminar.Assets.Editor.Importers.EditorTexture2dImporter;
+import com.Pseminar.Assets.Editor.Importers.EditorTilemapImporter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -51,6 +52,7 @@ public class EditorAssetManager implements AssetManager {
         AssetImporters.put(AssetType.SPRITE, new EditorSpriteImporter());
         AssetImporters.put(AssetType.SPRITESHEET, new EditorSpriteSheetImporter());
         AssetImporters.put(AssetType.ANIMATION, new EditorAnimationImporter());
+        AssetImporters.put(AssetType.TILEMAP, new EditorTilemapImporter());
     }
 
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {

@@ -10,6 +10,7 @@ import org.joml.Vector3f;
 
 import com.Pseminar.Assets.ScriptingEngine;
 import com.Pseminar.Assets.Asset.AssetType;
+import com.Pseminar.BuiltIn.Tilemap;
 import com.Pseminar.ECS.Component;
 import com.Pseminar.ECS.Entity;
 import com.Pseminar.ECS.BuiltIn.AnimationSpriteComponent;
@@ -17,6 +18,7 @@ import com.Pseminar.ECS.BuiltIn.BaseComponent;
 import com.Pseminar.ECS.BuiltIn.CameraComponent;
 import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
 import com.Pseminar.ECS.BuiltIn.SpriteComponent;
+import com.Pseminar.ECS.BuiltIn.TilemapComponent;
 import com.Pseminar.ECS.Component.ComponentType;
 import com.Pseminar.Graphics.Animation;
 import com.Pseminar.Graphics.Sprite;
@@ -63,6 +65,13 @@ public class Inspector implements IEditorImGuiWindow {
 				float[] r = { entity.transform.GetRotation() };
 				if (ImGui.dragFloat("##R", r, 0.1f)) {
 					entity.transform.setRotation(r[0]);
+				}
+				ImGui.nextColumn();
+				ImGui.text("ZIndex: ");
+				ImGui.nextColumn();
+				float[] z = { entity.transform.GetZIndex() };
+				if (ImGui.dragFloat("##Z", z, 0.1f)) {
+					entity.transform.SetZIndex(z[0]);
 				}
 				ImGui.nextColumn();
 				ImGui.text("Scale: ");
@@ -116,7 +125,22 @@ public class Inspector implements IEditorImGuiWindow {
 
 						ImGui.columns(1);
 
-					} else if(component.getClass() == CameraComponent.class) {
+					} else if(component.getClass() == TilemapComponent.class) {
+						ImGui.columns(2);
+
+						ImGui.text("Tilemap: ");
+						ImGui.nextColumn();
+						if (ImGui.button("Select Aniamtion")) {
+							AssetPicker.Open("til", AssetType.TILEMAP);
+						}
+
+						if (AssetPicker.Display("til")) {
+							((TilemapComponent) component).SetTilemap(AssetPicker.GetSelected(Tilemap.class));
+						}
+
+						ImGui.columns(1);
+
+					}else if(component.getClass() == CameraComponent.class) {
 						ImGui.columns(2);
 
 						CameraComponent c = ((CameraComponent)component);
@@ -163,7 +187,7 @@ public class Inspector implements IEditorImGuiWindow {
         ImGui.end();
     }
 
-    private static Component[] c = new Component[] { new SpriteComponent(), new CameraComponent(), new RidgedBodyComponent(), new AnimationSpriteComponent() };
+    private static Component[] c = new Component[] { new TilemapComponent(), new SpriteComponent(), new CameraComponent(), new RidgedBodyComponent(), new AnimationSpriteComponent() };
     
     private void HandleCustomComponentSlider(Component component) {
 		ImGui.columns(2);
@@ -260,6 +284,10 @@ public class Inspector implements IEditorImGuiWindow {
 		ImGui.columns(1);
 
 		ImGui.columns(1);
+	}
+
+    public Entity GetActiveEntity() {
+		return this.entity;
 	}
 
     

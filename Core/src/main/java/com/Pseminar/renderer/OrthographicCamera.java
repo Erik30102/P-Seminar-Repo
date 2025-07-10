@@ -8,11 +8,11 @@ import org.joml.Vector3f;
 import com.Pseminar.Logger;
 
 public class OrthographicCamera {
-    private Matrix4f transformMatrix;
-    private Matrix4f projectionMatrix;
+    private transient Matrix4f transformMatrix;
+    private transient Matrix4f projectionMatrix;
 
-    private Matrix4f inversTransformMatrix;
-    private Matrix4f inversProjectionMatrix;
+    private transient Matrix4f inversTransformMatrix;
+    private transient Matrix4f inversProjectionMatrix;
 
     private float Zoom = 10;
     private float currentAspectRatio = 1;
