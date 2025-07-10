@@ -64,119 +64,119 @@ public class TileMapEditor implements IEditorImGuiWindow {
 
     @Override
     public void OnImgui() {
-        ImGui.begin("TileMapEditor");
+        if(ImGui.begin("TileMapEditor")) {
 
-        ImGui.columns(2);
-        if(ImGui.button("Create New Tilemap")) {
-            if(this.selectedSpriteSheet != null) {
-                ImGui.openPopup("tilemapCreateNew");
-            }
-        }
-
-        if(ImGui.beginPopup("tilemapCreateNew")) {
-            ImGui.dragInt2("Size", createNewTilemapSize);
-
-            if(ImGui.button("Create")) {
-                this.tilemap = new Tilemap(selectedSpriteSheet, createNewTilemapSize[0], createNewTilemapSize[1]);
-            }
-
-            ImGui.endPopup();
-        }
-
-        ImGui.nextColumn();
-        if(ImGui.button("Save")) {
-            ImGui.openPopup("##tilemapsaveodisk");
-        }
-
-        if(ImGui.beginPopupModal("##tilemapsaveodisk", new ImBoolean(true),ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoTitleBar)) {
-            if(tilemap != null) {
-                ImGui.inputText("Name", name);
-
-                if(ImGui.button("Save")) {
-                    ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.tilemap, "/assets/" + name.get() + ".tilemap");
-                    ImGui.closeCurrentPopup();
+            ImGui.columns(2);
+            if(ImGui.button("Create New Tilemap")) {
+                if(this.selectedSpriteSheet != null) {
+                    ImGui.openPopup("tilemapCreateNew");
                 }
             }
 
-            if(ImGui.button("discard")) {
-                ImGui.closeCurrentPopup();
+            if(ImGui.beginPopup("tilemapCreateNew")) {
+                ImGui.dragInt2("Size", createNewTilemapSize);
+
+                if(ImGui.button("Create")) {
+                    this.tilemap = new Tilemap(selectedSpriteSheet, createNewTilemapSize[0], createNewTilemapSize[1]);
+                }
+
+                ImGui.endPopup();
             }
 
-			ImGui.endPopup();
+            ImGui.nextColumn();
+            if(ImGui.button("Save")) {
+                ImGui.openPopup("##tilemapsaveodisk");
+            }
+
+            if(ImGui.beginPopupModal("##tilemapsaveodisk", new ImBoolean(true),ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoTitleBar)) {
+                if(tilemap != null) {
+                    ImGui.inputText("Name", name);
+
+                    if(ImGui.button("Save")) {
+                        ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).AppendAssetToProject(this.tilemap, "/assets/" + name.get() + ".tilemap");
+                        ImGui.closeCurrentPopup();
+                    }
+                }
+
+                if(ImGui.button("discard")) {
+                    ImGui.closeCurrentPopup();
+                }
+
+                ImGui.endPopup();
+            }
+
+
+            ImGui.columns(1);
+            if(ImGui.button("Open SpriteSheet")) {
+                AssetPicker.Open("tilemapSpirtesheet", AssetType.SPRITESHEET);
+            }
+
+            if(AssetPicker.Display("tilemapSpirtesheet")) {
+                selectedSpriteSheet = AssetPicker.GetSelected(SpriteSheet.class);
+            }
+
+            ImGui.columns(2);
+
+            ImVec2 spriteSheetwindowSize = new ImVec2();
+            ImGui.getContentRegionAvail(spriteSheetwindowSize);
+
+            if (spriteSheetSelecterFBOwidth != (int)((float)spriteSheetwindowSize.x) || (int)((float)spriteSheetwindowSize.y / 5) != spriteSheetSelecterFBOheight) {
+                spriteSheetSelecterFBOwidth = (int) ((float)spriteSheetwindowSize.x);
+                spriteSheetSelecterFBOheight = (int)  ((float)spriteSheetwindowSize.y / 5);
+
+                spriteSheetSelecterFBO.Resize(spriteSheetSelecterFBOwidth, spriteSheetSelecterFBOheight);
+
+                spriteSheetCamera.SetZoom(2);
+                spriteSheetCamera.Resize(spriteSheetSelecterFBOwidth, spriteSheetSelecterFBOheight);
+            }
+
+            Vector2d mousePos = Input.GetMousePos();
+            // mousePos.sub(ImGui.getWindowPosX(), ImGui.getWindowPosY());
+            mousePos.sub(ImGui.getCursorScreenPosX(), ImGui.getCursorScreenPosY());
+            mousePos.div(ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY() / 5);
+            mousePos.mul(2);
+            mousePos.sub(1,1);
+
+            RenderSpriteSelector(mousePos);
+
+            ImGui.image(spriteSheetSelecterFBO.GetTexture().GetTextureId(), spriteSheetwindowSize.x, (int)((float)spriteSheetwindowSize.y / 5), 0, 1, 1, 0);
+
+            ImGui.nextColumn();
+
+            if(selectedSpriteSheet != null)
+                ImGui.image(selectedSpriteSheet.getTexture().GetTextureId(), ImGui.getContentRegionAvailX(), (int)((float)ImGui.getContentRegionAvailY() / 5), selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[2],selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[3],selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[0],selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[1]);
+
+            ImGui.columns(1);
+
+            ImVec2 windowSize = new ImVec2();
+            ImGui.getContentRegionAvail(windowSize);
+
+            if (windowSize.x != tileMapEditorFBOwidth  || windowSize.y != tileMapEditorFBOheight ) {
+                tileMapEditorFBOwidth = (int) windowSize.x;
+                tileMapEditorFBOheight = (int)  windowSize.y;
+
+                tileMapEditorFBO.Resize(tileMapEditorFBOwidth, tileMapEditorFBOheight);
+
+                tilemapCamera.SetZoom(5);
+                tilemapCamera.Resize(tileMapEditorFBOwidth, tileMapEditorFBOheight);
+            }
+
+
+            Vector2d mousePos2 = Input.GetMousePos();
+            // mousePos.sub(ImGui.getWindowPosX(), ImGui.getWindowPosY());
+            mousePos2.sub(ImGui.getCursorScreenPosX(), ImGui.getCursorScreenPosY());
+            mousePos2.div(ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY() );
+            mousePos2.mul(2);
+            mousePos2.sub(1,1);
+
+            RenderTileMapEditor(mousePos2);
+
+            ImGui.image(tileMapEditorFBO.GetTexture().GetTextureId(), windowSize.x, windowSize.y, 0, 1, 1, 0);
+        
         }
-
-
-        ImGui.columns(1);
-        if(ImGui.button("Open SpriteSheet")) {
-            AssetPicker.Open("tilemapSpirtesheet", AssetType.SPRITESHEET);
-        }
-
-        if(AssetPicker.Display("tilemapSpirtesheet")) {
-            selectedSpriteSheet = AssetPicker.GetSelected(SpriteSheet.class);
-        }
-
-        ImGui.columns(2);
-
-        ImVec2 spriteSheetwindowSize = new ImVec2();
-		ImGui.getContentRegionAvail(spriteSheetwindowSize);
-
-        if (spriteSheetSelecterFBOwidth != (int)((float)spriteSheetwindowSize.x) || (int)((float)spriteSheetwindowSize.y / 5) != spriteSheetSelecterFBOheight) {
-			spriteSheetSelecterFBOwidth = (int) ((float)spriteSheetwindowSize.x);
-			spriteSheetSelecterFBOheight = (int)  ((float)spriteSheetwindowSize.y / 5);
-
-			spriteSheetSelecterFBO.Resize(spriteSheetSelecterFBOwidth, spriteSheetSelecterFBOheight);
-
-			spriteSheetCamera.SetZoom(2);
-			spriteSheetCamera.Resize(spriteSheetSelecterFBOwidth, spriteSheetSelecterFBOheight);
-		}
-
-        Vector2d mousePos = Input.GetMousePos();
-        // mousePos.sub(ImGui.getWindowPosX(), ImGui.getWindowPosY());
-        mousePos.sub(ImGui.getCursorScreenPosX(), ImGui.getCursorScreenPosY());
-        mousePos.div(ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY() / 5);
-        mousePos.mul(2);
-        mousePos.sub(1,1);
-
-        RenderSpriteSelector(mousePos);
-
-		ImGui.image(spriteSheetSelecterFBO.GetTexture().GetTextureId(), spriteSheetwindowSize.x, (int)((float)spriteSheetwindowSize.y / 5), 0, 1, 1, 0);
-
-        ImGui.nextColumn();
-
-        if(selectedSpriteSheet != null)
-            ImGui.image(selectedSpriteSheet.getTexture().GetTextureId(), ImGui.getContentRegionAvailX(), (int)((float)ImGui.getContentRegionAvailY() / 5), selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[2],selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[3],selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[0],selectedSpriteSheet.getSprite(currentSelectedSpriteIndex).getUv()[1]);
-
-        ImGui.columns(1);
-
-        ImVec2 windowSize = new ImVec2();
-		ImGui.getContentRegionAvail(windowSize);
-
-        if (windowSize.x != tileMapEditorFBOwidth  || windowSize.y != tileMapEditorFBOheight ) {
-			tileMapEditorFBOwidth = (int) windowSize.x;
-			tileMapEditorFBOheight = (int)  windowSize.y;
-
-			tileMapEditorFBO.Resize(tileMapEditorFBOwidth, tileMapEditorFBOheight);
-
-			tilemapCamera.SetZoom(5);
-			tilemapCamera.Resize(tileMapEditorFBOwidth, tileMapEditorFBOheight);
-		}
-
-
-        Vector2d mousePos2 = Input.GetMousePos();
-        // mousePos.sub(ImGui.getWindowPosX(), ImGui.getWindowPosY());
-        mousePos2.sub(ImGui.getCursorScreenPosX(), ImGui.getCursorScreenPosY());
-        mousePos2.div(ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY() );
-        mousePos2.mul(2);
-        mousePos2.sub(1,1);
-
-        RenderTileMapEditor(mousePos2);
-
-		ImGui.image(tileMapEditorFBO.GetTexture().GetTextureId(), windowSize.x, windowSize.y, 0, 1, 1, 0);
-    
         ImGui.end();
-
     }
-    
+
     private int currentSelectedSpriteIndex = 0;
 
     public void RenderSpriteSelector(Vector2d mousePos) {

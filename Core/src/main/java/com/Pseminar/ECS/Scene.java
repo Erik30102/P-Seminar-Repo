@@ -132,4 +132,14 @@ public class Scene extends Asset{
     public void OnDispose() {
         // TODO
     }
+
+    public Entity GetEntityByName(String string) {
+        for (Entity entity : entities) {
+            if(entity.GetName().equals(string)) {
+                return entity;
+            }
+        }
+
+        return null;
+    }
 }

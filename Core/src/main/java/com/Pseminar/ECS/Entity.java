@@ -46,6 +46,10 @@ public class Entity implements Serializable{
         return id;
     }
 
+    public Scene GetScene() {
+        return this.scene;
+    }
+
 	public <T extends Component> T GetComponent(Class<T> clazz) {
         for (Component component : this.components) {
             if(component.getClass().isAssignableFrom(clazz)) {

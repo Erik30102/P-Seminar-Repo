@@ -5,8 +5,8 @@
       "name": "Player",
       "transfrom": {
         "position": {
-          "x": 2.184894,
-          "y": -0.5448562
+          "x": 1.3182932,
+          "y": 1.0595039
         },
         "scale": {
           "x": 1.0,
@@ -43,8 +43,8 @@
       "name": "Camera",
       "transfrom": {
         "position": {
-          "x": 2.3,
-          "y": -0.3
+          "x": 1.3182931,
+          "y": 1.0595038
         },
         "scale": {
           "x": 1.0,
@@ -59,6 +59,11 @@
           "id": 0,
           "active": true,
           "zoom": 6.0
+        },
+        {
+          "type": "BaseComponent",
+          "id": 0,
+          "className": "com.ScriptingTest.FollowCameraScript"
         }
       ]
     },
