@@ -78,6 +78,15 @@ public class SandboxApplication extends Application {
         });
 
         this.scene.RunAllAddingListeners();
+
+        if(this.scene.GetComponentsByType(ComponentType.TilemapComponent) != null) {
+			for(Component component : this.scene.GetComponentsByType(ComponentType.TilemapComponent)) {
+				TilemapComponent tilemapComponent = (TilemapComponent) component;
+
+				tilemapComponent.OnStart();
+			}
+		}
+
     }
 
     @Override
