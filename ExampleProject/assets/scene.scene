@@ -5,8 +5,8 @@
       "name": "Player",
       "transfrom": {
         "position": {
-          "x": 1.3182932,
-          "y": 1.0595039
+          "x": 1.5744991,
+          "y": -2.3849628
         },
         "scale": {
           "x": 1.0,
@@ -43,8 +43,8 @@
       "name": "Camera",
       "transfrom": {
         "position": {
-          "x": 1.3182931,
-          "y": 1.0595038
+          "x": 1.5761157,
+          "y": -2.3839102
         },
         "scale": {
           "x": 1.0,
@@ -86,7 +86,7 @@
         {
           "type": "TilemapComponent",
           "id": 0,
-          "tilemapId": 691649568
+          "tilemapId": 1656417915
         }
       ]
     }

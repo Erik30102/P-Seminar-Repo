@@ -144,10 +144,11 @@ public class EditorAssetManager implements AssetManager {
         }
 
         Asset loadedAsset = this.LoadAsset(assetMetaData);
-        if(loadedAsset != null) loadedAsset.SetId(id);
-
-        loadedAssets.put(id, loadedAsset);
-
+        if(loadedAsset != null) {
+            loadedAsset.SetId(id);
+            loadedAssets.put(id, loadedAsset);
+        }
+        
         return (T)loadedAsset;
     }
 

@@ -159,6 +159,16 @@ public class EditorApplication extends Application {
 
 		if(ImGui.button(state == PlayState.STOPPED ? "Start" : "Stop")) {
 			state = state == PlayState.STOPPED ? PlayState.PLAYING : PlayState.STOPPED;
+
+			if(state == PlayState.PLAYING ) {
+				if(this.scene.GetComponentsByType(ComponentType.TilemapComponent) != null) {
+					for(Component component : this.scene.GetComponentsByType(ComponentType.TilemapComponent)) {
+						TilemapComponent tilemapComponent = (TilemapComponent) component;
+
+						tilemapComponent.OnStart();
+					}
+				}
+			}
 		}
 
 

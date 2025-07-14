@@ -48,9 +48,10 @@ public class RenderBatch {
             new BufferElement(DataType.VEC3), // Position länge 3
             new BufferElement(DataType.VEC2), // UVs länge 2
             new BufferElement(DataType.FLOAT), // texId länge 1
+            new BufferElement(DataType.VEC4)
         }); // TOTAL 6 Components
 
-        this.vertecies = new float[batchSize * 6 * 4]; // 6000 Sprites jeweils 4 vertecies die 6 componente haben 
+        this.vertecies = new float[batchSize * 10 * 4]; // 6000 Sprites jeweils 4 vertecies die 6 componente haben 
     
         this.vao = new VertexArray();
         vao.bind();
@@ -79,10 +80,15 @@ public class RenderBatch {
     private List<SpriteRenderEntry> renderEntries = new ArrayList<>();
 
     public void AddSprite(Sprite sprite, Transform transform) {
-        renderEntries.add(new SpriteRenderEntry(sprite, transform.GenerateTransformMatrix(), transform.GetZIndex()));
+        AddSprite(sprite, transform, new Vector4f(1));
     }
 
-    private void AddSpriteToVertexArray(Sprite sprite, Matrix4f transformMatrix) {
+    public void AddSprite(Sprite sprite, Transform transform, Vector4f tint) {
+        renderEntries.add(new SpriteRenderEntry(sprite, transform.GenerateTransformMatrix(), transform.GetZIndex(), tint));
+    }
+
+
+    private void AddSpriteToVertexArray(Sprite sprite, Matrix4f transformMatrix, Vector4f tint) {
         if(!IsTextureAttached(sprite.getTexture())) {
             textures.add(sprite.getTexture());
             texCount++;
@@ -101,14 +107,18 @@ public class RenderBatch {
         };
 
         for(int i = 0; i < 4; i++) {
-            int start = numOfSprites * 6 * 4; // weil jeder sprite hat 6 componenten 3 positions componenten 2 uv und 1 textureId component
+            int start = numOfSprites * 10 * 4; // weil jeder sprite hat 6 componenten 3 positions componenten 2 uv und 1 textureId component
 
-            vertecies[start + i * 6 + 0] = vec[i].x;
-			vertecies[start + i * 6 + 1] = vec[i].y;
-			vertecies[start + i * 6 + 2] = vec[i].z;
-			vertecies[start + i * 6 + 3] = sprite.getUv()[i*2];
-			vertecies[start + i * 6 + 4] = sprite.getUv()[i*2+1];
-			vertecies[start + i * 6 + 5] = texIndex;
+            vertecies[start + i * 10 + 0] = vec[i].x;
+			vertecies[start + i * 10 + 1] = vec[i].y;
+			vertecies[start + i * 10 + 2] = vec[i].z;
+			vertecies[start + i * 10 + 3] = sprite.getUv()[i*2];
+			vertecies[start + i * 10 + 4] = sprite.getUv()[i*2+1];
+			vertecies[start + i * 10 + 5] = texIndex;
+			vertecies[start + i * 10 + 6] = tint.x;            
+			vertecies[start + i * 10 + 7] = tint.y;            
+			vertecies[start + i * 10 + 8] = tint.z;            
+			vertecies[start + i * 10 + 9] = tint.w;            
         }
 
         this.numOfSprites++;
@@ -136,7 +146,7 @@ public class RenderBatch {
         this.renderEntries.sort((a,b) -> Float.compare(a.zIndex, b.zIndex));
 
         for (SpriteRenderEntry spriteRenderEntry : renderEntries) {
-            this.AddSpriteToVertexArray(spriteRenderEntry.sprite, spriteRenderEntry.transform);
+            this.AddSpriteToVertexArray(spriteRenderEntry.sprite, spriteRenderEntry.transform, spriteRenderEntry.tint);
         }
 
         this.vbo.bind();
@@ -196,12 +206,14 @@ public class RenderBatch {
 class SpriteRenderEntry {
     public Sprite sprite;
     public Matrix4f transform;
+    public Vector4f tint;
 
     public float zIndex;
 
-    public SpriteRenderEntry(Sprite sprite, Matrix4f transform,float zIndex) {
+    public SpriteRenderEntry(Sprite sprite, Matrix4f transform,float zIndex, Vector4f tint) {
         this.sprite = sprite;
         this.transform = transform;
         this.zIndex = zIndex;
+        this.tint = tint;
     }
 }

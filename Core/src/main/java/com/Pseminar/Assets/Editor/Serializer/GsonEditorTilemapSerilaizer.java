@@ -24,6 +24,7 @@ public class GsonEditorTilemapSerilaizer implements JsonDeserializer<Tilemap>, J
         obj.addProperty("height", src.GetHeight());
 
         obj.add("tiles", context.serialize(src.GetTiles()));
+        obj.add("Collding", context.serialize(src.GetCollidingMap()));
 
         return obj;
     }
@@ -37,10 +38,15 @@ public class GsonEditorTilemapSerilaizer implements JsonDeserializer<Tilemap>, J
         int height = obj.get("height").getAsInt();
 
         int[] tiles = context.deserialize(obj.get("tiles"), int[].class);
+        boolean[] isColliding = context.deserialize(obj.get("Collding"), boolean[].class);
 
         int assetId = obj.get("spriteSheetId").getAsInt();
         SpriteSheet a = ProjectInfo.GetProjectInfo().GetAssetManager().GetAsset(assetId);
 
-        return new Tilemap(a, width, height, tiles);
+        if(isColliding == null) {
+            isColliding = new boolean[width * height];
+        }
+
+        return new Tilemap(a, width, height, tiles, isColliding);
     }
 }

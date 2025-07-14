@@ -18,7 +18,17 @@ public class TilemapComponent extends Component {
     }
 
     public void SetTilemap(Tilemap tilemap) {
-        this.tilemap = tilemap;
+        if(this.tilemap != null) {
+            this.tilemap.RemoveFromPhysics();
+            this.tilemap = tilemap;
+            this.tilemap.InitPhysics(this.GetEntity().transform.GetPosition());
+        } else {
+            this.tilemap = tilemap;
+        }
+    }
+
+    public void OnStart() {
+        this.tilemap.InitPhysics(this.GetEntity().transform.GetPosition());
     }
 
     public Sprite GetTileAt(int x, int y) {

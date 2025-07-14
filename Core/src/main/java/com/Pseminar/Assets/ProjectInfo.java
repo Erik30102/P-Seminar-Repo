@@ -62,6 +62,10 @@ public class ProjectInfo implements Serializable {
         return this.StartSceneAssetId;
     }
 
+    public void SetStartScene(int assetId) {
+        this.StartSceneAssetId = assetId;
+    }
+
     public String GetAssetDir() {
         return this.projectPath + "\\assets";
     }

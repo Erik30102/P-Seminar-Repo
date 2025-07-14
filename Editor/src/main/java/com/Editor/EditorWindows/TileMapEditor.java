@@ -66,7 +66,7 @@ public class TileMapEditor implements IEditorImGuiWindow {
     public void OnImgui() {
         if(ImGui.begin("TileMapEditor")) {
 
-            ImGui.columns(2);
+            ImGui.columns(3);
             if(ImGui.button("Create New Tilemap")) {
                 if(this.selectedSpriteSheet != null) {
                     ImGui.openPopup("tilemapCreateNew");
@@ -86,7 +86,7 @@ public class TileMapEditor implements IEditorImGuiWindow {
             ImGui.nextColumn();
             if(ImGui.button("Save")) {
                 ImGui.openPopup("##tilemapsaveodisk");
-            }
+            }         
 
             if(ImGui.beginPopupModal("##tilemapsaveodisk", new ImBoolean(true),ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoTitleBar)) {
                 if(tilemap != null) {
@@ -105,6 +105,15 @@ public class TileMapEditor implements IEditorImGuiWindow {
                 ImGui.endPopup();
             }
 
+            ImGui.nextColumn();
+            if(ImGui.button("Select Existing Tilemap")) {
+                AssetPicker.Open("TMESelectTilemap", AssetType.TILEMAP);
+            }
+
+            if(AssetPicker.Display("TMESelectTilemap")) {
+                this.tilemap = AssetPicker.GetSelected(Tilemap.class);
+                this.selectedSpriteSheet = this.tilemap.GetSpritesheet();
+            }
 
             ImGui.columns(1);
             if(ImGui.button("Open SpriteSheet")) {
@@ -113,6 +122,10 @@ public class TileMapEditor implements IEditorImGuiWindow {
 
             if(AssetPicker.Display("tilemapSpirtesheet")) {
                 selectedSpriteSheet = AssetPicker.GetSelected(SpriteSheet.class);
+            }
+
+            if(ImGui.checkbox("Set Colliding", isCollidingMode)) {
+                isCollidingMode = !isCollidingMode;
             }
 
             ImGui.columns(2);
@@ -178,6 +191,7 @@ public class TileMapEditor implements IEditorImGuiWindow {
     }
 
     private int currentSelectedSpriteIndex = 0;
+    private boolean isCollidingMode = false;
 
     public void RenderSpriteSelector(Vector2d mousePos) {
         if(mousePos.x >= -1 && mousePos.x <= 1 && mousePos.y >= -1 && mousePos.y <= 1) {
@@ -232,7 +246,20 @@ public class TileMapEditor implements IEditorImGuiWindow {
                 int y = Math.round(positionOfMouseCursor.y);
 
                 if(x >= 0 && x < tilemap.GetWidth() && y >= 0 && y < tilemap.GetHeight()) {
-                    tilemap.SetTile(x,y, currentSelectedSpriteIndex);
+                    if(!isCollidingMode) {
+                        tilemap.SetTile(x,y, currentSelectedSpriteIndex);
+                    } else {
+                        tilemap.SetTileIsSolid(x, y, true);
+                    }
+                }
+            } else if(Input.IsMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_2)) {
+                int x = Math.round(positionOfMouseCursor.x);
+                int y = Math.round(positionOfMouseCursor.y);
+
+                if(x >= 0 && x < tilemap.GetWidth() && y >= 0 && y < tilemap.GetHeight()) {
+                    if(isCollidingMode) {
+                        tilemap.SetTileIsSolid(x, y, false);
+                    }
                 }
             }
         }
@@ -247,7 +274,11 @@ public class TileMapEditor implements IEditorImGuiWindow {
         if(tilemap != null) {
             for(int x = 0; x < tilemap.GetWidth(); x++)  {
                 for(int y = 0; y < tilemap.GetHeight(); y++)  {
-                    renderBatch.AddSprite(tilemap.GetSpritesheet().getSprite(tilemap.GetTile(x, y)), new Transform(new Vector2f(x,y), new Vector2f(1), 0));
+                    if(!isCollidingMode){
+                        renderBatch.AddSprite(tilemap.GetSpritesheet().getSprite(tilemap.GetTile(x, y)), new Transform(new Vector2f(x,y), new Vector2f(1), 0));
+                    } else {
+                        renderBatch.AddSprite(tilemap.GetSpritesheet().getSprite(tilemap.GetTile(x, y)), new Transform(new Vector2f(x,y), new Vector2f(1), 0), tilemap.IsTileSolid(x, y) ? IS_SOLID : IS_OPAQUE);
+                    }
                 }
             }
 
@@ -258,4 +289,7 @@ public class TileMapEditor implements IEditorImGuiWindow {
 
         tileMapEditorFBO.Unbind();
     }
+
+    private final static Vector4f IS_SOLID = new Vector4f(0.8f, 0.2f, 0.2f, 1);
+    private final static Vector4f IS_OPAQUE = new Vector4f(0.2f, 0.8f, 0.2f, 1);
 }

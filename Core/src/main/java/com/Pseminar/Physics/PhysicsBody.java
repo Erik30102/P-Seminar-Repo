@@ -11,7 +11,7 @@ import org.joml.Vector2f;
 import com.Pseminar.Physics.Collider.Collider;
 
 public class PhysicsBody {
-    private float density = 1;
+    private float density = 10;
 	private float friction = 0;
 
 	private transient Body body;
@@ -139,6 +139,6 @@ public class PhysicsBody {
 	}
 
     public void Destroy() {
-
+		this.body.destroyFixture(this.body.getFixtureList());
 	}
 }

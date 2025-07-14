@@ -3,6 +3,10 @@
     "path": "\\assets\\Character\\Main\\maincharakter_links_sprite.png",
     "type": "TEXTURE2D"
   },
+  "1656417915": {
+    "path": "/assets/Main-Dungeon.tilemap",
+    "type": "TILEMAP"
+  },
   "2131212323": {
     "path": "/assets/Character/Animation/linksAnim.animation",
     "type": "ANIMATION"
@@ -50,10 +54,6 @@
   "724989153": {
     "path": "\\assets\\Maps\\Dungeon_Tileset.png",
     "type": "TEXTURE2D"
-  },
-  "691649568": {
-    "path": "/assets/Main-Dungeon.tilemap",
-    "type": "TILEMAP"
   },
   "86891766": {
     "path": "/assets//Character/Spritsheets/rechtsAnim.spritesheet",
