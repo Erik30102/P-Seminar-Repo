@@ -7,6 +7,10 @@
     "path": "/assets/Main-Dungeon.tilemap",
     "type": "TILEMAP"
   },
+  "1115220569": {
+    "path": "/assets/15x15-Opening-East.tilemap",
+    "type": "TILEMAP"
+  },
   "2131212323": {
     "path": "/assets/Character/Animation/linksAnim.animation",
     "type": "ANIMATION"
@@ -38,6 +42,10 @@
   "751166027": {
     "path": "\\assets\\Character\\Main\\maincharacter_hinten_sprite.png",
     "type": "TEXTURE2D"
+  },
+  "-106776724": {
+    "path": "/assets/15x15-Opening-West.tilemap",
+    "type": "TILEMAP"
   },
   "-1230503173": {
     "path": "/assets/Character/Spritsheets/vornAnim.spritesheet",

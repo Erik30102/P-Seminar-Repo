@@ -87,6 +87,13 @@ public class SandboxApplication extends Application {
 			}
 		}
 
+        if(this.scene.GetComponentsByType(ComponentType.BaseComponent) != null) {
+            for(Component component : this.scene.GetComponentsByType(ComponentType.BaseComponent)) {
+                BaseComponent baseComponent = (BaseComponent) component;
+                baseComponent.OnStart();
+            }
+        }
+
     }
 
     @Override

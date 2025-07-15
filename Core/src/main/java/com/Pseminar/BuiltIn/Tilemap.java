@@ -89,18 +89,26 @@ public class Tilemap extends Asset {
     private transient List<PhysicsBody> colliders = new ArrayList<>();
 
     public void InitPhysics(Vector2f offset) {
+        if(colliders == null)
+            colliders = new ArrayList<>();
+
         for(int x = 0; x < this.width; x++) {
             for(int y = 0; y < this.height; y++) {
                 if(IsTileSolid(x, y)) {
                     PhysicsBody p = new PhysicsBody(BodyType.STATIC);
                     p.AddCollider(new BoxCollider(1, 1));
                     p.SetPosition(new Vector2f(offset.x + x, offset.y + y));
+
+                    colliders.add(p);
                 }
             }
         }
     }
 
     public void RemoveFromPhysics() {
+        if(colliders == null)
+            return;
+
         for (PhysicsBody physicsBody : colliders) {
             physicsBody.Destroy();
         }

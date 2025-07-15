@@ -5,8 +5,8 @@
       "name": "Player",
       "transfrom": {
         "position": {
-          "x": 1.5744991,
-          "y": -2.3849628
+          "x": 1.2816033,
+          "y": 1.2159224
         },
         "scale": {
           "x": 1.0,
@@ -43,8 +43,8 @@
       "name": "Camera",
       "transfrom": {
         "position": {
-          "x": 1.5761157,
-          "y": -2.3839102
+          "x": 1.2861495,
+          "y": 1.2232462
         },
         "scale": {
           "x": 1.0,
@@ -73,7 +73,7 @@
       "transfrom": {
         "position": {
           "x": -2.8000002,
-          "y": -3.4
+          "y": -3.3999996
         },
         "scale": {
           "x": 1.0,
@@ -86,7 +86,12 @@
         {
           "type": "TilemapComponent",
           "id": 0,
-          "tilemapId": 1656417915
+          "tilemapId": -106776724
+        },
+        {
+          "type": "BaseComponent",
+          "id": 0,
+          "className": "com.ScriptingTest.DungeonGenerator"
         }
       ]
     }

@@ -30,11 +30,13 @@ public class PhysicsBody {
 			case KINEMATIC:
 				return org.jbox2d.dynamics.BodyType.KINEMATIC;
 			default:
-				return null;
+				return org.jbox2d.dynamics.BodyType.STATIC;
 		}
 	}
 
 	public PhysicsBody(BodyType bodyType) {
+		this.bodyType = bodyType;
+
 		BodyDef def = new BodyDef();
 		def.type = GetBodyType(bodyType);
 
@@ -49,10 +51,15 @@ public class PhysicsBody {
 	 * @param collider
 	 */
 	public void AddCollider(Collider collider) {
+		AddCollider(collider, false);
+	}
+
+	public void AddCollider(Collider collider,boolean isSensor) {
 		FixtureDef def = new FixtureDef();
 		def.shape = collider.getShape();
 		def.density = this.density;
 		def.friction = this.friction;
+		def.isSensor = true;
 
 		this.body.createFixture(def);
 	}
@@ -90,6 +97,14 @@ public class PhysicsBody {
 	 */
 	public Vector2f GetPosition() {
 		return new Vector2f(GetX(), GetY());
+	}
+
+	public void SetUserData(Object data) {
+		this.body.setUserData(data);
+	}
+
+	public Object GetUserData() {
+		return this.body.getUserData();
 	}
 
 	/**

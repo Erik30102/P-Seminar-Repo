@@ -35,4 +35,6 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
 
     implementation "org.joml:joml:$jomlVersion"
+
+    implementation "org.jbox2d:jbox2d-library:2.2.1.1"
 }

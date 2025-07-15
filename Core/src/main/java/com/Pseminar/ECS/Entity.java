@@ -1,6 +1,11 @@
 package com.Pseminar.ECS;
 
 import java.util.List;
+
+import org.joml.Vector2f;
+
+import com.Pseminar.ECS.BuiltIn.RidgedBodyComponent;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -69,6 +74,13 @@ public class Entity implements Serializable{
 
     public List<Component> getComponents() {
         return components;
+    }
+
+    public void ForceSetPosition(Vector2f position) {
+        if(GetComponent(RidgedBodyComponent.class) != null)
+            GetComponent(RidgedBodyComponent.class).GetBody().SetPosition(position);
+
+        this.transform.setPosition(position);
     }
 
 }
