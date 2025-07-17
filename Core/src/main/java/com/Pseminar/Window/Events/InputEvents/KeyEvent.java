@@ -10,15 +10,24 @@ public class KeyEvent extends Event {
         this.keyCode = keyCode;
     }
 
+    /** 
+     * @return int
+     */
     public int getKeyCode() {
         return keyCode;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "keyCode=" + keyCode;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "KeyEvent{" + "type=" + getType() + ", " + getEventDetails() + '}';

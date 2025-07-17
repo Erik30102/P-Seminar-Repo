@@ -15,6 +15,10 @@ import com.google.gson.GsonBuilder;
 
 public class EditorTilemapImporter implements IEditorAssetImporter {
 
+/** 
+ * @param assetMetaData
+ * @return Asset
+ */
 @Override
     public Asset LoadAsset(IntermidiateAssetData assetMetaData) {
         Gson gson = new GsonBuilder().registerTypeAdapter(Tilemap.class, new GsonEditorTilemapSerilaizer()).create();
@@ -28,6 +32,10 @@ public class EditorTilemapImporter implements IEditorAssetImporter {
         return null;
     }
 
+    /** 
+     * @param path
+     * @param asset
+     */
     @Override
     public void SerializeAsset(String path, Asset asset) {
         Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Tilemap.class, new GsonEditorTilemapSerilaizer()).create();

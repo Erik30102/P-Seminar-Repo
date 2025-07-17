@@ -16,6 +16,10 @@ import com.google.gson.GsonBuilder;
 
 public class EditorSceneImporter implements IEditorAssetImporter {
 
+    /** 
+     * @param assetMetaData
+     * @return Asset
+     */
     @Override
     public Asset LoadAsset(IntermidiateAssetData assetMetaData) {
         Gson gson = new GsonBuilder().registerTypeAdapter(Scene.class, new GsonEditorSceneSerializer()).create();
@@ -29,6 +33,10 @@ public class EditorSceneImporter implements IEditorAssetImporter {
         return null;
     }
 
+    /** 
+     * @param path
+     * @param asset
+     */
     @Override
     public void SerializeAsset(String path, Asset asset) {
         Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Scene.class, new GsonEditorSceneSerializer()).create();

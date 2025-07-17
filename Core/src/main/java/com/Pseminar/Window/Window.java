@@ -64,6 +64,9 @@ public class Window {
         GL.createCapabilities();
     }
 
+    /** 
+     * @param windowHandle
+     */
     public void registerCallbacks(long windowHandle){
         GLFW.glfwSetWindowSizeCallback(windowHandle, (_, width, height) -> {
             this.height = height;
@@ -114,6 +117,9 @@ public class Window {
         });
     }
 
+    /** 
+     * @return boolean
+     */
     public boolean shouldClose() {
         return GLFW.glfwWindowShouldClose(windowHandle);
     }
@@ -131,22 +137,37 @@ public class Window {
         GLFW.glfwTerminate();
     }
 
+    /** 
+     * @return int
+     */
     public int GetWidth() {
         return this.width;
     }
 
+    /** 
+     * @return int
+     */
     public int GetHeight() {
         return this.height;
     }
 
+    /** 
+     * @param eventCallback
+     */
     public void SetEventCallback(IEventCallback eventCallback) {
         this.eventCallback = eventCallback;
     }
 
+    /** 
+     * @return long
+     */
     public long getHandle() {
         return windowHandle;
     }
 
+    /** 
+     * @return Window
+     */
     public static Window GetWindow() {
         return INSTANCE;
     }

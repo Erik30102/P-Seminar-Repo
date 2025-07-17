@@ -10,15 +10,24 @@ public class MouseReleaseEvent extends Event {
         this.button = button;
     }
 
+    /** 
+     * @return int
+     */
     public int getButton() {
         return button;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "button=" + button;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "MouseClickEvent{" + "type=" + getType() + ", " + getEventDetails() + '}';

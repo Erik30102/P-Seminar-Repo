@@ -11,15 +11,25 @@ public class Input {
 	private static Vector2d lastMousePosition = new Vector2d();
 	private static Vector2d deltaMouse = new Vector2d();
 
+    /** 
+     * @param KeyCode
+     * @return boolean
+     */
     public static boolean IsKeyPressed(int KeyCode) {
         return GLFW.glfwGetKey(Window.GetWindow().getHandle(), KeyCode) == GLFW.GLFW_PRESS;
     }
 
-	public static Vector2d GetDeltaMouse() {
+	/** 
+     * @return Vector2d
+     */
+    public static Vector2d GetDeltaMouse() {
         return deltaMouse;
     }
 
-	public static Vector2d GetMousePos() {
+	/** 
+     * @return Vector2d
+     */
+    public static Vector2d GetMousePos() {
         DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
 		DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
 		GLFW.glfwGetCursorPos(Window.GetWindow().getHandle(), posX, posY);
@@ -33,6 +43,10 @@ public class Input {
 		lastMousePosition = GetMousePos();
     }
 
+    /** 
+     * @param KeyCode
+     * @return boolean
+     */
     public static boolean IsMouseButtonPressed(int KeyCode) {
 		int state = GLFW.glfwGetMouseButton(Window.GetWindow().getHandle(), KeyCode);
 		return state == GLFW.GLFW_PRESS || state == GLFW.GLFW_REPEAT;

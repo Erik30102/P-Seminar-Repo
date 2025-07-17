@@ -55,27 +55,46 @@ public class Physics2D {
 
     }
 
+    /** 
+     * @param gravity
+     */
     public void SetGravit(Vector2f gravity) {
         this.gravity = new Vec2(gravity.x(), gravity.y());
         world.setGravity(this.gravity);
     }
 
+    /** 
+     * @param def
+     * @return Body
+     */
     public Body CreateBody(BodyDef def) {
         return world.createBody(def);
     }
 
+    /** 
+     * @param AContactListener
+     */
     public void AddNewPhysicsListener(IContactListener AContactListener) {
         this.listeners.add(AContactListener);
     }
 
+    /** 
+     * @param AContactListener
+     */
     public void RemovePhysicsListener(IContactListener AContactListener) {
         this.listeners.remove(AContactListener);
     }
 
+    /** 
+     * @param dt
+     */
     public void update(float dt) {
 		world.step(dt, VELOCITYITERNATION, POSITIONITERNATION);
     }
 
+    /** 
+     * @return Physics2D
+     */
     public static Physics2D GetInstance() {
         return INSTANCE;
     }

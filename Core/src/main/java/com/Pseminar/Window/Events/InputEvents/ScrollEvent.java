@@ -11,19 +11,31 @@ public class ScrollEvent extends Event {
         this.yOffset = yOffset;
     }
 
+    /** 
+     * @return float
+     */
     public float GetXOffset() {
         return xOffset;
     }
     
+    /** 
+     * @return float
+     */
     public float GetYOffset() {
         return yOffset;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "xOffset=" + xOffset + ", yOffset=" + yOffset;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "ScrollEvent{" + "type=" + getType() + ", " + getEventDetails() + '}';

@@ -17,6 +17,11 @@ public class SpriteSheet extends Asset {
 		Init(texture2d, SpriteWidth, SpriteHeight);
 	}
 
+	/** 
+	 * @param texture2d
+	 * @param SpriteWidth
+	 * @param SpriteHeight
+	 */
 	private void Init(Texture texture2d, int SpriteWidth, int SpriteHeight)
 	{
 		this.texture = texture2d;
@@ -38,27 +43,46 @@ public class SpriteSheet extends Asset {
 		}
 	}
 
+	/** 
+	 * @return List<Sprite>
+	 */
 	public List<Sprite> getSprites() {
 		return sprites;
 	}
 
+	/** 
+	 * @return Texture
+	 */
 	public Texture getTexture() {
 		return texture;
 	}
 
+	/** 
+	 * @return int
+	 */
 	public int getSpriteWidth() {
 		return SpriteWidth;
 	}
 
+	/** 
+	 * @return int
+	 */
 	public int getSpriteHeight() {
 		return SpriteHeight;
 	}
 
+	/** 
+	 * @return AssetType
+	 */
 	@Override
 	public AssetType GetAssetType() {
 		return AssetType.SPRITESHEET;
 	}
 
+	/** 
+	 * @param getTile
+	 * @return Sprite
+	 */
 	public Sprite getSprite(int getTile) {
 		return sprites.get(getTile);
 	}
@@ -68,6 +92,11 @@ public class SpriteSheet extends Asset {
         // TODO
     }
 
+	/** 
+	 * @param stream
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	private void readObject(java.io.ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
 		stream.defaultReadObject();

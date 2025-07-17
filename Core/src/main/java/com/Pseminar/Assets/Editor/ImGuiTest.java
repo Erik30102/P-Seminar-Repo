@@ -18,6 +18,9 @@ public class ImGuiTest extends Application {
 
     private final ImString textBuffer = new ImString(1024); // Text buffer with capacity for multiline text
 
+    /** 
+     * @param config
+     */
     @Override
     protected void configure(Configuration config) {
         config.setTitle("GUI Window");
@@ -69,6 +72,9 @@ public class ImGuiTest extends Application {
         ImGui.end(); // End the ImGui window
     }
 
+    /** 
+     * @param content
+     */
     private void openFileExplorerAndSave(String content) {
         // Use JFileChooser to open a file explorer dialog
         JFileChooser fileChooser = new JFileChooser();
@@ -87,6 +93,9 @@ public class ImGuiTest extends Application {
         }
     }
 
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         launch(new ImGuiTest());
     }

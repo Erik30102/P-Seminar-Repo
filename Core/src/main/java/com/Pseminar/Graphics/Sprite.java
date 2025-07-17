@@ -15,14 +15,23 @@ public class Sprite extends Asset {
 		this.uv = uv;
 	}
 
+	/** 
+	 * @return Texture
+	 */
 	public Texture getTexture() {
 		return texture;
 	}
 
+	/** 
+	 * @return float[]
+	 */
 	public float[] getUv() {
 		return uv;
 	}
 
+	/** 
+	 * @return AssetType
+	 */
 	@Override
 	public AssetType GetAssetType() {
 		return AssetType.SPRITE;

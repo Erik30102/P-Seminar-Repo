@@ -17,12 +17,19 @@ public class RuntimeAssetManager implements AssetManager {
         loadedAssets = assetPack.GetAssetInfoMap();
     }
 
+    /** 
+     * @param id
+     * @return T
+     */
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Asset> T GetAsset(int id) {
         return (T)loadedAssets.get(id);
     }
 
+    /** 
+     * @param id
+     */
     @Override
     public void DisposeAsset(int id) {
         

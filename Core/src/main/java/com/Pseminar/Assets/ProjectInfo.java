@@ -33,6 +33,9 @@ public class ProjectInfo implements Serializable {
         this.compoentJarPath = componentJarPath;
     }
 
+    /** 
+     * @return String
+     */
     public String GetComoponentJarPath() {
         return this.compoentJarPath;
     }
@@ -51,6 +54,9 @@ public class ProjectInfo implements Serializable {
         return this.assetManager;
     }
 
+    /** 
+     * @return String
+     */
     public String GetProjectPath() {
         return this.projectPath;
     }
@@ -62,10 +68,16 @@ public class ProjectInfo implements Serializable {
         return this.StartSceneAssetId;
     }
 
+    /** 
+     * @param assetId
+     */
     public void SetStartScene(int assetId) {
         this.StartSceneAssetId = assetId;
     }
 
+    /** 
+     * @return String
+     */
     public String GetAssetDir() {
         return this.projectPath + "\\assets";
     }

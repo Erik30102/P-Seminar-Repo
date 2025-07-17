@@ -11,19 +11,31 @@ public class MouseMoveEvent extends Event {
         this.y = y;
     }
 
+    /** 
+     * @return int
+     */
     public int getX() {
         return x;
     }
 
+    /** 
+     * @return int
+     */
     public int getY() {
         return y;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "x=" + x + ", y=" + y;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "MouseEvent{" + "type=" + getType() + ", " + getEventDetails() + '}';

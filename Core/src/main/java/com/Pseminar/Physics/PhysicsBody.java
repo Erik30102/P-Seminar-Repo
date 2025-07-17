@@ -21,6 +21,10 @@ public class PhysicsBody {
 		DYNAMIC, STATIC, KINEMATIC
 	}
 
+	/** 
+	 * @param bodyType
+	 * @return BodyType
+	 */
 	private static org.jbox2d.dynamics.BodyType GetBodyType(BodyType bodyType) {
 		switch (bodyType) {
 			case DYNAMIC:
@@ -54,6 +58,10 @@ public class PhysicsBody {
 		AddCollider(collider, false);
 	}
 
+	/** 
+	 * @param collider
+	 * @param isSensor
+	 */
 	public void AddCollider(Collider collider,boolean isSensor) {
 		FixtureDef def = new FixtureDef();
 		def.shape = collider.getShape();
@@ -99,10 +107,16 @@ public class PhysicsBody {
 		return new Vector2f(GetX(), GetY());
 	}
 
+	/** 
+	 * @param data
+	 */
 	public void SetUserData(Object data) {
 		this.body.setUserData(data);
 	}
 
+	/** 
+	 * @return Object
+	 */
 	public Object GetUserData() {
 		return this.body.getUserData();
 	}
@@ -135,6 +149,9 @@ public class PhysicsBody {
 		body.setTransform(new Vec2(position.x(), position.y()), body.getAngle());
 	}
 
+	/** 
+	 * @param verloicy
+	 */
 	public void SetVelocity(Vector2f verloicy) {
 		body.setLinearVelocity(new Vec2(verloicy.x(), verloicy.y()));
 	}
@@ -149,6 +166,9 @@ public class PhysicsBody {
 		this.ApplyImpulse(new Vector2f(x, y));
 	}
 
+	/** 
+	 * @return Vector2f
+	 */
 	public Vector2f GetVelocity() {
 		return new Vector2f(this.body.getLinearVelocity().x, this.body.getLinearVelocity().y);
 	}

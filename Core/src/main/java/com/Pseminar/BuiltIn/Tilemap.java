@@ -36,42 +36,78 @@ public class Tilemap extends Asset {
         this.isSolid = new boolean[width * height];
     }
 
+    /** 
+     * @return SpriteSheet
+     */
     public SpriteSheet GetSpritesheet() {
 		return spriteSheet;
 	}
 
-	public int GetWidth() {
+	/** 
+     * @return int
+     */
+    public int GetWidth() {
 		return width;
 	}
 
-	public int GetHeight() {
+	/** 
+     * @return int
+     */
+    public int GetHeight() {
 		return height;
 	}
 
-	public int[] GetTiles() {
+	/** 
+     * @return int[]
+     */
+    public int[] GetTiles() {
 		return tiles;
 	}
 
+    /** 
+     * @return boolean[]
+     */
     public boolean[] GetCollidingMap() {
         return this.isSolid;
     }
 
+    /** 
+     * @param x
+     * @param y
+     * @return boolean
+     */
     public boolean IsTileSolid(int x, int y) {
         return this.isSolid[y * width + x];
     }
 
+    /** 
+     * @param x
+     * @param y
+     * @param isSolid
+     */
     public void SetTileIsSolid(int x, int y, boolean isSolid) {
         this.isSolid[y * width + x] = isSolid;
     }
 
-	public int GetTile(int x, int y) {
+	/** 
+     * @param x
+     * @param y
+     * @return int
+     */
+    public int GetTile(int x, int y) {
 		return tiles[y * width + x];
 	}
 
+    /** 
+     * @param tiles
+     */
     public void SetTiles(int[] tiles) {
 		this.tiles = tiles;
 	}
 
+    /** 
+     * @return AssetType
+     */
     @Override
     public AssetType GetAssetType() {
         return AssetType.TILEMAP;
@@ -82,12 +118,20 @@ public class Tilemap extends Asset {
 
     }
 
+    /** 
+     * @param x
+     * @param y
+     * @param currentSelectedSpriteIndex
+     */
     public void SetTile(int x, int y, int currentSelectedSpriteIndex) {
         this.tiles[x+y*width] = currentSelectedSpriteIndex;
     }
 
     private transient List<PhysicsBody> colliders = new ArrayList<>();
 
+    /** 
+     * @param offset
+     */
     public void InitPhysics(Vector2f offset) {
         RemoveFromPhysics();
 

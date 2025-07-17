@@ -11,19 +11,31 @@ public class WindowResizeEvent extends Event{
         this.height = height;
     }
 
+    /** 
+     * @return int
+     */
     public int getWidth(){
         return width;
     }
 
+    /** 
+     * @return int
+     */
     public int getHeight(){
         return height;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "Window Close Event";
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString(){
         return "WindowResizeEvent: ["+width+", "+height+"]";

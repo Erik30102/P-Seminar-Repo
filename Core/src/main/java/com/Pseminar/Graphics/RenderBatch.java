@@ -67,6 +67,10 @@ public class RenderBatch {
         this.textures = new ArrayList<>();
     }
 
+    /** 
+     * @param maxBindableTextures
+     * @return int[]
+     */
     private int[] generateTexSlots(int maxBindableTextures) {
         int[] texSlots = new int[maxBindableTextures];
 
@@ -79,15 +83,29 @@ public class RenderBatch {
 
     private List<SpriteRenderEntry> renderEntries = new ArrayList<>();
 
+    /** 
+     * @param sprite
+     * @param transform
+     */
     public void AddSprite(Sprite sprite, Transform transform) {
         AddSprite(sprite, transform, new Vector4f(1));
     }
 
+    /** 
+     * @param sprite
+     * @param transform
+     * @param tint
+     */
     public void AddSprite(Sprite sprite, Transform transform, Vector4f tint) {
         renderEntries.add(new SpriteRenderEntry(sprite, transform.GenerateTransformMatrix(), transform.GetZIndex(), tint));
     }
 
 
+    /** 
+     * @param sprite
+     * @param transformMatrix
+     * @param tint
+     */
     private void AddSpriteToVertexArray(Sprite sprite, Matrix4f transformMatrix, Vector4f tint) {
         if(!IsTextureAttached(sprite.getTexture())) {
             textures.add(sprite.getTexture());
@@ -128,6 +146,9 @@ public class RenderBatch {
         }
     }
 
+    /** 
+     * @return int[]
+     */
     private int[] generateIndecies() {
         int[] indecies = new int[batchSize * 6];
 
@@ -154,6 +175,9 @@ public class RenderBatch {
         this.vbo.unbind();
     }
 
+    /** 
+     * @param camera
+     */
     public void UpdateAndRender(OrthographicCamera camera) {
         this.ReloadData();
         this.render(camera);
@@ -161,6 +185,9 @@ public class RenderBatch {
         renderEntries.clear();
     }
 
+    /** 
+     * @param camera
+     */
     public void render(OrthographicCamera camera) {
         shader.bind();
         shader.setUniform("viewMatrix", camera.GetTransformMatrix());
@@ -176,7 +203,10 @@ public class RenderBatch {
         RenderApi.DrawIndexed(numOfSprites * 6);
     }
 
-    // Wie viele texturen auf einen shader gebunden werden können werden weil des teilweise von gpu zu gpu unterschiedlich ist
+    /** 
+     * Wie viele texturen auf einen shader gebunden werden können werden weil des teilweise von gpu zu gpu unterschiedlich ist
+     * @return int
+     */
     private int GetMaxBindableTextures() {
         return GL46.glGetInteger(GL46.GL_MAX_TEXTURE_IMAGE_UNITS);
     }
@@ -190,14 +220,24 @@ public class RenderBatch {
         textures.clear();
     }
 
+    /** 
+     * @return boolean
+     */
     public boolean HasRoom() {
         return this.hasRoom;
     }
 
+    /** 
+     * @param tex
+     * @return boolean
+     */
     public boolean IsTextureAttached(Texture tex) {
         return this.textures.contains(tex);
     }
 
+    /** 
+     * @return boolean
+     */
     public boolean HasRoomTextures() {
         return this.hasRoomTextures;
     }

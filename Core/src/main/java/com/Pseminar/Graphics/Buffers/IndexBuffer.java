@@ -9,6 +9,10 @@ public class IndexBuffer {
 	private int bufferId;
 	private int size;
 
+	/** 
+	 * @param data
+	 * @return IntBuffer
+	 */
 	private static IntBuffer createIntBuffer(int[] data) {
 		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);

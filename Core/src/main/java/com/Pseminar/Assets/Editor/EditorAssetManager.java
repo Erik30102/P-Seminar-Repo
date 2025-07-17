@@ -55,6 +55,10 @@ public class EditorAssetManager implements AssetManager {
         AssetImporters.put(AssetType.TILEMAP, new EditorTilemapImporter());
     }
 
+    /** 
+     * @param assetMetaData
+     * @return Asset
+     */
     private Asset LoadAsset(IntermidiateAssetData assetMetaData) {
         if(!AssetImporters.containsKey(assetMetaData.GetAssetType())) {
             Logger.error("No importer for type: " + assetMetaData.GetAssetType());
@@ -130,6 +134,10 @@ public class EditorAssetManager implements AssetManager {
         }
     }
 
+    /** 
+     * @param id
+     * @return T
+     */
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Asset> T GetAsset(int id) {
@@ -182,6 +190,10 @@ public class EditorAssetManager implements AssetManager {
         return this.assetMap;
     }
 
+    /** 
+     * @param assetType
+     * @return List<IntermidiateAssetData>
+     */
     public List<IntermidiateAssetData> GetAssetsOfType(AssetType assetType) {
 		List<IntermidiateAssetData> assets = new ArrayList<IntermidiateAssetData>();
 
@@ -194,6 +206,10 @@ public class EditorAssetManager implements AssetManager {
 		return assets;
 	}
 
+    /** 
+     * @param path
+     * @return IntermidiateAssetData
+     */
     public IntermidiateAssetData GetAssetDataFromPath(String path) {
         for (IntermidiateAssetData assetData : this.assetMap.values()) {
             Path assetPath = Path.of(ProjectInfo.GetProjectInfo().GetProjectPath(), assetData.GetPath());
@@ -206,6 +222,10 @@ public class EditorAssetManager implements AssetManager {
         return null;
     }
 
+    /** 
+     * @param metaData
+     * @return int
+     */
     public int GetIdFromMetadata(IntermidiateAssetData metaData) {
 		for (Map.Entry<Integer, IntermidiateAssetData> entry : assetMap.entrySet()) {
 			if (entry.getValue().GetPath().equals(metaData.GetPath())) {
@@ -215,11 +235,17 @@ public class EditorAssetManager implements AssetManager {
 		return -1;
 	}
 
+    /** 
+     * @param id
+     */
     @Override
     public void DisposeAsset(int id) {
         this.loadedAssets.remove(id);
     }
 
+    /** 
+     * @param asset
+     */
     public void UpdateAsset(Asset asset) {
         IntermidiateAssetData metaData = this.assetMap.get(asset.GetAssetId());
 

@@ -31,6 +31,12 @@ import com.google.gson.JsonSerializer;
 
 public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonSerializer<Scene> {
 
+    /** 
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return JsonElement
+     */
     @Override
     public JsonElement serialize(Scene src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -85,6 +91,13 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
         return result;
     }
 
+    /** 
+     * @param componentObject
+     * @param c
+     * @param context
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     */
     @SuppressWarnings("unchecked")
     private void SerizalizeBaseComponent(JsonObject componentObject, BaseComponent c, JsonSerializationContext context) throws IllegalArgumentException, IllegalAccessException {
         componentObject.addProperty("className", c.getClass().getName());
@@ -109,6 +122,13 @@ public class GsonEditorSceneSerializer implements JsonDeserializer<Scene>, JsonS
         }
     }
                     
+     /** 
+      * @param json
+      * @param typeOfT
+      * @param context
+      * @return Scene
+      * @throws JsonParseException
+      */
      @Override
     public Scene deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {

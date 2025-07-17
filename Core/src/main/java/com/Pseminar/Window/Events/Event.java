@@ -19,12 +19,18 @@ public abstract class Event {
         this.type = type;
     }
 
+    /** 
+     * @return EventType
+     */
     public EventType getType() {
         return type;
     }
 
     public abstract String getEventDetails();
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "Event{type=" + type + ", details=" + getEventDetails() + '}';

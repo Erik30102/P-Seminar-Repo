@@ -73,11 +73,17 @@ public class ControllerEvent extends Event{
     }
     
     
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "keyCode=";
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "KeyEvent{" + "type=" + getType() + ", " + getEventDetails() + '}';

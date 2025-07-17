@@ -17,18 +17,30 @@ public abstract class Component implements Serializable {
     private Entity entity;
     private int id;
 
+    /** 
+     * @param id
+     */
     public final void setId(int id) {
         this.id = id;
     }
 
+    /** 
+     * @param entity
+     */
     public final void setEntity(Entity entity) {
         this.entity = entity;
     }
 
+    /** 
+     * @return Entity
+     */
     public Entity GetEntity() {
         return entity;
     }
 
+    /** 
+     * @return int
+     */
     public int GetComponentId() {
         return this.id;
     }

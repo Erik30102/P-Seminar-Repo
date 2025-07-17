@@ -27,6 +27,10 @@ public class OrthographicCamera {
         this.ReCalculateTransformMatrix();
     }
         
+    /** 
+     * @param width
+     * @param height
+     */
     public void Resize(float width, float height) {
         currentAspectRatio = width / height;
 
@@ -56,27 +60,45 @@ public class OrthographicCamera {
         inversTransformMatrix = transformMatrix.invert(new Matrix4f());
     }
 
+    /** 
+     * @param cameraPos
+     */
     public void Move(Vector2f cameraPos) {
         this.position = cameraPos;
         ReCalculateTransformMatrix();
     }
 
+    /** 
+     * @param newZoom
+     */
     public void SetZoom(float newZoom) {
         this.Zoom = newZoom;    
     }  
 
+    /** 
+     * @return Matrix4f
+     */
     public Matrix4f GetProjectionMatrix() {
         return this.projectionMatrix;
     }
 
+    /** 
+     * @return Matrix4f
+     */
     public Matrix4f GetTransformMatrix() {
         return this.transformMatrix;
     }
 
+    /** 
+     * @return Matrix4f
+     */
     public Matrix4f GetInversTransformationMatrix() {
         return this.inversTransformMatrix;
     }
 
+    /** 
+     * @return Matrix4f
+     */
     public Matrix4f GetInversProjectionMatrix() {
         return this.inversProjectionMatrix;
     }
@@ -90,6 +112,9 @@ public class OrthographicCamera {
         this.Move(position.add((float)detla.x() * 0.02f, (float)detla.y() * -0.02f));
     }
 
+    /** 
+     * @return float
+     */
     public float GetZoom() {
         return this.Zoom;
     }
