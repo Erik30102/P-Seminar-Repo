@@ -89,6 +89,8 @@ public class Tilemap extends Asset {
     private transient List<PhysicsBody> colliders = new ArrayList<>();
 
     public void InitPhysics(Vector2f offset) {
+        RemoveFromPhysics();
+
         if(colliders == null)
             colliders = new ArrayList<>();
 
@@ -112,5 +114,7 @@ public class Tilemap extends Asset {
         for (PhysicsBody physicsBody : colliders) {
             physicsBody.Destroy();
         }
+
+        colliders.clear();
     }    
 }

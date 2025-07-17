@@ -85,7 +85,11 @@ public class TileMapEditor implements IEditorImGuiWindow {
 
             ImGui.nextColumn();
             if(ImGui.button("Save")) {
-                ImGui.openPopup("##tilemapsaveodisk");
+                if(tilemap.GetAssetId() == 0) {
+                    ImGui.openPopup("##tilemapsaveodisk"); 
+                } else {
+                    ((EditorAssetManager)ProjectInfo.GetProjectInfo().GetAssetManager()).UpdateAsset(tilemap);
+                }
             }         
 
             if(ImGui.beginPopupModal("##tilemapsaveodisk", new ImBoolean(true),ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoTitleBar)) {

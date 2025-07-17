@@ -21,7 +21,6 @@ public class TilemapComponent extends Component {
         if(this.tilemap != null) {
             this.tilemap.RemoveFromPhysics();
             this.tilemap = tilemap;
-            this.tilemap.InitPhysics(this.GetEntity().transform.GetPosition());
         } else {
             this.tilemap = tilemap;
         }

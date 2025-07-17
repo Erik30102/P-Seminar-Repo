@@ -154,6 +154,7 @@ public class DungeonGenerator extends BaseComponent implements IContactListener 
 
         tilemapComponent = this.GetEntity().GetComponent(TilemapComponent.class);
         tilemapComponent.SetTilemap(currentRoom.roomInfo.tilemap);
+        tilemapComponent.GetTilemap().InitPhysics(this.GetEntity().transform.GetPosition());
 
         for (OpeningInfo openingInfo : currentRoom.roomInfo.opening) {
             Vector2f position = openingInfo.position;
@@ -175,7 +176,7 @@ public class DungeonGenerator extends BaseComponent implements IContactListener 
         Object a = contact.getFixtureA().m_body.getUserData();
         Object b = contact.getFixtureB().m_body.getUserData();
     
-        if(a instanceof OpeningInfo) {
+        if(a instanceof OpeningInfo && b instanceof TestComponent) {
             OpeningInfo WhereToGo = (OpeningInfo)a;
 
             currentRoom = currentRoom.connectedRooms.get(WhereToGo.Direction);
@@ -185,7 +186,7 @@ public class DungeonGenerator extends BaseComponent implements IContactListener 
                 }
             }
             isInitialized = false;
-        } else if (b instanceof OpeningInfo){
+        } else if (b instanceof OpeningInfo && a instanceof TestComponent){
             OpeningInfo WhereToGo = (OpeningInfo)b;
 
             currentRoom = currentRoom.connectedRooms.get(WhereToGo.Direction);

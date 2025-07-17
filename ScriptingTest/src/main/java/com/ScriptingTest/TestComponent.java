@@ -24,6 +24,7 @@ public class TestComponent extends BaseComponent {
     @Override
     public void OnStart() {
         c = this.GetEntity().GetComponent(RidgedBodyComponent.class);
+        c.GetBody().SetUserData(this);
         anim = this.GetEntity().GetComponent(AnimationSpriteComponent.class);
         // Geht ned aus irgend nem grund TODO: fix 
     }
@@ -52,6 +53,8 @@ public class TestComponent extends BaseComponent {
         }else {
             c = this.GetEntity().GetComponent(RidgedBodyComponent.class);
             anim = this.GetEntity().GetComponent(AnimationSpriteComponent.class);
+
+            c.GetBody().SetUserData(this);
         }
     }
 
