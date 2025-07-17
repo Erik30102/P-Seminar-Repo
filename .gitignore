@@ -1,4 +1,9 @@
 build/
+
+!build/docs/
+!build/docs/javadoc/
+!build/docs/javadoc/**
+
 bin/
 
 .gradle
