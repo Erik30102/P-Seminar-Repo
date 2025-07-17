@@ -123,6 +123,9 @@ public class Scene extends Asset{
         }
     }
 
+    /** 
+     * @return AssetType
+     */
     @Override
     public AssetType GetAssetType() {
         return AssetType.SCENE;
@@ -133,6 +136,10 @@ public class Scene extends Asset{
         // TODO
     }
 
+    /** 
+     * @param string
+     * @return Entity
+     */
     public Entity GetEntityByName(String string) {
         for (Entity entity : entities) {
             if(entity.GetName().equals(string)) {

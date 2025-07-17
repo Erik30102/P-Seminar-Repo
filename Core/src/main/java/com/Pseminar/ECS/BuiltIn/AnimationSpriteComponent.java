@@ -15,6 +15,9 @@ public class AnimationSpriteComponent extends Component {
 
     }
 
+    /** 
+     * @param dt
+     */
     public void OnUpdate(float dt) {
         if(animation == null) return;
 
@@ -26,20 +29,32 @@ public class AnimationSpriteComponent extends Component {
         }
     }
 
+    /** 
+     * @param a
+     */
     public void SetAnimation(Animation a) {
         this.animation = a;
     }
 
+    /** 
+     * @return Animation
+     */
     public Animation GetAnimation() {
         return this.animation;
     }
 
+    /** 
+     * @return Sprite
+     */
     public Sprite GetCurrentSprite() {
         if(animation == null) return null;
         
         return animation.GetSpriteAtKeyfarme(count);
     }
 
+    /** 
+     * @return ComponentType
+     */
     @Override
     public ComponentType GetComponentType() {
         return ComponentType.AnimationComponent;

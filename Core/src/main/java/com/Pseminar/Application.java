@@ -64,6 +64,9 @@ public abstract class Application implements IEventCallback {
 
     public abstract void OnDispose();
 
+    /** 
+     * @param event
+     */
     public final void OnEvent(Event event) {
         if(event.getType() == EventType.WINDOW_RESIZE) {
             this.OnResize(((WindowResizeEvent)event).getWidth(), ((WindowResizeEvent)event).getHeight());
@@ -77,14 +80,24 @@ public abstract class Application implements IEventCallback {
 
     protected abstract void OnEventCallback(Event event);
 
+    /** 
+     * @param width
+     * @param height
+     */
     public void OnResize(float width, float height) {
 
     }
 
+    /** 
+     * @return Application
+     */
     public static Application GetApplication() {
         return INSTANCE;
     }
 
+    /** 
+     * @return Window
+     */
     public Window GetWindow() {
         return this.window;
     }

@@ -34,28 +34,47 @@ public class Entity implements Serializable{
         this.name = "Entity " + this.id;
     }
     
-    //legt fest zu welcher Szene die Entity angehört
+    /** 
+     * legt fest zu welcher Szene die Entity angehört
+     * @param scene
+     */
     public final void SetScene(Scene scene){
         this.scene = scene;
     }
 
+    /** 
+     * @param name
+     */
     public void SetName(String name) {
         this.name = name;
     }
 
+    /** 
+     * @return String
+     */
     public String GetName(){
         return this.name;
     }
 
+    /** 
+     * @return int
+     */
     public int getId() {
         return id;
     }
 
+    /** 
+     * @return Scene
+     */
     public Scene GetScene() {
         return this.scene;
     }
 
-	public <T extends Component> T GetComponent(Class<T> clazz) {
+	/** 
+     * @param clazz
+     * @return T
+     */
+    public <T extends Component> T GetComponent(Class<T> clazz) {
         for (Component component : this.components) {
             if(component.getClass().isAssignableFrom(clazz)) {
                 return (T)component;
@@ -65,6 +84,9 @@ public class Entity implements Serializable{
         return null;
     }
 
+    /** 
+     * @param component
+     */
     public void AddComponent(Component component) {
         component.setEntity(this);
         components.add(component);
@@ -72,10 +94,16 @@ public class Entity implements Serializable{
         this.scene.RegisterComponentInTypeComponentMap(component);
     }
 
+    /** 
+     * @return List<Component>
+     */
     public List<Component> getComponents() {
         return components;
     }
 
+    /** 
+     * @param position
+     */
     public void ForceSetPosition(Vector2f position) {
         if(GetComponent(RidgedBodyComponent.class) != null)
             GetComponent(RidgedBodyComponent.class).GetBody().SetPosition(position);

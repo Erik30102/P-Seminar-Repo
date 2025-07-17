@@ -20,14 +20,28 @@ public class Shader {
         }
     }
 
+    /** 
+     * @param shaderCode
+     * @throws Exception
+     */
     public void createVertexShader(String shaderCode) throws Exception {
         vertexShaderId = createShader(shaderCode, GL46.GL_VERTEX_SHADER);
     }
 
+    /** 
+     * @param shaderCode
+     * @throws Exception
+     */
     public void createFragmentShader(String shaderCode) throws Exception {
         fragmentShaderId = createShader(shaderCode, GL46.GL_FRAGMENT_SHADER);
     }
 
+    /** 
+     * @param shaderCode
+     * @param shaderType
+     * @return int
+     * @throws Exception
+     */
     protected int createShader(String shaderCode, int shaderType) throws Exception {
         int shaderId = GL46.glCreateShader(shaderType);
         if (shaderId == 0) {
@@ -46,6 +60,9 @@ public class Shader {
         return shaderId;
     }
 
+    /** 
+     * @throws Exception
+     */
     public void link() throws Exception {
         GL46.glLinkProgram(programId);
         if (GL46.glGetProgrami(programId, GL46.GL_LINK_STATUS) == 0) {
@@ -80,6 +97,10 @@ public class Shader {
         }
     }
 
+    /** 
+     * @param uniformName
+     * @param value
+     */
     public void setUniform(String uniformName, Matrix4f value) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer fb = stack.mallocFloat(16);
@@ -88,18 +109,35 @@ public class Shader {
         }
     }
 
+    /** 
+     * @param uniformName
+     * @param value
+     */
     public void setUniform(String uniformName, int value) {
         GL46.glUniform1i(GL46.glGetUniformLocation(programId, uniformName), value);
     }
 
+    /** 
+     * @param uniformName
+     * @param value
+     */
     public void setUniform(String uniformName, int[] value) {
         GL46.glUniform1iv(GL46.glGetUniformLocation(programId, uniformName), value);
     }
 
+    /** 
+     * @param uniformName
+     * @param value
+     */
     public void setUniform(String uniformName, float value) {
         GL46.glUniform1f(GL46.glGetUniformLocation(programId, uniformName), value);
     }
 
+    /** 
+     * @param fileName
+     * @return String
+     * @throws Exception
+     */
     public static String loadResource(String fileName) throws Exception {
         String basePath = System.getProperty("user.dir") + "\\..\\Core\\src\\main\\java\\com\\Pseminar\\Graphics\\shaders\\";
         String fullPath = basePath + fileName;

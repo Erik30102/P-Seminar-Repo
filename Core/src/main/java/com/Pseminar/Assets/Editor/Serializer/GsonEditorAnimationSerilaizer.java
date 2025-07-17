@@ -15,6 +15,12 @@ import com.google.gson.JsonSerializer;
 
 public class GsonEditorAnimationSerilaizer implements JsonDeserializer<Animation>, JsonSerializer<Animation> {
 
+    /** 
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return JsonElement
+     */
     @Override
     public JsonElement serialize(Animation src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObj = new JsonObject();
@@ -25,6 +31,13 @@ public class GsonEditorAnimationSerilaizer implements JsonDeserializer<Animation
         return jsonObj;
     }
 
+    /** 
+     * @param json
+     * @param typeOfT
+     * @param context
+     * @return Animation
+     * @throws JsonParseException
+     */
     @Override
     public Animation deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {

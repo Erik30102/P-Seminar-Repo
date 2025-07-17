@@ -17,12 +17,18 @@ public class CharEvent extends Event {
 		return this.keycode;
 	}
 
+	/** 
+	 * @return String
+	 */
 	@Override
 	public String toString() {
 		return "CharEvent for KeyCode: " + keycode;
 	}
 
-    @Override
+    /** 
+	 * @return String
+	 */
+	@Override
     public String getEventDetails() {
 		return "CharEvent";
     }

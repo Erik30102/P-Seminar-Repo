@@ -80,6 +80,9 @@ public class ShaderTest {
         }
     }
 
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         new ShaderTest().run();
     }

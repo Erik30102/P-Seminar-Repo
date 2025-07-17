@@ -15,6 +15,12 @@ import com.google.gson.JsonSerializer;
 
 public class GsonEditorTilemapSerilaizer implements JsonDeserializer<Tilemap>, JsonSerializer<Tilemap> {
 
+    /** 
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return JsonElement
+     */
     @Override
     public JsonElement serialize(Tilemap src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject obj = new JsonObject();
@@ -29,6 +35,13 @@ public class GsonEditorTilemapSerilaizer implements JsonDeserializer<Tilemap>, J
         return obj;
     }
 
+    /** 
+     * @param json
+     * @param typeOfT
+     * @param context
+     * @return Tilemap
+     * @throws JsonParseException
+     */
     @Override
     public Tilemap deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {

@@ -16,6 +16,12 @@ import com.google.gson.JsonSerializer;
 
 public class GsonSpriteSheetSerilailizer implements JsonDeserializer<SpriteSheet>, JsonSerializer<SpriteSheet> {
 
+    /** 
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return JsonElement
+     */
     @Override
     public JsonElement serialize(SpriteSheet src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject obj = new JsonObject();
@@ -27,6 +33,13 @@ public class GsonSpriteSheetSerilailizer implements JsonDeserializer<SpriteSheet
         return obj;
     }
 
+    /** 
+     * @param json
+     * @param typeOfT
+     * @param context
+     * @return SpriteSheet
+     * @throws JsonParseException
+     */
     @Override
     public SpriteSheet deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {

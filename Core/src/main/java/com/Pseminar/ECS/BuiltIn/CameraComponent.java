@@ -38,11 +38,19 @@ public class CameraComponent extends Component {
         return camera;
     }
 
+    /** 
+     * @return ComponentType
+     */
     @Override
     public ComponentType GetComponentType() {
         return ComponentType.CameraComponent;
     }
 
+    /** 
+     * @param stream
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void readObject(java.io.ObjectInputStream stream)
     throws IOException, ClassNotFoundException {
         this.isActive = stream.readBoolean();
@@ -50,6 +58,10 @@ public class CameraComponent extends Component {
         this.camera = new OrthographicCamera();
     }
 
+    /** 
+     * @param stream
+     * @throws IOException
+     */
     private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
         stream.writeBoolean(isActive);
     }

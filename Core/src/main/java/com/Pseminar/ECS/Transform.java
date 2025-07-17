@@ -29,10 +29,16 @@ public class Transform implements Serializable {
         this.rotation = rotation;
     }
 
+    /** 
+     * @param zIndex
+     */
     public void SetZIndex(float zIndex) {
         this.zIndex = zIndex;
     }
 
+    /** 
+     * @return float
+     */
     public float GetZIndex() {
         return this.zIndex;
     }

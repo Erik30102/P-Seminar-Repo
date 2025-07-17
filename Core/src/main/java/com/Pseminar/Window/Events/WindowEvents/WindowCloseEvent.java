@@ -8,10 +8,16 @@ public class WindowCloseEvent extends Event{
         super(EventType.WINDOW_CLOSE);
     }
 
+    /** 
+     * @return String
+     */
     public String toString(){
         return "WindowCloseEvent";
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getEventDetails() {
         return "Window Close Event";

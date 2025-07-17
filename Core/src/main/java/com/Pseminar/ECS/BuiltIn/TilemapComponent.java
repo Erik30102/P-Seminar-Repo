@@ -8,15 +8,24 @@ public class TilemapComponent extends Component {
 
     private Tilemap tilemap;
 
+    /** 
+     * @return ComponentType
+     */
     @Override
     public ComponentType GetComponentType() {
         return ComponentType.TilemapComponent;
     }
 
+    /** 
+     * @return Tilemap
+     */
     public Tilemap GetTilemap() {
         return this.tilemap;
     }
 
+    /** 
+     * @param tilemap
+     */
     public void SetTilemap(Tilemap tilemap) {
         if(this.tilemap != null) {
             this.tilemap.RemoveFromPhysics();
@@ -31,6 +40,11 @@ public class TilemapComponent extends Component {
         this.tilemap.InitPhysics(this.GetEntity().transform.GetPosition());
     }
 
+    /** 
+     * @param x
+     * @param y
+     * @return Sprite
+     */
     public Sprite GetTileAt(int x, int y) {
         return this.tilemap.GetSpritesheet().getSprite(this.tilemap.GetTile(x, y));
     }

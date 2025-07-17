@@ -40,10 +40,16 @@ public class ScriptingEngine {
         LoadJar(jarPath);
     }
 
+    /** 
+     * @return ClassLoader
+     */
     public ClassLoader GetClassLoader() {
         return this.classLoader;
     }
         
+    /** 
+     * @param jarPath
+     */
     private void LoadJar(String jarPath) {
         try {
             URL jarFile = new File(jarPath).toURI().toURL();
@@ -97,6 +103,10 @@ public class ScriptingEngine {
         }
     }
 
+    /** 
+     * @param ClassName
+     * @return Class<?>
+     */
     public Class<?> GetBaseClass(String ClassName) {
         return ComponentDictionary.get(ClassName);
     }
@@ -108,6 +118,9 @@ public class ScriptingEngine {
         return INSTANCE;
     }
 
+    /** 
+     * @return Set<String>
+     */
     public Set<String> GetClasses() {
         return this.ComponentDictionary.keySet();
     }
@@ -116,6 +129,9 @@ public class ScriptingEngine {
         new ScriptingEngine(ProjectInfo.GetProjectInfo().GetComoponentJarPath());
     }
 
+    /** 
+     * @param componentJar
+     */
     public static void InitRuntime(byte[] componentJar) {
         URL.setURLStreamHandlerFactory(new URLStreamHandlerFactory() {
             public URLStreamHandler createURLStreamHandler(String urlProtocol) {

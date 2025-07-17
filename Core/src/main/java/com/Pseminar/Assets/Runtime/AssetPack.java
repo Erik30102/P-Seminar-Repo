@@ -33,6 +33,9 @@ public class AssetPack implements Serializable {
     private int startScene = -1;
 
 
+    /** 
+     * @return AssetPack
+     */
     public static AssetPack BuildFromEditor() {
         AssetPack assetPack = new AssetPack();
 
@@ -59,26 +62,44 @@ public class AssetPack implements Serializable {
         return assetPack;
     }
 
+    /** 
+     * @return Map<Integer, Asset>
+     */
     public Map<Integer,Asset> GetAssetInfoMap() {
         return this.assetInfoMap;
     }
 
+    /** 
+     * @return byte[]
+     */
     public byte[] GetComponentJar() {
         return this.componentJar;
     }
 
+    /** 
+     * @param assetInfoMap
+     */
     public void SetAssetInfoMap(Map<Integer,Asset> assetInfoMap) {
         this.assetInfoMap = assetInfoMap;
     }
 
+    /** 
+     * @return int
+     */
     public int GetStartScene() {
         return this.startScene;
     }
 
+    /** 
+     * @param startScene
+     */
     public void SetStartScene(int startScene) {
         this.startScene = startScene;
     }
 
+    /** 
+     * @param path
+     */
     public void SaveToDisk(String path) {
         try (FileOutputStream assetPackStream = new FileOutputStream(path)) {
 			ObjectOutputStream out = new ObjectOutputStream(assetPackStream);
@@ -88,6 +109,10 @@ public class AssetPack implements Serializable {
 		}
     }
 
+    /** 
+     * @param path
+     * @return AssetPack
+     */
     public static AssetPack AssetPackFromDisk(String path) {
         AssetPack assetPack = null;
 		try (FileInputStream fileIn = new FileInputStream(path)) {
@@ -111,6 +136,10 @@ public class AssetPack implements Serializable {
 		return assetPack;
     }
 
+    /** 
+     * @param stream
+     * @throws IOException
+     */
     private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
        //  stream.write(componentJar.length);
        //  stream.write(componentJar);
@@ -118,6 +147,11 @@ public class AssetPack implements Serializable {
         stream.defaultWriteObject();
     }
 
+    /** 
+     * @param stream
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void readObject(java.io.ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         // int lengthOfComponentJar = stream.readInt();
